@@ -1,4 +1,5 @@
 import { Alert, Loader } from '@/components/utility'
+import { SessionProvider } from 'next-auth/react'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -20,9 +21,15 @@ const AuthLayout: React.FC<IAuthLayout> = ({ children, pageTitle }) => {
   }
 
   return (
-    <>
+    <SessionProvider>
       <Head>
-        <title>Store | {pageTitle}</title>
+        <title>Toko Musik | {pageTitle}</title>
+        <meta charSet="UTF-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        ></meta>
       </Head>
       <div className="flex min-h-screen flex-col">
         <header className="bg-primary text-white shadow-sm">
@@ -46,7 +53,7 @@ const AuthLayout: React.FC<IAuthLayout> = ({ children, pageTitle }) => {
         {loading && <Loader />}
         <Alert error={error} success={success} />
       </div>
-    </>
+    </SessionProvider>
   )
 }
 

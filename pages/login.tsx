@@ -20,7 +20,7 @@ const Login: NextPageWithLayout = () => {
   const { status, data } = useSession()
   if (status === 'authenticated') {
     if (data?.role === 1) {
-      router.replace(`/dashboard`)
+      router.replace(`/admin`)
     } else {
       router.replace('/')
     }

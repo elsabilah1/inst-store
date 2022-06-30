@@ -1,18 +1,18 @@
 import CustomerLayout from '@/components/layouts/customer/Layout'
 import { NextPageWithLayout } from './page'
 
-const Home: NextPageWithLayout = () => {
+const About: NextPageWithLayout = () => {
   return (
     <section>
       <h1 className="grid max-w-screen-lg place-content-center text-xl font-bold text-red-700">
-        homepage
+        about
       </h1>
     </section>
   )
 }
 
-export default Home
+export default About
 
-Home.getLayout = (page) => {
-  return <CustomerLayout pageTitle="Home">{page}</CustomerLayout>
+About.getLayout = (page) => {
+  return <CustomerLayout pageTitle="About">{page}</CustomerLayout>
 }

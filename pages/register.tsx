@@ -25,7 +25,7 @@ const Register: NextPageWithLayout = () => {
 
   if (status === 'authenticated') {
     if (session?.role === 1) {
-      router.replace(`/dashboard`)
+      router.replace(`/admin`)
     } else {
       router.replace('/')
     }

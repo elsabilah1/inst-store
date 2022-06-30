@@ -125,5 +125,5 @@ const Register: NextPageWithLayout = () => {
 export default Register
 
 Register.getLayout = (page) => {
-  return <AuthLayout pageTitle="Login">{page}</AuthLayout>
+  return <AuthLayout pageTitle="Register">{page}</AuthLayout>
 }

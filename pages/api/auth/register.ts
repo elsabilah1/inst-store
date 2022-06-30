@@ -30,9 +30,9 @@ handler.post(async (req, res) => {
     const cart = await Cart.create({ userId: newUser._id })
     await User.findByIdAndUpdate(newUser._id, { cartId: cart._id })
 
-    res.status(201).send('Account created successfully.')
-  } catch (error) {
-    res.status(404).send('Account already registered')
+    res.status(201).send({ message: 'Account created successfully.' })
+  } catch (error: any) {
+    res.status(404).send({ ...error, message: 'Account already registered.' })
   }
 })
 

@@ -52,7 +52,7 @@ const header = (jwt: string, type?: string) => {
 const errors = (errors: any) => {
   return {
     status: false,
-    error: errors,
+    error: errors.data,
   }
 }
 
@@ -70,9 +70,10 @@ export const Post = async (url: any, params: any, jwt?: any) => {
   try {
     const head = header(jwt)
     const post = await _axios.post(url, params, head)
+
     return post
   } catch (error: any) {
-    return errors(error.message)
+    return errors(error.response)
   }
 }
 

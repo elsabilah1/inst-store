@@ -53,10 +53,12 @@ export const useAuth = create<IState>((set) => ({
       if (payload.password === payload.confirmPassword) {
         const res: any = await Post('/auth/register', payload)
 
-        console.log(res)
+        if (res.error) {
+          throw new Error(res.error.message)
+        }
 
         set({ loading: false })
-        set({ success: res })
+        set({ success: res.message })
       } else {
         throw new Error('Password not match')
       }

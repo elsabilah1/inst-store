@@ -37,7 +37,7 @@ const InputField: React.FC<IInputField> = ({
           component={component ? component : 'input'}
         />
         {error && touched ? (
-          <div className="text-danger text-sm font-bold">{error}</div>
+          <div className="text-sm font-bold text-danger">{error}</div>
         ) : null}
       </div>
     </div>

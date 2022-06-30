@@ -16,11 +16,25 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "axios": "^0.27.2",
+    "bcryptjs": "^2.4.3",
+    "classnames": "^2.3.1",
+    "formidable": "^2.0.1",
+    "formik": "^2.2.9",
+    "mongoose": "^6.4.1",
     "next": "12.1.6",
+    "next-auth": "^4.7.0",
+    "next-connect": "^0.12.2",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "zod": "^3.17.3",
+    "zod-formik-adapter": "^1.1.1",
+    "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.2",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/formidable": "^2.0.5",
     "@types/node": "18.0.0",
     "@types/react": "18.0.14",
     "@types/react-dom": "18.0.5",

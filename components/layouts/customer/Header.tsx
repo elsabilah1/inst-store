@@ -30,9 +30,8 @@ const Header: React.FC = () => {
       <header className="sticky top-0 z-50 bg-primary text-white shadow-sm transition-all">
         <div className="mx-auto max-w-screen-lg items-center gap-9 space-y-6 px-3 py-5 md:flex md:space-y-0">
           <div className="flex">
-            <button onClick={() => router.push('/')}>
+            <button className="flex" onClick={() => router.push('/')}>
               <Image
-                className="cursor-pointer"
                 src="/images/logo.png"
                 alt="logo"
                 width={100}

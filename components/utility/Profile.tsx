@@ -18,7 +18,7 @@ const Profile: React.FC = () => {
   return (
     <div className="flex items-center gap-3">
       {session?.role === 0 && (
-        <button className="relative" onClick={() => router.push('/cart')}>
+        <button className="relative" onClick={() => router.push('/me/cart')}>
           <div className="absolute -bottom-1 -left-1 grid h-4 w-4 place-items-center rounded-full border border-secondary bg-white text-xs text-primary">
             0 {/* {state.cart.cart.length} */}
           </div>

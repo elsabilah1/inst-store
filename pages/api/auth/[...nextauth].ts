@@ -11,13 +11,7 @@ export default nextAuth({
         emailOrUsername: {},
         password: {},
       },
-      authorize: async ({
-        emailOrUsername,
-        password,
-      }: {
-        emailOrUsername: string
-        password: string
-      }) => {
+      authorize: async ({ emailOrUsername, password }: any) => {
         const db = await mongoose.connect(process.env.DB_URI!)
 
         if (emailOrUsername) {

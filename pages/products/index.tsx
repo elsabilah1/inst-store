@@ -1,13 +1,26 @@
+import ProductCard from '@/components/cards/ProductCard'
 import CustomerLayout from '@/components/layouts/customer/Layout'
+import { Get } from '@/utils/axios'
+import { GetServerSideProps } from 'next'
 import { NextPageWithLayout } from '../page'
 
-const Products: NextPageWithLayout = () => {
+export const getServerSideProps: GetServerSideProps = async () => {
+  const products = await Get('/products')
+  return {
+    props: { products },
+  }
+}
+
+const Products: NextPageWithLayout = ({ products }: any) => {
   return (
-    <section>
-      <h1 className="grid max-w-screen-lg place-content-center text-xl font-bold text-red-700">
-        products
-      </h1>
-    </section>
+    <>
+      <section>filter</section>
+      <section className="grid grid-cols-5 gap-4 py-6 px-4">
+        {products.map((item: any) => (
+          <ProductCard key={item._id} item={item} />
+        ))}
+      </section>
+    </>
   )
 }
 

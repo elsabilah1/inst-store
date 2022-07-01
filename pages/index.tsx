@@ -1,9 +1,19 @@
+import ProductCard from '@/components/cards/ProductCard'
 import CustomerLayout from '@/components/layouts/customer/Layout'
+import { Get } from '@/utils/axios'
 import { ArrowRightIcon, CheckCircleIcon } from '@heroicons/react/solid'
+import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { NextPageWithLayout } from './page'
 
-const Home: NextPageWithLayout = () => {
+export const getServerSideProps: GetServerSideProps = async () => {
+  const products = await Get('/products')
+  return {
+    props: { products },
+  }
+}
+
+const Home: NextPageWithLayout = ({ products }: any) => {
   return (
     <div className="space-y-2">
       <section className="mt-2 w-full bg-white py-12 shadow-sm">
@@ -19,7 +29,11 @@ const Home: NextPageWithLayout = () => {
               </span>
             </a>
           </Link>
-          <div className="my-3 grid gap-9 sm:grid-cols-2 lg:grid-cols-4"></div>
+          <div className="my-3 grid gap-9 sm:grid-cols-2 lg:grid-cols-4">
+            {products.map((item: any) => (
+              <ProductCard key={item._id} item={item} />
+            ))}
+          </div>
         </div>
       </section>
 

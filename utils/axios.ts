@@ -5,7 +5,7 @@ const config = {
   timeout: 60 * 1000,
 }
 
-const _axios = axios.create({
+export const _axios = axios.create({
   baseURL: config.baseUrl,
   timeout: config.timeout,
 })
@@ -31,16 +31,13 @@ _axios.interceptors.response.use(
 
 interface IHeader {
   headers: {
-    Authorization: string
     'Content-Type'?: string
   }
 }
 
-const header = (jwt: string, type?: string) => {
+const header = (type?: string) => {
   const data: IHeader = {
-    headers: {
-      Authorization: `Bearer ${jwt}`,
-    },
+    headers: {},
   }
 
   data.headers['Content-Type'] =
@@ -56,43 +53,43 @@ const errors = (errors: any) => {
   }
 }
 
-export const Get = async (url: any, jwt?: any) => {
+export const Get = async (url: any) => {
   try {
-    const head = header(jwt)
+    const head = header()
+    console.log(head)
+
     const get = await _axios.get(url, head)
     return get
   } catch (error: any) {
-    return errors(error.message)
+    return errors(error.response)
   }
 }
 
-export const Post = async (url: any, params: any, jwt?: any) => {
+export const Post = async (url: string, params: any, type?: string) => {
   try {
-    const head = header(jwt)
+    const head = header(type)
     const post = await _axios.post(url, params, head)
-
     return post
   } catch (error: any) {
     return errors(error.response)
   }
 }
 
-export const Put = async (url: any, params: any, jwt?: any) => {
+export const Put = async (url: string, params: any, type?: string) => {
   try {
-    const head = header(jwt)
+    const head = header(type)
     const put = await _axios.put(url, params, head)
     return put
   } catch (error: any) {
-    return errors(error.message)
+    return errors(error.response)
   }
 }
 
-export const Delete = async (url: any, jwt: any) => {
+export const Delete = async (url: any) => {
   try {
-    const head = header(jwt)
-    const del = await _axios.delete(url, head)
+    const del = await _axios.delete(url)
     return del
   } catch (error: any) {
-    return errors(error.message)
+    return errors(error.response)
   }
 }

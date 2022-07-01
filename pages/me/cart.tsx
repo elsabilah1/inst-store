@@ -1,5 +1,5 @@
 import CustomerLayout from '@/components/layouts/customer/Layout'
-import { NextPageWithLayout } from './page'
+import { NextPageWithLayout } from '../page'
 
 const Cart: NextPageWithLayout = () => {
   return (

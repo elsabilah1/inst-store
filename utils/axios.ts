@@ -56,8 +56,6 @@ const errors = (errors: any) => {
 export const Get = async (url: any) => {
   try {
     const head = header()
-    console.log(head)
-
     const get = await _axios.get(url, head)
     return get
   } catch (error: any) {

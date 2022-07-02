@@ -29,7 +29,7 @@ const Home: NextPageWithLayout = ({ products }: any) => {
               </span>
             </a>
           </Link>
-          <div className="my-3 grid gap-9 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="my-3 grid gap-9 sm:grid-cols-3 lg:grid-cols-5">
             {products.map((item: any) => (
               <ProductCard key={item._id} item={item} />
             ))}

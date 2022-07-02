@@ -40,7 +40,7 @@ export default nextAuth({
 
             db.disconnect()
             return {
-              user: user,
+              id: user._id,
               role: user.role,
               name: user.name,
               image: user.imageUrl,
@@ -59,7 +59,7 @@ export default nextAuth({
   callbacks: {
     jwt: ({ token, user }) => {
       if (user) {
-        token.user = user
+        token.id = user.id
         token.role = user.role
       }
 
@@ -67,6 +67,7 @@ export default nextAuth({
     },
     session: ({ session, token }) => {
       if (token) {
+        session.id = token.id
         session.role = token.role
       }
 

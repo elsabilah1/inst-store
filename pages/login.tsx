@@ -1,9 +1,11 @@
 import AuthLayout from '@/components/layouts/auth/Layout'
 import { Button, InputField } from '@/components/utility'
+import { Get } from '@/utils/axios'
 import { Form, Formik } from 'formik'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useAuth } from 'store/auth'
+import { useCart } from 'store/cart'
 import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { NextPageWithLayout } from './page'
@@ -16,6 +18,7 @@ const Schema = z.object({
 const Login: NextPageWithLayout = () => {
   const router = useRouter()
   const { logIn } = useAuth()
+  const { addToCartAll } = useCart()
 
   const { status, data } = useSession()
   if (status === 'authenticated') {
@@ -26,6 +29,12 @@ const Login: NextPageWithLayout = () => {
     }
   }
 
+  const handleLogin = async (values: any) => {
+    await logIn(values)
+    const { cart }: any = await Get('/user/cart')
+    addToCartAll(cart)
+  }
+
   return (
     <Formik
       initialValues={{
@@ -33,7 +42,7 @@ const Login: NextPageWithLayout = () => {
         password: '',
       }}
       validationSchema={toFormikValidationSchema(Schema)}
-      onSubmit={(values) => logIn(values)}
+      onSubmit={(values) => handleLogin(values)}
     >
       {({ errors, touched }) => (
         <Form className="flex flex-col gap-3 rounded-md bg-white px-9 py-6 shadow-md">

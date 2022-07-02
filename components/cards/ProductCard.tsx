@@ -1,6 +1,9 @@
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import { useCart } from 'store/cart'
 import { Button } from '../utility'
 
 interface IProductCard {
@@ -8,6 +11,28 @@ interface IProductCard {
 }
 
 const ProductCard: React.FC<IProductCard> = ({ item }) => {
+  const { data } = useSession()
+  const router = useRouter()
+  const { cartItems, addToCart, incCartItem, postUpdatedCart } = useCart()
+
+  const isInCart = (product: any) => {
+    return !!cartItems.find((item: any) => item._id === product._id)
+  }
+
+  const handleAddProduct = () => {
+    if (data) {
+      if (isInCart(item)) {
+        incCartItem(item)
+      } else {
+        addToCart(item)
+      }
+
+      postUpdatedCart()
+    } else {
+      router.replace('/login')
+    }
+  }
+
   return (
     <div className="w-full rounded-sm border bg-white p-2 shadow-sm">
       <Carousel
@@ -41,7 +66,11 @@ const ProductCard: React.FC<IProductCard> = ({ item }) => {
           times
         </p>
         <div className="text-right">
-          <Button variant="secondary" size="small">
+          <Button
+            onClick={() => handleAddProduct()}
+            variant="secondary"
+            size="small"
+          >
             add to cart
           </Button>
         </div>

@@ -43,7 +43,6 @@ export const useAuth = create<IState>((set) => ({
       password: payload.password,
       callbackUrl: '/login',
     })
-
     if (error) set({ error })
     set({ loading: false })
   },

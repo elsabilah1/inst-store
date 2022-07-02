@@ -10,7 +10,11 @@ const cartSchema = new Schema({
   cartItems: {
     type: Array,
   },
-  totalPrice: {
+  totalqty: {
+    type: Number,
+    default: 0,
+  },
+  total: {
     type: Number,
     default: 0,
   },

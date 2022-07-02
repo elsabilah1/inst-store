@@ -10,9 +10,11 @@ import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { Fragment } from 'react'
+import { useCart } from 'store/cart'
 
 const Profile: React.FC = () => {
   const { data: session } = useSession()
+  const { totalqty, deleteCartAll } = useCart()
   const router = useRouter()
 
   return (
@@ -20,7 +22,7 @@ const Profile: React.FC = () => {
       {session?.role === 0 && (
         <button className="relative" onClick={() => router.push('/me/cart')}>
           <div className="absolute -bottom-1 -left-1 grid h-4 w-4 place-items-center rounded-full border border-secondary bg-white text-xs text-primary">
-            0 {/* {state.cart.cart.length} */}
+            {totalqty}
           </div>
           <ShoppingBagIcon className="h-6 w-6 text-secondary" />
         </button>
@@ -79,7 +81,10 @@ const Profile: React.FC = () => {
                     </span>
                   </a>
                   <a
-                    onClick={() => signOut()}
+                    onClick={() => {
+                      deleteCartAll()
+                      signOut()
+                    }}
                     className="flow-root cursor-pointer py-2 pl-3 transition-all  hover:text-primary/40 focus:outline-none active:bg-primary/50 active:text-primary"
                   >
                     <span className="flex items-center">

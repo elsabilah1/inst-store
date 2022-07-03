@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Post } from '@/utils/axios'
+import { Get, Post } from '@/utils/axios'
 import { signIn } from 'next-auth/react'
 import create from 'zustand'
 
@@ -22,7 +22,9 @@ interface IState {
   loading: boolean
   success: string
   error: string
+  user: any
   reset: () => void
+  fetchUser: () => Promise<void>
   logIn: (payload: LogInPayload) => Promise<void>
   register: (payload: registerPayload) => Promise<void>
 }
@@ -31,9 +33,14 @@ export const useAuth = create<IState>((set) => ({
   loading: false,
   success: '',
   error: '',
+  user: {},
   reset: () => {
     set({ error: '' })
     set({ success: '' })
+  },
+  fetchUser: async () => {
+    const res: any = await Get('user/profile')
+    set({ user: res.user })
   },
   logIn: async (payload) => {
     set({ loading: true })

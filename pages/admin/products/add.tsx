@@ -123,7 +123,7 @@ const AdminAddProduct: NextPageWithLayout = () => {
                   data={categoryList}
                   selected={category}
                   setSelected={setCategory}
-                  placeholder="Pilih kategori"
+                  placeholder="Choose category"
                 />
                 <InputField
                   name="newCategory"

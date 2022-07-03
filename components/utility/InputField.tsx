@@ -8,6 +8,7 @@ interface IInputField {
   component?: string
   error: any
   touched: any
+  inputVariant?: string
 }
 
 const InputField: React.FC<IInputField> = ({
@@ -17,9 +18,13 @@ const InputField: React.FC<IInputField> = ({
   name,
   error,
   touched,
+  inputVariant,
 }) => {
   const classes = cn(
-    'shadow-sm w-80 rounded-sm border-primary/20 text-sm placeholder:text-sm focus:border-secondary focus:ring-secondary disabled:bg-primary/20'
+    'shadow-sm w-80 text-sm placeholder:text-sm focus:border-secondary focus:ring-secondary disabled:bg-primary/20',
+    inputVariant === 'underline'
+      ? 'border-white border-b-primary/20'
+      : 'rounded-sm border-primary/20'
   )
 
   return (

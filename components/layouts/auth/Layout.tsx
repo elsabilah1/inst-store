@@ -23,7 +23,7 @@ const AuthLayout: React.FC<IAuthLayout> = ({ children, pageTitle }) => {
   return (
     <SessionProvider>
       <Head>
-        <title>Toko Musik | {pageTitle}</title>
+        <title>{pageTitle}</title>
         <meta charSet="UTF-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta

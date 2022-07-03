@@ -8,6 +8,7 @@ const handler = nc<NextApiRequest, NextApiResponse>()
 
 handler.get(async (req, res) => {
   const session = await getSession({ req })
+  console.log(session)
   try {
     if (session?.role === 0) {
       const cart = await Cart.findOne({ userId: session.id })

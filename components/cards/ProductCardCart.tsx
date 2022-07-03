@@ -23,8 +23,8 @@ const ProductCardCart: React.FC<IProductCardCart> = ({ product }) => {
   }
 
   return (
-    <div key={product._id} className="flex items-center justify-between">
-      <div className="flex items-center">
+    <div key={product._id} className="grid grid-cols-4 items-center">
+      <div className="col-span-2 flex items-center gap-1">
         <Image
           alt={product.name}
           src={product.imageUrl[0]}
@@ -45,7 +45,7 @@ const ProductCardCart: React.FC<IProductCardCart> = ({ product }) => {
           <PlusCircleIcon className="h-5 w-5 text-secondary" />
         </button>
       </div>
-      <div className="text-sm font-medium">
+      <div className="text-right text-sm font-medium">
         Rp. {(product.sellingPrice * product.quantity).toLocaleString()}
       </div>
     </div>

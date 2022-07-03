@@ -10,7 +10,7 @@ const orderSchema = new Schema({
   cartItems: {
     type: Array,
   },
-  totalPrice: {
+  total: {
     type: Number,
     default: 0,
   },
@@ -23,8 +23,14 @@ const orderSchema = new Schema({
     required: true,
   },
   status: {
-    title: 'process order',
-    content: '',
+    type: {
+      title: String,
+      content: String,
+    },
+    default: {
+      title: 'process order',
+      content: '',
+    },
   },
 })
 

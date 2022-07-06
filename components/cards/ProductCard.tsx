@@ -51,6 +51,7 @@ const ProductCard: React.FC<IProductCard> = ({ item }) => {
               layout="fill"
               objectFit="contain"
               className="hover:scale-105"
+              priority
             />
           </div>
         ))}

@@ -19,7 +19,7 @@ const Products: NextPageWithLayout = ({ products }: any) => {
     <div className=" bg-white">
       <div className="mx-auto max-w-screen-lg px-3">
         <FilterProduct />
-        <section className="grid grid-cols-5 gap-4 py-6">
+        <section className="grid gap-4 py-6 md:grid-cols-5">
           {products.map((item: any) => (
             <ProductCard key={item._id} item={item} />
           ))}
@@ -44,7 +44,7 @@ const FilterProduct = () => {
   const [keyword, setKeyword] = useState<any>()
 
   return (
-    <section className="mx-auto grid max-w-screen-md grid-cols-5 gap-3 py-3 text-2xl">
+    <section className="mx-auto grid max-w-screen-md gap-3 py-3 text-2xl md:grid-cols-5">
       <SelectField
         data={categoryList}
         selected={category}

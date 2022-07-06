@@ -23,20 +23,24 @@ const ProductCardCart: React.FC<IProductCardCart> = ({ product }) => {
   }
 
   return (
-    <div key={product._id} className="grid grid-cols-4 items-center">
+    <div
+      key={product._id}
+      className="grid grid-cols-3 items-center md:grid-cols-4"
+    >
       <div className="col-span-2 flex items-center gap-1">
         <Image
           alt={product.name}
           src={product.imageUrl[0]}
           width={50}
           height={50}
+          priority
         />
         <div>
           <p className="text-sm font-semibold">{product.name}</p>
           <p className="text-xs">Rp. {product.sellingPrice.toLocaleString()}</p>
         </div>
       </div>
-      <div className="flex gap-3">
+      <div className="ml-auto flex gap-3 md:ml-0">
         <button onClick={() => handlePost('minus')}>
           <MinusCircleIcon className="h-5 w-5 text-secondary" />
         </button>
@@ -45,7 +49,7 @@ const ProductCardCart: React.FC<IProductCardCart> = ({ product }) => {
           <PlusCircleIcon className="h-5 w-5 text-secondary" />
         </button>
       </div>
-      <div className="text-right text-sm font-medium">
+      <div className="col-span-3 text-right text-sm font-medium md:col-span-1">
         Rp. {(product.sellingPrice * product.quantity).toLocaleString()}
       </div>
     </div>

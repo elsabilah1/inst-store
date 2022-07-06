@@ -21,7 +21,7 @@ const InputField: React.FC<IInputField> = ({
   inputVariant,
 }) => {
   const classes = cn(
-    'shadow-sm w-80 text-sm placeholder:text-sm focus:border-secondary focus:ring-secondary disabled:bg-primary/20',
+    'shadow-sm w-full text-sm placeholder:text-sm focus:border-secondary focus:ring-secondary disabled:bg-primary/20',
     inputVariant === 'underline'
       ? 'border-white border-b-primary/20'
       : 'rounded-sm border-primary/20'

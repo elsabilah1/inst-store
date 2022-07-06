@@ -33,9 +33,9 @@ const AuthLayout: React.FC<IAuthLayout> = ({ children, pageTitle }) => {
       </Head>
       <div className="flex min-h-screen flex-col">
         <header className="bg-primary text-white shadow-sm">
-          <div className="mx-auto flex max-w-screen-lg items-center py-5">
+          <div className="mx-auto flex max-w-screen-lg items-center p-3">
             <Link href="/">
-              <a>
+              <a className="inline-flex">
                 <Image
                   className="cursor-pointer"
                   src="/images/logo.png"

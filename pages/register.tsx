@@ -46,9 +46,9 @@ const Register: NextPageWithLayout = () => {
       onSubmit={(values) => register(values)}
     >
       {({ errors, touched }) => (
-        <Form className="flex flex-col gap-3 rounded-md bg-white px-9 py-6 shadow-md">
+        <Form className="mx-3 my-3 flex w-full max-w-screen-md flex-col gap-3 rounded-md bg-white px-9 py-6 shadow-md">
           <h3 className="mb-8 text-4xl font-bold">Create account</h3>
-          <div className="flex gap-20">
+          <div className="grid gap-3 md:grid-cols-2 md:gap-20">
             <div className="space-y-3">
               <InputField
                 name="name"
@@ -75,7 +75,6 @@ const Register: NextPageWithLayout = () => {
                 touched={touched.phone}
               />
             </div>
-
             <div className="space-y-3">
               <InputField
                 name="address"

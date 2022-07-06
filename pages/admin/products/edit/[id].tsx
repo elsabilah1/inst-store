@@ -154,13 +154,20 @@ const AdminEditProduct: NextPageWithLayout<IProps> = ({ product }) => {
                 </Button>
               </div>
               <div className="space-y-6">
-                <SelectField
-                  label="category"
-                  data={categoryList}
-                  selected={category}
-                  setSelected={setCategory}
-                  placeholder="Pilih kategori"
-                />
+                <div>
+                  <label
+                    htmlFor="category"
+                    className="mb-2 font-medium capitalize"
+                  >
+                    category
+                  </label>
+                  <SelectField
+                    data={categoryList}
+                    selected={category}
+                    setSelected={setCategory}
+                    placeholder="Pilih kategori"
+                  />
+                </div>
                 <InputField
                   name="newCategory"
                   placeholder="add new category"

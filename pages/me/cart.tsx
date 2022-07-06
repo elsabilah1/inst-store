@@ -7,6 +7,7 @@ import { Get, Post } from '@/utils/axios'
 import { Form, Formik } from 'formik'
 import { GetServerSideProps } from 'next'
 import { getSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import Script from 'next/script'
 import { useEffect, useState } from 'react'
 import { useCart } from 'store/cart'
@@ -36,8 +37,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 }
 
 const Cart: NextPageWithLayout = ({ user }: any) => {
+  const router = useRouter()
   const [payment, setPayment] = useState<any>()
-  const { cartItems, total } = useCart()
+  const { cartItems, total, deleteCartAll } = useCart()
   const [totalPrice, setTotal] = useState(0)
   const [cart, setCart] = useState<any[]>([])
 
@@ -60,8 +62,10 @@ const Cart: NextPageWithLayout = ({ user }: any) => {
       },
       onPending: async (result: any) => {
         console.log('pending', { result })
-        const res = await Post('/user/orders', { ...data, payment: result })
-        console.log(res)
+        await Post('/user/orders', { ...data, payment: result })
+        deleteCartAll()
+        localStorage.clear()
+        router.push('/me')
       },
       onError: async (result: any) => {
         console.log('error', { result })
@@ -77,8 +81,8 @@ const Cart: NextPageWithLayout = ({ user }: any) => {
       />
       <section className="mx-auto my-6 max-w-screen-lg px-4">
         <h1 className="text-3xl font-bold text-white">Your Cart</h1>
-        <div className="mx-auto mt-4 grid max-w-screen-md grid-cols-5 gap-4">
-          <div className="col-span-3">
+        <div className="mx-auto mt-4 grid max-w-screen-md gap-4 md:grid-cols-5">
+          <div className="md:col-span-3">
             <div className="space-y-4 rounded bg-white py-3 px-4">
               {cart.length > 0
                 ? cart.map((product: any) => (
@@ -87,7 +91,7 @@ const Cart: NextPageWithLayout = ({ user }: any) => {
                 : 'empty list'}
             </div>
           </div>
-          <div className="col-span-2">
+          <div className="md:col-span-2">
             <div className="space-y-4 rounded bg-white py-3 px-4">
               <Formik
                 initialValues={{
@@ -106,7 +110,6 @@ const Cart: NextPageWithLayout = ({ user }: any) => {
                       inputVariant="underline"
                     />
                     <SelectField
-                      label="payment method"
                       data={paymentList}
                       selected={payment}
                       setSelected={setPayment}

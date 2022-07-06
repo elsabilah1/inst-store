@@ -16,7 +16,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 }
 
-const DetailOrder: NextPageWithLayout = ({ user, order }: any) => {
+const DetailOrder: NextPageWithLayout = ({ order }: any) => {
   return (
     <section className="mx-auto my-6 max-w-screen-lg px-4">
       <h1 className="text-3xl font-bold text-white">Your Order</h1>

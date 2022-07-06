@@ -21,7 +21,7 @@ const ProductCardAdmin: React.FC<IProductCardAdmin> = ({ item }) => {
 
   return (
     <>
-      <div className="grid grid-cols-2 items-center gap-2 rounded-md bg-white p-3 shadow-sm">
+      <div className="grid grid-cols-2 items-center gap-2 rounded bg-white p-3 shadow-sm">
         <Carousel
           className="border p-1"
           showArrows
@@ -35,6 +35,7 @@ const ProductCardAdmin: React.FC<IProductCardAdmin> = ({ item }) => {
                 layout="fill"
                 objectFit="contain"
                 alt={item.name}
+                priority
               />
             </div>
           ))}

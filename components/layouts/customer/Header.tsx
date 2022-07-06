@@ -55,11 +55,11 @@ const Header: React.FC = () => {
       {router.pathname === '/' && (
         <div className="relative h-[70vh] bg-primary">
           <Image
-            unoptimized
             layout="fill"
             alt="hero"
             src="/images/hero-bg.jpg"
             className="object-cover object-top opacity-40"
+            priority
           />
           <div className="absolute top-1/2 space-y-3 px-3 md:left-1/2 md:-translate-y-1/2">
             <h1 className="text-xl font-semibold text-white md:text-4xl md:font-semibold">

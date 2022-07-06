@@ -45,7 +45,7 @@ const Login: NextPageWithLayout = () => {
       onSubmit={(values) => handleLogin(values)}
     >
       {({ errors, touched }) => (
-        <Form className="flex flex-col gap-3 rounded-md bg-white px-9 py-6 shadow-md">
+        <Form className="mx-3 flex w-full max-w-screen-xs flex-col gap-3 rounded-md bg-white px-9 py-6 shadow-md">
           <h3 className="mb-8 text-4xl font-bold">Sign-In</h3>
           <InputField
             name="emailOrUsername"

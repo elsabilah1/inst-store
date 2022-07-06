@@ -19,7 +19,7 @@ const SelectField: React.FC<ISelectField> = ({
     <div>
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative">
-          <Listbox.Button className="w-full max-w-[20rem] rounded-sm border border-primary/20 bg-white px-3 py-2 text-left text-sm shadow-sm placeholder:text-sm focus:border-secondary focus:ring-secondary disabled:bg-primary/20">
+          <Listbox.Button className="w-full rounded-sm border border-primary/20 bg-white px-3 py-2 text-left text-sm shadow-sm placeholder:text-sm focus:border-secondary focus:ring-secondary disabled:bg-primary/20">
             <span className="block truncate">
               {selected ?? <p className="text-gray-500">{placeholder}</p>}
             </span>
@@ -36,7 +36,7 @@ const SelectField: React.FC<ISelectField> = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-80 overflow-auto rounded-md bg-white py-1 text-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {data.map((item: any, i: any) => (
                 <Listbox.Option
                   key={i}

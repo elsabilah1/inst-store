@@ -27,20 +27,15 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-primary text-white shadow-sm transition-all">
-        <div className="mx-auto max-w-screen-lg items-center gap-9 space-y-6 px-3 py-5 md:flex md:space-y-0">
+      <header className="sticky top-0 z-50 bg-primary text-white shadow">
+        <div className="mx-auto max-w-screen-lg items-center gap-9 space-y-6 p-3 md:flex md:space-y-0">
           <div className="flex">
             <button className="flex" onClick={() => router.push('/')}>
-              <Image
-                src="/images/logo.png"
-                alt="logo"
-                width={100}
-                height={36}
-              />
+              <Image src="/images/logo.png" alt="logo" width={84} height={24} />
             </button>
             <div className="ml-auto md:hidden">
               <button
-                className="block h-8 w-8 text-white"
+                className="block h-6 w-6 text-white"
                 onClick={() => setNavOpen(!navOpen)}
               >
                 <MenuIcon />
@@ -58,18 +53,16 @@ const Header: React.FC = () => {
         </div>
       </header>
       {router.pathname === '/' && (
-        <div className="relative h-[50vh]">
+        <div className="relative h-[70vh] bg-primary">
           <Image
-            src="/images/hero-bg.jpg"
+            unoptimized
             layout="fill"
-            objectFit="cover"
-            objectPosition="top"
-            priority={true}
             alt="hero"
+            src="/images/hero-bg.jpg"
+            className="object-cover object-top opacity-40"
           />
-          <div className="absolute h-full w-full bg-primary/30 p-4"></div>
-          <div className="absolute bottom-1/3 space-y-3 px-3 md:right-56">
-            <h1 className="text-2xl font-bold text-white md:text-4xl md:font-medium">
+          <div className="absolute top-1/2 space-y-3 px-3 md:left-1/2 md:-translate-y-1/2">
+            <h1 className="text-xl font-semibold text-white md:text-4xl md:font-semibold">
               Find the best gear <br /> at the great low price now!
             </h1>
             <Button

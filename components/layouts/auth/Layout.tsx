@@ -40,8 +40,8 @@ const AuthLayout: React.FC<IAuthLayout> = ({ children, pageTitle }) => {
                   className="cursor-pointer"
                   src="/images/logo.png"
                   alt="logo"
-                  width={100}
-                  height={36}
+                  width={84}
+                  height={24}
                 />
               </a>
             </Link>

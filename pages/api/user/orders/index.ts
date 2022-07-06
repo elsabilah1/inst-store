@@ -10,11 +10,11 @@ const handler = nc<NextApiRequest, NextApiResponse>()
 
 handler.get(async (req, res) => {
   try {
-    const data = await Order.find({
-      userId: req.query.userId ?? undefined,
+    const orders = await Order.find({
+      userId: req.query.id,
     })
 
-    res.status(200).send(data)
+    res.status(200).send({ orders })
   } catch (error) {
     res.status(500).send('Something went wrong.')
   }
@@ -22,15 +22,17 @@ handler.get(async (req, res) => {
 
 handler.post(async (req, res) => {
   try {
-    const { _id: userId, cart_id, orders, payment } = req.body
-    const cartData: any = await Cart.findById(cart_id)
+    const { _id: userId, cartId, orders, address, payment } = req.body
+    const cartData: any = await Cart.findById(cartId)
 
     const order = await Order.create({
       userId: cartData.userId,
-      cartItems: cartData.cartItems,
+      cart: cartData,
       total: cartData.total,
-      paymentMethod: payment.payment_type ?? 'transfer va',
-      paymentInfo: payment,
+      address: address,
+      paymentMethod: payment.payment_type ?? 'Cash on delivery',
+      paymentInfo: payment ?? {},
+      status: { title: 'process', content: '' },
     })
 
     await User.findByIdAndUpdate(userId, {
@@ -47,7 +49,7 @@ handler.post(async (req, res) => {
         })
     )
 
-    await Cart.findByIdAndUpdate(cart_id, {
+    await Cart.findByIdAndUpdate(cartId, {
       cartItems: [],
       totalqty: 0,
       total: 0,

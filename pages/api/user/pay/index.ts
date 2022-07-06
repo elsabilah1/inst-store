@@ -22,8 +22,8 @@ handler.get(async (req, res) => {
 
 handler.post(async (req, res) => {
   try {
-    const { name, email, phone, cart_id } = req.body
-    const cartData = await Cart.findById(cart_id)
+    const { name, email, phone, cartId } = req.body
+    const cartData = await Cart.findById(cartId)
     const first_name = name.split(' ')[0]
     const last_name = name.split(' ')[name.split(' ').length - 1]
 
@@ -45,6 +45,7 @@ handler.post(async (req, res) => {
 
     res.status(201).send({ transaction })
   } catch (error) {
+    console.log(error)
     res.status(500).send('Something went wrong.')
   }
 })

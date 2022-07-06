@@ -24,16 +24,10 @@ export const AdminMenu = [
 const Sidebar: React.FC = () => {
   return (
     <div className="bg-primary text-white shadow-sm">
-      <div className="flex h-20 items-center pl-3">
+      <div className="flex h-16 items-center pl-3">
         <Link href="/">
-          <a>
-            <Image
-              className="cursor-pointer"
-              src="/images/logo.png"
-              width={100}
-              height={36}
-              alt="logo"
-            />
+          <a className="flex">
+            <Image src="/images/logo.png" width={84} height={24} alt="logo" />
           </a>
         </Link>
       </div>

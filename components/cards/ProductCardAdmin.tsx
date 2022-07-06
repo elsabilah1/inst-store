@@ -60,18 +60,18 @@ const ProductCardAdmin: React.FC<IProductCardAdmin> = ({ item }) => {
               </span>
             </div>
           </div>
-          <div className="mt-3 flex gap-1 text-white">
+          <div className="mt-3 ml-auto flex w-1/2 gap-2 text-white">
             <button
               className="w-full rounded bg-info py-1 active:scale-95"
               onClick={() => router.push(`/admin/products/edit/${item._id}`)}
             >
-              <PencilAltIcon className="inline h-8 w-8" />
+              <PencilAltIcon className="inline h-6 w-6" />
             </button>
             <button
               onClick={() => setModal(true)}
               className="w-full rounded bg-danger py-1 active:scale-95"
             >
-              <TrashIcon className="inline h-8 w-8" />
+              <TrashIcon className="inline h-6 w-6" />
             </button>
           </div>
         </div>

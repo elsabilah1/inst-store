@@ -43,8 +43,10 @@ const AdminProducts: NextPageWithLayout = ({ products }: any) => {
           size="auto"
           onClick={() => router.push('/admin/products/add')}
         >
-          <PlusIcon className="w-5" />
-          add new product
+          <span className="flex items-center gap-3">
+            <PlusIcon className="w-4" />
+            add new product
+          </span>
         </Button>
       </section>
 

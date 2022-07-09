@@ -5,22 +5,27 @@ import { Get } from '@/utils/axios'
 import { SearchIcon } from '@heroicons/react/solid'
 import { GetServerSideProps } from 'next'
 import { useState } from 'react'
+import { useProduct } from 'store/product'
 import { NextPageWithLayout } from '../page'
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const products = await Get('/products')
+  const categories = await Get('/products/categories')
+
   return {
-    props: { products },
+    props: { products, categories },
   }
 }
 
-const Products: NextPageWithLayout = ({ products }: any) => {
+const Products: NextPageWithLayout = ({ products, categories }: any) => {
+  const categoryList = categories.map((item: any) => item.name)
+
   return (
-    <div className=" bg-white">
+    <div className="bg-white">
       <div className="mx-auto max-w-screen-lg px-3">
-        <FilterProduct />
+        <FilterProduct categoryList={categoryList} />
         <section className="grid gap-4 py-6 sm:grid-cols-2  md:grid-cols-3  lg:grid-cols-5">
-          {products.map((item: any) => (
+          {products?.map((item: any) => (
             <ProductCard key={item._id} item={item} />
           ))}
         </section>
@@ -35,10 +40,10 @@ Products.getLayout = (page) => {
   return <CustomerLayout pageTitle="Products">{page}</CustomerLayout>
 }
 
-const categoryList = ['Guitar', 'Drum']
 const sortList = ['a-z', 'price']
 
-const FilterProduct = () => {
+const FilterProduct = ({ categoryList }: any) => {
+  const { filter } = useProduct()
   const [category, setCategory] = useState<any>()
   const [sortBy, setSortBy] = useState<any>()
   const [keyword, setKeyword] = useState<any>()
@@ -71,7 +76,11 @@ const FilterProduct = () => {
         />
       </div>
 
-      <Button variant="secondary" type="submit">
+      <Button
+        variant="secondary"
+        type="submit"
+        onClick={() => filter(category)}
+      >
         Search
       </Button>
     </section>

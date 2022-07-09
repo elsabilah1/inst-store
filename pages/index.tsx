@@ -8,6 +8,7 @@ import { NextPageWithLayout } from './page'
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const products = await Get('/products')
+
   return {
     props: { products },
   }

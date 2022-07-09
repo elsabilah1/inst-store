@@ -1,4 +1,5 @@
 import connectDB from '@/lib/db'
+import Category from '@/lib/models/Category'
 import Product from '@/lib/models/Product'
 import cloudinary from '@/utils/cloudinary'
 import getFormData from '@/utils/getFormData'
@@ -13,7 +14,8 @@ handler.post(async (req, res) => {
   try {
     if (session?.role === 1) {
       const fData: any = await getFormData(req)
-      const { name, category, buyingPrice, sellingPrice, stock } = fData.fields
+      const { name, category, newCategory, buyingPrice, sellingPrice, stock } =
+        fData.fields
       const keys = Object.keys(fData.files)
 
       const uploadedImages: any = await Promise.all(
@@ -32,9 +34,13 @@ handler.post(async (req, res) => {
       const imageUrl = uploadedImages.map((file: any) => file.imageUrl)
       const imageId = uploadedImages.map((file: any) => file.imageId)
 
+      if (newCategory) {
+        await Category.create({ name: newCategory.toLowerCase() })
+      }
+
       await Product.create({
         name,
-        category,
+        category: newCategory ?? category,
         buyingPrice,
         sellingPrice,
         stock,
@@ -42,7 +48,7 @@ handler.post(async (req, res) => {
         imageId,
       })
 
-      res.status(201).send({ message: 'Product created successfully.' })
+      return res.status(201).send({ message: 'Product created successfully.' })
     }
     throw new Error('Unauthorized')
   } catch (error: any) {

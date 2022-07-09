@@ -1,19 +1,31 @@
+import { Get } from '@/utils/axios'
 import { PhoneIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 const Footer: React.FC = () => {
+  const [categories, setCategories] = useState<any>()
+  const fetchCategories = async () => {
+    const data = await Get('/products/categories')
+    setCategories(data)
+  }
+
+  useEffect(() => {
+    fetchCategories()
+  }, [])
+
   return (
     <footer className="bg-primary px-3 text-white md:px-0">
       <div className="mx-auto mt-12 mb-16 max-w-screen-md shadow-sm">
         <div className="grid gap-6 font-bold capitalize md:grid-cols-4">
           <div className="space-y-2">
             <h1>shop by categories</h1>
-            <div className="text-sm font-normal">
-              <p>Guitar</p>
-              <p>Guitar</p>
-              <p>Guitar</p>
-            </div>
+            {categories?.map((item: any) => (
+              <div key={item._id} className="text-sm font-normal">
+                {item.name}
+              </div>
+            ))}
           </div>
           <div className="col-span-2 space-y-3 md:mx-auto">
             <h1>contact us</h1>

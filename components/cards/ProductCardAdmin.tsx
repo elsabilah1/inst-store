@@ -37,22 +37,22 @@ const ProductCardAdmin: React.FC<IProductCardAdmin> = ({ item }) => {
         </Carousel>
 
         <div>
-          <h1 className="font-bold capitalize">{item.name}</h1>
+          <h1 className="font-bold capitalize line-clamp-1">{item.name}</h1>
           <div className="text-sm">
             <div className="grid grid-cols-2">
               <span className="space-y-1">
-                <p>Category:</p>
-                <p>Buying price:</p>
-                <p>Selling price:</p>
-                <p>Stock:</p>
-                <p>Sold:</p>
+                <p>Category</p>
+                <p>Buying price</p>
+                <p>Selling price</p>
+                <p>Stock</p>
+                <p>Sold</p>
               </span>
               <span className="space-y-1">
-                <p>{item.category}</p>
-                <p>Rp. {item.buyingPrice.toLocaleString()}</p>
-                <p>Rp. {item.sellingPrice.toLocaleString()}</p>
-                <p>{item.stock}</p>
-                <p>{item.sold}</p>
+                <p className="capitalize">: {item.category}</p>
+                <p>: Rp. {item.buyingPrice.toLocaleString()}</p>
+                <p>: Rp. {item.sellingPrice.toLocaleString()}</p>
+                <p>: {item.stock}</p>
+                <p>: {item.sold}</p>
               </span>
             </div>
           </div>

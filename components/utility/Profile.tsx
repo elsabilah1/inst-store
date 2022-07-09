@@ -18,7 +18,7 @@ const Profile: React.FC = () => {
   const router = useRouter()
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="ml-auto mt-3 flex items-center gap-3 md:mt-0">
       {session?.role === 0 && (
         <button className="relative" onClick={() => router.push('/me/cart')}>
           <div className="absolute -bottom-1 -left-1 grid h-4 w-4 place-items-center rounded-full border border-secondary bg-white text-xs text-primary">

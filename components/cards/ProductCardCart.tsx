@@ -27,16 +27,17 @@ const ProductCardCart: React.FC<IProductCardCart> = ({ product }) => {
       key={product._id}
       className="grid grid-cols-3 items-center md:grid-cols-4"
     >
-      <div className="col-span-2 flex items-center gap-1">
+      <div className="col-span-2 grid grid-cols-4 items-center gap-1">
         <Image
           alt={product.name}
           src={product.imageUrl[0]}
           width={50}
           height={50}
+          objectFit="contain"
           priority
         />
-        <div>
-          <p className="text-sm font-semibold">{product.name}</p>
+        <div className="col-span-3">
+          <p className="text-sm font-semibold line-clamp-1">{product.name}</p>
           <p className="text-xs">Rp. {product.sellingPrice.toLocaleString()}</p>
         </div>
       </div>

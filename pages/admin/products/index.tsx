@@ -50,7 +50,7 @@ const AdminProducts: NextPageWithLayout = ({ products }: any) => {
         </Button>
       </section>
 
-      <section className="mt-3 grid grid-cols-2 gap-3">
+      <section className="mt-3 grid gap-3 md:grid-cols-2">
         {products.map((item: any) => (
           <ProductCardAdmin key={item._id} item={item} />
         ))}

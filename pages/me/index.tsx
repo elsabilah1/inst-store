@@ -30,7 +30,7 @@ const DetailProfile: NextPageWithLayout = ({
     <section className="mx-auto my-10 max-w-screen-md space-y-5 px-5">
       <div className="grid place-items-center rounded bg-white p-5">
         <div>
-          <div className="mb-5 flex gap-5">
+          <div className="mb-3 flex gap-3">
             <Image
               src={user.imageUrl}
               width="50"
@@ -60,13 +60,13 @@ const DetailProfile: NextPageWithLayout = ({
       </div>
       <div className="rounded bg-white p-5">
         <h3 className="mb-4 text-xl font-semibold">Order history</h3>
-        <div className="mx-10 grid grid-cols-2 gap-x-10 gap-y-5">
+        <div className="mx-10 grid gap-x-10 gap-y-5 md:grid-cols-2">
           {orders.map((item: any) => (
             <OrderCard key={item._id} item={item} />
           ))}
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid gap-5 sm:grid-cols-2">
         <div className="rounded bg-white p-5 text-center">
           <h3 className="mb-4 text-xl font-semibold text-gray-500">
             Total Orders This Month

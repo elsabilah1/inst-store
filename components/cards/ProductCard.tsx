@@ -58,7 +58,7 @@ const ProductCard: React.FC<IProductCard> = ({ item }) => {
       </Carousel>
 
       <div className="space-y-1">
-        <h1 className="font-bold text-primary">{item.name}</h1>
+        <h1 className="font-bold text-primary line-clamp-1">{item.name}</h1>
         <p className="text-sm font-medium text-primary/60">
           Rp {item.sellingPrice.toLocaleString()},-
         </p>

@@ -7,8 +7,10 @@ import {
   Loader,
   SelectField,
 } from '@/components/utility'
+import { Get } from '@/utils/axios'
 import { XIcon } from '@heroicons/react/solid'
 import { Form, Formik } from 'formik'
+import { GetServerSideProps } from 'next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
@@ -25,11 +27,18 @@ const Schema = z.object({
   newCategory: z.string().optional(),
 })
 
-const categoryList = ['Guitar', 'Drum']
+export const getServerSideProps: GetServerSideProps = async () => {
+  const categories = await Get('/products/categories')
 
-const AdminAddProduct: NextPageWithLayout = () => {
+  return {
+    props: { categories },
+  }
+}
+
+const AdminAddProduct: NextPageWithLayout = ({ categories }: any) => {
   const router = useRouter()
   const { add: addProduct, loading, error, success, reset } = useProduct()
+  const categoryList = categories.map((item: any) => item.name)
   const [category, setCategory] = useState<any>()
   const [productImages, setProductImages] = useState<any[]>([])
 
@@ -74,7 +83,7 @@ const AdminAddProduct: NextPageWithLayout = () => {
     <>
       <Alert error={error} success={success} />
       {loading && <Loader />}
-      <section className="mt-6 rounded-md bg-white py-8">
+      <section className="mt-6 rounded-md bg-white py-8 px-20">
         <Formik
           initialValues={{
             name: '',
@@ -87,7 +96,7 @@ const AdminAddProduct: NextPageWithLayout = () => {
           onSubmit={(values) => handleSubmit(values)}
         >
           {({ errors, touched }) => (
-            <Form className="flex justify-evenly">
+            <Form className="grid gap-3 md:grid-cols-2 md:gap-20">
               <div className="space-y-6">
                 <InputField
                   name="name"

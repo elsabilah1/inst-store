@@ -1,4 +1,5 @@
 import connectDB from '@/lib/db'
+import Category from '@/lib/models/Category'
 import Product from '@/lib/models/Product'
 import cloudinary from '@/utils/cloudinary'
 import getFormData from '@/utils/getFormData'
@@ -23,6 +24,7 @@ handler.put(async (req, res) => {
         stock,
         imageId,
         imageUrl,
+        newCategory,
       } = fData.fields
       const keys = Object.keys(fData.files)
 
@@ -58,9 +60,13 @@ handler.put(async (req, res) => {
         uploadedImages?.map((file: any) => file.imageUrl) ?? []
       const newImageId = uploadedImages?.map((file: any) => file.imageId) ?? []
 
+      if (newCategory) {
+        await Category.create({ name: newCategory.toLowerCase() })
+      }
+
       await Product.findByIdAndUpdate(req.query.id, {
         name,
-        category,
+        category:newCategory??category,
         buyingPrice,
         sellingPrice,
         stock,
@@ -68,7 +74,7 @@ handler.put(async (req, res) => {
         imageId: newImageId.concat(toKeepImageId),
       })
 
-      res.status(200).send({ message: 'Product updated successfully.' })
+      return res.status(200).send({ message: 'Product updated successfully.' })
     }
     throw new Error('Unauthorized')
   } catch (error: any) {

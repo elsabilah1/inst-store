@@ -27,30 +27,17 @@ const Schema = z.object({
   newCategory: z.string().optional(),
 })
 
-const categoryList = ['Guitar', 'Drum']
-
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const product = await Get(`/products/${ctx.params?.id}`)
+  const categories = await Get('/products/categories')
 
-  return { props: { product } }
+  return { props: { product, categories } }
 }
 
-interface IProps {
-  product: {
-    name: string
-    category: string
-    imageUrl: []
-    imageId: []
-    buyingPrice: number
-    sellingPrice: number
-    stock: number
-    sold: number
-  }
-}
-
-const AdminEditProduct: NextPageWithLayout<IProps> = ({ product }) => {
+const AdminEditProduct: NextPageWithLayout = ({ product, categories }: any) => {
   const router = useRouter()
   const { edit: editProduct, loading, error, success, reset } = useProduct()
+  const categoryList = categories.map((item: any) => item.name)
   const [category, setCategory] = useState<any>(product.category)
   const [productImages, setProductImages] = useState<any[]>(product.imageUrl)
   const [imageId, setImageId] = useState<any[]>(product.imageId)
@@ -110,7 +97,7 @@ const AdminEditProduct: NextPageWithLayout<IProps> = ({ product }) => {
     <>
       <Alert error={error} success={success} />
       {loading && <Loader />}
-      <section className="mt-6 rounded-md bg-white py-8">
+      <section className="mt-6 rounded-md bg-white py-8 px-20">
         <Formik
           initialValues={{
             name: product.name,
@@ -123,7 +110,7 @@ const AdminEditProduct: NextPageWithLayout<IProps> = ({ product }) => {
           onSubmit={(values) => handleSubmit(values)}
         >
           {({ errors, touched }) => (
-            <Form className="flex justify-evenly">
+            <Form className="grid gap-3 md:grid-cols-2 md:gap-20">
               <div className="space-y-6">
                 <InputField
                   name="name"

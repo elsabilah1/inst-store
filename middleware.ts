@@ -7,12 +7,12 @@ export async function middleware(req: NextRequest) {
 
   if (path.startsWith('/admin')) {
     if (!session || session.role !== 1)
-      return NextResponse.redirect('http://localhost:3000/login')
+      return NextResponse.redirect(`${process.env.BASE_URL}/login`)
   }
 
   if (path.startsWith('/me')) {
     if (!session || session.role !== 0)
-      return NextResponse.redirect('http://localhost:3000/login')
+      return NextResponse.redirect(`${process.env.BASE_URL}/login`)
   }
 
   return NextResponse.next()

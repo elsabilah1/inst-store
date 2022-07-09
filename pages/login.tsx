@@ -1,6 +1,5 @@
 import AuthLayout from '@/components/layouts/auth/Layout'
 import { Button, InputField } from '@/components/utility'
-import { Get } from '@/utils/axios'
 import { Form, Formik } from 'formik'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
@@ -25,14 +24,13 @@ const Login: NextPageWithLayout = () => {
     if (data?.role === 1) {
       router.replace(`/admin`)
     } else {
+      addToCartAll()
       router.replace('/')
     }
   }
 
   const handleLogin = async (values: any) => {
     await logIn(values)
-    const { cart }: any = await Get('/user/cart')
-    addToCartAll(cart)
   }
 
   return (

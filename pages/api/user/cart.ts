@@ -8,11 +8,10 @@ const handler = nc<NextApiRequest, NextApiResponse>()
 
 handler.get(async (req, res) => {
   const session = await getSession({ req })
-  console.log(session)
   try {
     if (session?.role === 0) {
       const cart = await Cart.findOne({ userId: session.id })
-      res.status(200).send({ cart })
+      return res.status(200).send({ cart })
     }
     throw new Error('Unauthorized')
   } catch (error: any) {
@@ -28,7 +27,7 @@ handler.post(async (req, res) => {
         { userId: session.id },
         { ...req.body }
       )
-      res.status(200).send({ updatedCart })
+      return res.status(200).send({ updatedCart })
     }
     throw new Error('Unauthorized')
   } catch (error: any) {

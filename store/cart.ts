@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-unused-vars */
-import { Post } from '@/utils/axios'
+import { Get, Post } from '@/utils/axios'
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -12,7 +12,7 @@ interface IState {
   incCartItem: (payload: any) => void
   decCartItem: (payload: any) => void
   deleteCartAll: () => void
-  addToCartAll: (payload: any) => void
+  addToCartAll: () => Promise<void>
   postUpdatedCart: () => Promise<void>
 }
 
@@ -73,11 +73,13 @@ export const useCart = create(
           cartItems: [],
         }))
       },
-      addToCartAll: (payload) => {
+      addToCartAll: async () => {
+        const { cart }: any = await Get('/user/cart')
+
         set(() => ({
-          total: payload.total,
-          totalqty: payload.totalqty,
-          cartItems: payload.cartItems,
+          total: cart.total,
+          totalqty: cart.totalqty,
+          cartItems: cart.cartItems,
         }))
       },
       postUpdatedCart: async () => {

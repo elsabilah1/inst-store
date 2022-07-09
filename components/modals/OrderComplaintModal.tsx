@@ -1,5 +1,7 @@
+import { Put } from '@/utils/axios'
 import { Dialog, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
+import { useRouter } from 'next/router'
+import { Fragment, useState } from 'react'
 
 interface IOrderComplaintModal {
   modal: boolean
@@ -10,6 +12,17 @@ const OrderComplaintModal: React.FC<IOrderComplaintModal> = ({
   modal,
   setModal,
 }) => {
+  const router = useRouter()
+  const [content, setContent] = useState<any>()
+
+  const changeOrderStatus = async (newStatus: string) => {
+    await Put(`/admin/orders/${router.query.id}`, {
+      title: newStatus,
+      content,
+    })
+    router.reload()
+  }
+
   return (
     <Transition appear show={modal} as={Fragment}>
       <Dialog
@@ -50,7 +63,8 @@ const OrderComplaintModal: React.FC<IOrderComplaintModal> = ({
                 <div className="w-full space-y-3">
                   <textarea
                     placeholder="write your complaint"
-                    className="w-full"
+                    className="w-full rounded-sm border-primary/20 text-sm shadow-sm placeholder:text-sm focus:border-secondary focus:ring-secondary disabled:bg-primary/20"
+                    onChange={(e) => setContent(e.target.value)}
                   />
                   <div className="grid grid-cols-2 gap-6">
                     <button
@@ -59,7 +73,10 @@ const OrderComplaintModal: React.FC<IOrderComplaintModal> = ({
                     >
                       cancel
                     </button>
-                    <button className="rounded border border-danger bg-danger p-2 font-bold text-white shadow">
+                    <button
+                      className="rounded border border-danger bg-danger p-2 font-bold text-white shadow"
+                      onClick={() => changeOrderStatus('complaint')}
+                    >
                       send
                     </button>
                   </div>

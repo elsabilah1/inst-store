@@ -56,7 +56,10 @@ const AdminDetailOrder: NextPageWithLayout = ({ data }: any) => {
         <div className="col-span-2 grid rounded bg-white p-6">
           <span>
             <p className="mb-1 font-bold">Action</p>
-            <OrderDetailStatusBadgeAdmin status={data.order.status.title} />
+            <OrderDetailStatusBadgeAdmin
+              status={data.order.status.title}
+              content={data.order.status.content}
+            />
           </span>
           <span>
             <p className="font-bold">Complain</p>

@@ -1,4 +1,6 @@
+import { Put } from '@/utils/axios'
 import { Dialog, Transition } from '@headlessui/react'
+import { useRouter } from 'next/router'
 import { Fragment, useState } from 'react'
 import OrderComplaintModal from './OrderComplaintModal'
 
@@ -8,7 +10,15 @@ interface IOrderStatusModal {
 }
 
 const OrderStatusModal: React.FC<IOrderStatusModal> = ({ modal, setModal }) => {
+  const router = useRouter()
   const [complaintModal, setComplaintModal] = useState(false)
+
+  const changeOrderStatus = async (newStatus: string) => {
+    await Put(`/admin/orders/${router.query.id}`, {
+      title: newStatus,
+    })
+    router.reload()
+  }
 
   return (
     <>
@@ -59,7 +69,10 @@ const OrderStatusModal: React.FC<IOrderStatusModal> = ({ modal, setModal }) => {
                     >
                       Make a complaint
                     </button>
-                    <button className="rounded border border-success bg-success p-2 font-bold text-white shadow">
+                    <button
+                      className="rounded border border-success bg-success p-2 font-bold text-white shadow"
+                      onClick={() => changeOrderStatus('completed')}
+                    >
                       No, it&apos;s good
                     </button>
                   </div>

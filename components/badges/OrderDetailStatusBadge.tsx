@@ -44,6 +44,45 @@ const OrderDetailStatusBadge: React.FC<IOrderDetailStatusBadge> = ({
       </>
     )
 
+  if (status === 'completed')
+    return (
+      <>
+        <div className="mb-3 flex justify-between rounded bg-success p-2 shadow">
+          <div className="text-xs font-bold text-primary/75">Status: </div>
+          <div className="flex items-center gap-3 text-right">
+            <h3 className="py-2 text-sm font-bold text-primary/75">
+              Order completed.
+            </h3>
+          </div>
+        </div>
+        <OrderStatusModal modal={modal} setModal={setModal} />
+      </>
+    )
+
+  if (status === 'complaint' || status === 'complaint_processed')
+    return (
+      <>
+        <div className="mb-3 flex justify-between rounded bg-danger p-2 shadow">
+          <div className="text-xs font-bold text-primary/75">Status: </div>
+          <div className="flex items-center gap-3 text-right">
+            <h3 className="text-sm font-bold text-white">
+              We will contact you for complaint follow-up
+            </h3>
+            <button
+              onClick={() => setModal(true)}
+              className="rounded-md bg-success py-1 px-2 text-xs font-semibold shadow active:scale-95 disabled:bg-success/70 disabled:active:scale-100 "
+              disabled={status === 'complaint'}
+            >
+              order
+              <br />
+              received
+            </button>
+          </div>
+        </div>
+        <OrderStatusModal modal={modal} setModal={setModal} />
+      </>
+    )
+
   return <div>{status}</div>
 }
 

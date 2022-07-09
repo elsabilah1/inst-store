@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const config = {
-  baseUrl: 'http://localhost:3000/api',
+  baseUrl: `${process.env.BASE_URL}/api`,
   timeout: 60 * 1000,
 }
 

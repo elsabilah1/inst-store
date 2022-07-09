@@ -70,16 +70,18 @@ const Profile: React.FC = () => {
             >
               <Popover.Panel className="absolute right-0 mt-2">
                 <div className="w-40 overflow-hidden rounded-lg bg-white py-4 text-primary shadow-lg">
-                  <a
-                    onClick={() => router.push('/me')}
-                    className="flow-root cursor-pointer py-2 pl-3 transition-all  hover:text-primary/40 focus:outline-none active:bg-primary/50 active:text-primary"
-                  >
-                    <span className="flex items-center">
-                      <span className="flex gap-3 text-sm font-medium">
-                        <UserIcon className="h-5 w-5 text-info" /> Profile
+                  {session?.role === 0 && (
+                    <a
+                      onClick={() => router.push('/me')}
+                      className="flow-root cursor-pointer py-2 pl-3 transition-all  hover:text-primary/40 focus:outline-none active:bg-primary/50 active:text-primary"
+                    >
+                      <span className="flex items-center">
+                        <span className="flex gap-3 text-sm font-medium">
+                          <UserIcon className="h-5 w-5 text-info" /> Profile
+                        </span>
                       </span>
-                    </span>
-                  </a>
+                    </a>
+                  )}
                   <a
                     onClick={() => {
                       deleteCartAll()

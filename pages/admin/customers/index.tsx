@@ -1,12 +1,44 @@
 import AdminLayout from '@/components/layouts/admin/Layout'
+import { Get } from '@/utils/axios'
+import { GetServerSideProps } from 'next'
 import { NextPageWithLayout } from '../../page'
 
-const Customers: NextPageWithLayout = () => {
+export const getServerSideProps: GetServerSideProps = async () => {
+  const res: any = await Get('/admin/customers')
+  const customers = res.customers
+
+  return {
+    props: { customers },
+  }
+}
+
+const Customers: NextPageWithLayout = ({ customers }: any) => {
   return (
-    <section>
-      <h1 className="grid max-w-screen-lg place-content-center text-xl font-bold text-red-700">
-        customers
-      </h1>
+    <section className="mt-6">
+      <table className="w-full">
+        <thead className="bg-primary text-white">
+          <tr className="font-semibold capitalize">
+            <td className="p-3">no</td>
+            <td>name</td>
+            <td>username</td>
+            <td>email</td>
+            <td>phone number</td>
+            <td>address</td>
+          </tr>
+        </thead>
+        <tbody>
+          {customers?.map((item: any, idx: any) => (
+            <tr key={item._id} className="bg-white text-sm">
+              <td className="p-3">{idx + 1}</td>
+              <td>{item.name}</td>
+              <td>{item.username}</td>
+              <td>{item.email}</td>
+              <td>{item.phone}</td>
+              <td>{item.address}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </section>
   )
 }

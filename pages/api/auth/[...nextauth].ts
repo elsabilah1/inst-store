@@ -75,6 +75,6 @@ export default nextAuth({
     },
   },
   pages: {
-    signIn: '/login',
+    signIn: `${process.env.BASE_URL}/login`,
   },
 })

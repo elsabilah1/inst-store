@@ -85,7 +85,8 @@ export const useCart = create(
         const total = get().total
         const totalqty = get().totalqty
 
-        await Post('/user/cart', { cartItems, total, totalqty })
+        const res = await Post('/user/cart', { cartItems, total, totalqty })
+        console.log(res)
       },
     }),
     { name: 'cart' }

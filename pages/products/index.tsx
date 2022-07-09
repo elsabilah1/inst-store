@@ -19,7 +19,7 @@ const Products: NextPageWithLayout = ({ products }: any) => {
     <div className=" bg-white">
       <div className="mx-auto max-w-screen-lg px-3">
         <FilterProduct />
-        <section className="grid gap-4 py-6 md:grid-cols-5">
+        <section className="grid gap-4 py-6 sm:grid-cols-2  md:grid-cols-3  lg:grid-cols-5">
           {products.map((item: any) => (
             <ProductCard key={item._id} item={item} />
           ))}

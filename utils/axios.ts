@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const config = {
-  baseUrl: `${process.env.BASE_URL}/api`,
+  baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/api`,
   timeout: 60 * 1000,
 }
 

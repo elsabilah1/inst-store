@@ -27,7 +27,7 @@ const Home: NextPageWithLayout = ({ products }: any) => {
               <ArrowRightIcon className="h-4 w-4" />
             </a>
           </Link>
-          <div className="my-3 grid gap-4 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="my-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {products.map((item: any) => (
               <ProductCard key={item._id} item={item} />
             ))}

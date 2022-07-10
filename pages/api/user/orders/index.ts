@@ -26,6 +26,7 @@ handler.post(async (req, res) => {
     const cartData: any = await Cart.findById(cartId)
 
     const order = await Order.create({
+      trackingNumber: +new Date(),
       userId: cartData.userId,
       cart: cartData,
       total: cartData.total,

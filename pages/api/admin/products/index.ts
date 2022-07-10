@@ -14,8 +14,15 @@ handler.post(async (req, res) => {
   try {
     if (session?.role === 1) {
       const fData: any = await getFormData(req)
-      const { name, category, newCategory, buyingPrice, sellingPrice, stock } =
-        fData.fields
+      const {
+        name,
+        category: cat,
+        description,
+        newCategory,
+        buyingPrice,
+        sellingPrice,
+        stock,
+      } = fData.fields
       const keys = Object.keys(fData.files)
 
       const uploadedImages: any = await Promise.all(
@@ -34,13 +41,18 @@ handler.post(async (req, res) => {
       const imageUrl = uploadedImages.map((file: any) => file.imageUrl)
       const imageId = uploadedImages.map((file: any) => file.imageId)
 
+      let category
       if (newCategory) {
         await Category.create({ name: newCategory.toLowerCase() })
+        category = newCategory
+      } else {
+        category = cat
       }
 
       await Product.create({
         name,
-        category: newCategory ?? category,
+        category,
+        description,
         buyingPrice,
         sellingPrice,
         stock,
@@ -52,6 +64,8 @@ handler.post(async (req, res) => {
     }
     throw new Error('Unauthorized')
   } catch (error: any) {
+    console.log(error)
+
     res.status(error.status).send(error)
   }
 })

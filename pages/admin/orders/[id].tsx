@@ -54,22 +54,36 @@ const AdminDetailOrder: NextPageWithLayout = ({ data }: any) => {
           </div>
         </div>
         <div className="col-span-2 grid rounded bg-white p-6">
+          <div className="grid grid-cols-2">
+            <span>
+              <p className="mb-1 font-bold">Action</p>
+              <OrderDetailStatusBadgeAdmin
+                status={data.order.status.title}
+                content={data.order.status.content}
+              />
+            </span>
+            <span className="space-y-1 text-xs">
+              <p className="font-bold">
+                oid:
+                <span className="ml-2 font-normal">{data.order._id}</span>
+              </p>
+              <p className="block w-full font-bold">
+                tracking number:
+                <span className="ml-2 font-normal">
+                  {data.order.trackingNumber}
+                </span>
+              </p>
+            </span>
+          </div>
           <span>
-            <p className="mb-1 font-bold">Action</p>
-            <OrderDetailStatusBadgeAdmin
-              status={data.order.status.title}
-              content={data.order.status.content}
-            />
-          </span>
-          <span>
-            <p className="font-bold">Complain</p>
-            <p>{data.order.status.content || '-'}</p>
+            <p className="mb-1 font-bold">Complain</p>
+            <p className="text-xs">{data.order.status.content || '-'}</p>
           </span>
         </div>
       </div>
       <div className="col-span-3">
         <h3 className="mb-3 text-xl font-bold text-secondary">Order List</h3>
-        <div className="rounded bg-white p-6">
+        <div className="space-y-3 rounded bg-white p-6">
           {data.order.cart.cartItems.map((product: any) => (
             <OrderDetailCard key={product._id} product={product} />
           ))}

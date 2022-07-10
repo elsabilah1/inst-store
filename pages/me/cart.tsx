@@ -136,7 +136,11 @@ const Cart: NextPageWithLayout = ({ user }: any) => {
                       </p>
                     </div>
                     <div className="text-right">
-                      <Button type="submit" variant="secondary">
+                      <Button
+                        type="submit"
+                        variant="secondary"
+                        disabled={cart.length === 0}
+                      >
                         Place your order
                       </Button>
                     </div>

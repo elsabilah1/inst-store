@@ -23,7 +23,7 @@ const CustomerLayout: React.FC<ICustomerLayout> = ({ children, pageTitle }) => {
       </Head>
       <div className="mx-auto flex min-h-screen max-w-screen-xl flex-col">
         <Header />
-        <main className="flex-grow bg-primary/40">{children}</main>
+        <main className="flex-grow">{children}</main>
         <Footer />
       </div>
     </SessionProvider>

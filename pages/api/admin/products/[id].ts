@@ -18,7 +18,8 @@ handler.put(async (req, res) => {
       const fData = await getFormData(req)
       const {
         name,
-        category,
+        category: cat,
+        description,
         buyingPrice,
         sellingPrice,
         stock,
@@ -60,13 +61,18 @@ handler.put(async (req, res) => {
         uploadedImages?.map((file: any) => file.imageUrl) ?? []
       const newImageId = uploadedImages?.map((file: any) => file.imageId) ?? []
 
+      let category
       if (newCategory) {
         await Category.create({ name: newCategory.toLowerCase() })
+        category = newCategory
+      } else {
+        category = cat
       }
 
       await Product.findByIdAndUpdate(req.query.id, {
         name,
-        category:newCategory??category,
+        category,
+        description,
         buyingPrice,
         sellingPrice,
         stock,

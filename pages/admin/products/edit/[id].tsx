@@ -24,6 +24,7 @@ const Schema = z.object({
   buyingPrice: z.string().regex(/^\d+$/),
   sellingPrice: z.string().regex(/^\d+$/),
   stock: z.string().regex(/^\d+$/),
+  description: z.string(),
   newCategory: z.string().optional(),
 })
 
@@ -97,70 +98,75 @@ const AdminEditProduct: NextPageWithLayout = ({ product, categories }: any) => {
     <>
       <Alert error={error} success={success} />
       {loading && <Loader />}
-      <section className="mt-6 rounded-md bg-white py-8 px-20">
+      <section className="mx-auto mt-6 max-w-screen-md rounded-md bg-white py-8 px-20">
         <Formik
           initialValues={{
             name: product.name,
             buyingPrice: product.buyingPrice.toString(),
             sellingPrice: product.sellingPrice.toString(),
             stock: product.stock.toString(),
+            description: product.description.toString(),
             newCategory: '',
           }}
           validationSchema={toFormikValidationSchema(Schema)}
           onSubmit={(values) => handleSubmit(values)}
         >
           {({ errors, touched }) => (
-            <Form className="grid gap-3 md:grid-cols-2 md:gap-20">
-              <div className="space-y-6">
-                <InputField
-                  name="name"
-                  placeholder="name"
-                  error={errors.name}
-                  touched={touched.name}
+            <Form className="grid gap-3 md:gap-4">
+              <InputField
+                name="name"
+                placeholder="name"
+                error={errors.name}
+                touched={touched.name}
+              />
+              <InputField
+                name="buyingPrice"
+                placeholder="buying price"
+                error={errors.buyingPrice}
+                touched={touched.buyingPrice}
+              />
+              <InputField
+                name="sellingPrice"
+                placeholder="selling price"
+                error={errors.sellingPrice}
+                touched={touched.sellingPrice}
+              />
+              <InputField
+                name="stock"
+                placeholder="stock"
+                error={errors.stock}
+                touched={touched.stock}
+              />
+
+              <div>
+                <label
+                  htmlFor="category"
+                  className="mb-2 font-medium capitalize"
+                >
+                  category
+                </label>
+                <SelectField
+                  data={categoryList}
+                  selected={category}
+                  setSelected={setCategory}
+                  placeholder="Pilih kategori"
                 />
-                <InputField
-                  name="buyingPrice"
-                  placeholder="buying price"
-                  error={errors.buyingPrice}
-                  touched={touched.buyingPrice}
-                />
-                <InputField
-                  name="sellingPrice"
-                  placeholder="selling price"
-                  error={errors.sellingPrice}
-                  touched={touched.sellingPrice}
-                />
-                <InputField
-                  name="stock"
-                  placeholder="stock"
-                  error={errors.stock}
-                  touched={touched.stock}
-                />
-                <Button type="submit" variant="secondary">
-                  save
-                </Button>
               </div>
-              <div className="space-y-6">
-                <div>
-                  <label
-                    htmlFor="category"
-                    className="mb-2 font-medium capitalize"
-                  >
-                    category
-                  </label>
-                  <SelectField
-                    data={categoryList}
-                    selected={category}
-                    setSelected={setCategory}
-                    placeholder="Pilih kategori"
-                  />
-                </div>
-                <InputField
-                  name="newCategory"
-                  placeholder="add new category"
-                  error={errors.newCategory}
-                  touched={touched.newCategory}
-                />
+              <InputField
+                name="newCategory"
+                placeholder="add new category"
+                error={errors.newCategory}
+                touched={touched.newCategory}
+              />
+              <InputField
+                name="description"
+                placeholder="description"
+                error={errors.description}
+                touched={touched.description}
+                component="textarea"
+              />
+
+              <div className="flex items-end gap-3">
                 <DropzoneField
                   label="foto"
                   onDrop={onDrop}
@@ -186,6 +192,9 @@ const AdminEditProduct: NextPageWithLayout = ({ product, categories }: any) => {
                   ))}
                 </div>
               </div>
+              <Button type="submit" variant="secondary">
+                save
+              </Button>
             </Form>
           )}
         </Formik>

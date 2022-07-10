@@ -3,6 +3,11 @@ const Schema = mongoose.Schema
 
 const orderSchema = new Schema(
   {
+    trackingNumber: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     address: {
       type: String,

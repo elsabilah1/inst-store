@@ -9,27 +9,12 @@ import { useProduct } from 'store/product'
 import { NextPageWithLayout } from '../page'
 
 const Products: NextPageWithLayout = () => {
-  const [categoryList, setCategoryList] = useState<any[]>([])
   const { itemList, loading } = useProduct()
-
-  const [products, setProducts] = useState<any>()
-
-  const fetchData = async () => {
-    const categories: any = await Get('/products/categories')
-    const products = await Get('/products')
-    const catName = categories.map((item: any) => item.name)
-    setCategoryList(['all', ...catName])
-    setProducts(products)
-  }
-
-  useEffect(() => {
-    fetchData()
-  }, [])
 
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-screen-lg px-3">
-        <FilterProduct categoryList={categoryList} products={products} />
+        <FilterProduct />
         <section className="grid gap-4 py-6 sm:grid-cols-2  md:grid-cols-3  lg:grid-cols-5">
           {loading ? (
             <div>Loading...</div>
@@ -52,13 +37,27 @@ Products.getLayout = (page) => {
 
 const sortList = ['a-z', 'z-a', 'highest price', 'lowest price', 'best seller']
 
-const FilterProduct = ({ categoryList, products }: any) => {
-  const router = useRouter()
-  const { cat, sort } = router.query
+const FilterProduct = () => {
   const { setItem } = useProduct()
   const [category, setCategory] = useState<any>()
   const [sortBy, setSortBy] = useState<any>()
   const [keyword, setKeyword] = useState<any>('')
+  const [products, setProducts] = useState<any>()
+  const [categoryList, setCategoryList] = useState<any[]>([])
+  const router = useRouter()
+  const { cat, sort } = router.query
+
+  const fetchData = async () => {
+    const categories: any = await Get('/products/categories')
+    const products = await Get('/products')
+    const catName = categories.map((item: any) => item.name)
+    setCategoryList(['all', ...catName])
+    setProducts(products)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   useEffect(() => {
     setCategory(cat)

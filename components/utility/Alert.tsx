@@ -13,7 +13,7 @@ const Alert: React.FC<IAlert> = ({ error, success }) => {
   )
 
   return (
-    <div className="absolute left-1/2 top-24 z-50 -translate-x-1/2 rounded-md bg-white text-sm font-bold shadow-sm transition-all">
+    <div className="absolute left-1/2 top-24 z-50 w-full max-w-xs -translate-x-1/2 rounded-md bg-white text-center text-sm font-bold shadow-sm transition-all">
       <div className={classes}>{error || success}</div>
     </div>
   )

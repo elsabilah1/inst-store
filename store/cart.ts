@@ -51,10 +51,11 @@ export const useCart = create(
           cart[cart.findIndex((item: any) => item._id === payload._id)]
 
         if (selected.quantity === 1) {
+          const updatedCart = cart.filter((item) => item._id !== selected._id)
           return set((state) => ({
             totalqty: state.totalqty - 1,
             total: state.total - payload.sellingPrice,
-            cartItems: cart.filter((item) => item._id !== selected._id),
+            cartItems: updatedCart,
           }))
         }
 
@@ -88,7 +89,6 @@ export const useCart = create(
         const totalqty = get().totalqty
 
         const res = await Post('/user/cart', { cartItems, total, totalqty })
-        console.log(res)
       },
     }),
     { name: 'cart' }

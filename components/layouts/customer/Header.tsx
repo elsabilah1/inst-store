@@ -1,9 +1,7 @@
 import { Button, Navbar, Profile } from '@/components/utility'
-import { MenuIcon } from '@heroicons/react/solid'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
 
 const CustomerMenu = [
   {
@@ -23,32 +21,24 @@ const CustomerMenu = [
 const Header: React.FC = () => {
   const { data } = useSession()
   const router = useRouter()
-  const [navOpen, setNavOpen] = useState(false)
 
   return (
     <>
       <header className="sticky top-0 z-50 bg-primary text-white shadow">
         <div className="mx-auto max-w-screen-lg items-center gap-9 space-y-6 p-3 md:flex md:space-y-0">
-          <div className="flex">
+          <div className="flex w-full items-center justify-between">
             <button className="flex" onClick={() => router.push('/')}>
               <Image src="/images/logo.png" alt="logo" width={84} height={24} />
             </button>
-            <div className="ml-auto md:hidden">
-              <button
-                className="block h-6 w-6 text-white"
-                onClick={() => setNavOpen(!navOpen)}
-              >
-                <MenuIcon />
-              </button>
+
+            <div className="md:hidden">
+              {data ? <Profile /> : <AuthButton />}
             </div>
-          </div>
-          <div
-            className={`${
-              navOpen ? 'flex flex-col' : 'hidden'
-            } flex-1 transition-all md:flex md:flex-row md:items-center`}
-          >
-            <Navbar menu={CustomerMenu} />
-            {data ? <Profile /> : <AuthButton />}
+
+            <div className="hidden flex-1 items-center justify-between md:flex">
+              <Navbar menu={CustomerMenu} />
+              {data ? <Profile /> : <AuthButton />}
+            </div>
           </div>
         </div>
       </header>

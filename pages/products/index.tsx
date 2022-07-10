@@ -1,33 +1,43 @@
 import ProductCard from '@/components/cards/ProductCard'
 import CustomerLayout from '@/components/layouts/customer/Layout'
-import { Button, SelectField } from '@/components/utility'
+import { SelectField } from '@/components/utility'
 import { Get } from '@/utils/axios'
 import { SearchIcon } from '@heroicons/react/solid'
-import { GetServerSideProps } from 'next'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { useProduct } from 'store/product'
 import { NextPageWithLayout } from '../page'
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const products = await Get('/products')
-  const categories = await Get('/products/categories')
+const Products: NextPageWithLayout = () => {
+  const [categoryList, setCategoryList] = useState<any[]>([])
+  const { itemList, loading } = useProduct()
 
-  return {
-    props: { products, categories },
+  const [products, setProducts] = useState<any>()
+
+  const fetchData = async () => {
+    const categories: any = await Get('/products/categories')
+    const products = await Get('/products')
+    const catName = categories.map((item: any) => item.name)
+    setCategoryList(['all', ...catName])
+    setProducts(products)
   }
-}
 
-const Products: NextPageWithLayout = ({ products, categories }: any) => {
-  const categoryList = categories.map((item: any) => item.name)
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-screen-lg px-3">
-        <FilterProduct categoryList={categoryList} />
+        <FilterProduct categoryList={categoryList} products={products} />
         <section className="grid gap-4 py-6 sm:grid-cols-2  md:grid-cols-3  lg:grid-cols-5">
-          {products?.map((item: any) => (
-            <ProductCard key={item._id} item={item} />
-          ))}
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+            itemList?.map((item: any) => (
+              <ProductCard key={item._id} item={item} />
+            ))
+          )}
         </section>
       </div>
     </div>
@@ -40,16 +50,66 @@ Products.getLayout = (page) => {
   return <CustomerLayout pageTitle="Products">{page}</CustomerLayout>
 }
 
-const sortList = ['a-z', 'price']
+const sortList = ['a-z', 'z-a', 'highest price', 'lowest price', 'best seller']
 
-const FilterProduct = ({ categoryList }: any) => {
-  const { filter } = useProduct()
+const FilterProduct = ({ categoryList, products }: any) => {
+  const router = useRouter()
+  const { cat, sort } = router.query
+  const { setItem } = useProduct()
   const [category, setCategory] = useState<any>()
   const [sortBy, setSortBy] = useState<any>()
-  const [keyword, setKeyword] = useState<any>()
+  const [keyword, setKeyword] = useState<any>('')
+
+  useEffect(() => {
+    setCategory(cat)
+    setSortBy(sort)
+  }, [cat, sort])
+
+  useEffect(() => {
+    let data = products
+
+    // Filtering
+    if (keyword !== '')
+      data = data.filter((p: any) => p.name.toLowerCase().includes(keyword))
+
+    if (category !== 'all' && category !== undefined)
+      data = data.filter((p: any) => p.category === category)
+
+    // Sorting
+    if (sortBy !== '') {
+      if (sortBy === 'best seller')
+        data = data.sort(
+          (a: { sold: number }, b: { sold: number }) => b.sold - a.sold
+        )
+
+      if (sortBy === 'lowest price')
+        data = data.sort(
+          (a: { sellingPrice: number }, b: { sellingPrice: number }) =>
+            a.sellingPrice - b.sellingPrice
+        )
+
+      if (sortBy === 'highest price')
+        data = data.sort(
+          (a: { sellingPrice: number }, b: { sellingPrice: number }) =>
+            b.sellingPrice - a.sellingPrice
+        )
+
+      if (sortBy === 'a-z')
+        data = data.sort((a: { name: string }, b: { name: string }) =>
+          a.name.localeCompare(b.name)
+        )
+
+      if (sortBy === 'z-a')
+        data = data.sort((a: { name: string }, b: { name: string }) =>
+          b.name.localeCompare(a.name)
+        )
+    }
+
+    setItem(data)
+  }, [category, keyword, products, setItem, sortBy])
 
   return (
-    <section className="mx-auto grid max-w-screen-md gap-3 py-3 text-2xl md:grid-cols-5">
+    <section className="mx-auto grid max-w-screen-md grid-cols-2 gap-3 py-3 text-2xl md:grid-cols-4">
       <SelectField
         data={categoryList}
         selected={category}
@@ -69,20 +129,11 @@ const FilterProduct = ({ categoryList }: any) => {
         <input
           type="text"
           name="keyword"
-          defaultValue={keyword}
           placeholder="Search..."
           className="w-full rounded-sm border border-primary/20 pl-8 text-sm shadow-sm placeholder:text-sm focus:border-secondary focus:ring-secondary"
           onChange={(e: any) => setKeyword(e.target.value)}
         />
       </div>
-
-      <Button
-        variant="secondary"
-        type="submit"
-        onClick={() => filter(category)}
-      >
-        Search
-      </Button>
     </section>
   )
 }

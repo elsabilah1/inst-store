@@ -11,6 +11,22 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { Fragment } from 'react'
 import { useCart } from 'store/cart'
+import Navbar from './Navbar'
+
+const CustomerMenu = [
+  {
+    to: '/',
+    title: 'home',
+  },
+  {
+    to: '/products',
+    title: 'products',
+  },
+  {
+    to: '/about',
+    title: 'about us',
+  },
+]
 
 const Profile: React.FC = () => {
   const { data: session } = useSession()
@@ -18,7 +34,7 @@ const Profile: React.FC = () => {
   const router = useRouter()
 
   return (
-    <div className="ml-auto mt-3 flex items-center gap-3 md:mt-0">
+    <div className="ml-auto flex items-center gap-3">
       {session?.role === 0 && (
         <button className="relative" onClick={() => router.push('/me/cart')}>
           <div className="absolute -bottom-1 -left-1 grid h-4 w-4 place-items-center rounded-full border border-secondary bg-white text-xs text-primary">
@@ -69,11 +85,14 @@ const Profile: React.FC = () => {
               leaveTo="opacity-0 translate-y-1"
             >
               <Popover.Panel className="absolute right-0 mt-2">
-                <div className="w-40 overflow-hidden rounded-lg bg-white py-4 text-primary shadow-lg">
+                <div className="w-40 overflow-hidden rounded-lg border-2 border-white bg-primary py-4 text-white shadow-lg">
+                  <div className="md:hidden">
+                    <Navbar menu={CustomerMenu} />
+                  </div>
                   {session?.role === 0 && (
                     <a
                       onClick={() => router.push('/me')}
-                      className="flow-root cursor-pointer py-2 pl-3 transition-all  hover:text-primary/40 focus:outline-none active:bg-primary/50 active:text-primary"
+                      className="flow-root cursor-pointer py-2 pl-3 transition-all  hover:text-secondary focus:outline-none active:bg-white/70 active:text-primary"
                     >
                       <span className="flex items-center">
                         <span className="flex gap-3 text-sm font-medium">
@@ -87,7 +106,7 @@ const Profile: React.FC = () => {
                       deleteCartAll()
                       signOut()
                     }}
-                    className="flow-root cursor-pointer py-2 pl-3 transition-all  hover:text-primary/40 focus:outline-none active:bg-primary/50 active:text-primary"
+                    className="flow-root cursor-pointer py-2 pl-3 transition-all  hover:text-secondary focus:outline-none active:bg-white/70 active:text-primary"
                   >
                     <span className="flex items-center">
                       <span className="flex gap-3 text-sm font-medium">

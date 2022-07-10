@@ -11,7 +11,7 @@ const Navbar: React.FC<INavbar> = ({ menu, sidebar }) => {
   const router = useRouter()
   const classes = cn(
     'px-3 text-sm cursor-pointer capitalize font-medium hover:text-secondary hover:underline hover:underline-offset-2',
-    sidebar ? 'text-left' : 'ml-auto md:ml-0'
+    sidebar ? 'text-left' : 'mr-auto'
   )
 
   const navClasses = cn(

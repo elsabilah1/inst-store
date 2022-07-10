@@ -60,7 +60,7 @@ const DetailProfile: NextPageWithLayout = ({
       </div>
       <div className="rounded bg-white p-5">
         <h3 className="mb-4 text-xl font-semibold">Order history</h3>
-        <div className="mx-10 grid gap-x-10 gap-y-5 md:grid-cols-2">
+        <div className="grid gap-x-10 gap-y-5 md:mx-10 md:grid-cols-2">
           {orders.map((item: any) => (
             <OrderCard key={item._id} item={item} />
           ))}

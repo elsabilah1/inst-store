@@ -21,13 +21,16 @@ const OrderDetailCard: React.FC<IOrderDetailCard> = ({ product }) => {
           <p className="text-xs">Rp. {product.sellingPrice.toLocaleString()}</p>
         </div>
       </div>
-      <div className="text-center">
+      <div className="hidden text-center md:block">
         <p className="inline border px-2 text-sm font-bold">
           {product.quantity}
         </p>
       </div>
-      <div className="text-right text-sm font-medium">
-        Rp. {(product.sellingPrice * product.quantity).toLocaleString()}
+      <div className="col-span-2 space-y-2 text-right text-xs font-medium md:col-span-1 md:space-y-0 md:text-sm">
+        <p className="inline border px-2 text-sm font-bold md:hidden">
+          {product.quantity}
+        </p>
+        <p>Rp. {(product.sellingPrice * product.quantity).toLocaleString()}</p>
       </div>
     </div>
   )

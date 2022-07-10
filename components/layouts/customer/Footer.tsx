@@ -22,9 +22,13 @@ const Footer: React.FC = () => {
           <div className="space-y-2">
             <h1>shop by categories</h1>
             {categories?.map((item: any) => (
-              <div key={item._id} className="text-sm font-normal">
-                {item.name}
-              </div>
+              <Link
+                key={item._id}
+                href={`/products?cat=${item.name}`}
+                as="/products"
+              >
+                <a className="block text-sm font-normal">{item.name}</a>
+              </Link>
             ))}
           </div>
           <div className="col-span-2 space-y-3 md:mx-auto">

@@ -20,8 +20,8 @@ const DetailOrder: NextPageWithLayout = ({ order }: any) => {
   return (
     <section className="mx-auto my-6 max-w-screen-lg px-4">
       <h1 className="text-3xl font-bold text-white">Your Order</h1>
-      <div className="mx-auto mt-4 grid max-w-screen-md grid-cols-5 gap-4">
-        <div className="col-span-3">
+      <div className="mx-auto mt-4 grid max-w-screen-md gap-4 md:grid-cols-5">
+        <div className="md:col-span-3">
           <div className="space-y-4 rounded bg-white py-3 px-4">
             {order.cart.cartItems.length > 0
               ? order.cart.cartItems.map((product: any) => (
@@ -30,7 +30,7 @@ const DetailOrder: NextPageWithLayout = ({ order }: any) => {
               : 'empty list'}
           </div>
         </div>
-        <div className="col-span-2">
+        <div className="md:col-span-2">
           <OrderDetailStatusBadge status={order.status.title} />
           <div className="space-y-4 rounded bg-white py-3 px-4">
             <div className="flex flex-col gap-2">

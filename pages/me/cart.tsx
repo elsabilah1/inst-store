@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
 import ProductCardCart from '@/components/cards/ProductCardCart'
 import CustomerLayout from '@/components/layouts/customer/Layout'
-import { Button, InputField, SelectField } from '@/components/utility'
+import { Alert, Button, InputField, SelectField } from '@/components/utility'
 import { Get, Post } from '@/utils/axios'
 import { Form, Formik } from 'formik'
 import { GetServerSideProps } from 'next'
@@ -25,7 +24,7 @@ declare global {
   }
 }
 
-const paymentList = ['COD', 'Transfer VA']
+const paymentList = ['cash on delivery', 'Transfer VA']
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session: any = await getSession(ctx)
@@ -42,11 +41,15 @@ const Cart: NextPageWithLayout = ({ user }: any) => {
   const { cartItems, total, deleteCartAll } = useCart()
   const [totalPrice, setTotal] = useState(0)
   const [cart, setCart] = useState<any[]>([])
+  const [error, setError] = useState<string>('')
 
   useEffect(() => {
+    setTimeout(() => {
+      setError('')
+    }, 4000)
     setTotal(total)
     setCart(cartItems)
-  }, [])
+  }, [cartItems, total, error, setError])
 
   const handleOrder = async (values: any) => {
     const data = {
@@ -54,27 +57,38 @@ const Cart: NextPageWithLayout = ({ user }: any) => {
       address: values.address,
     }
 
-    const post: any = await Post('/user/pay', data)
+    if (values.address === '') return setError('invalid address.')
+    if (payment === undefined) return setError('invalid payment method.')
 
-    window.snap.pay(post.transaction.token, {
-      onSuccess: async (result: any) => {
-        console.log('success', { result })
-      },
-      onPending: async (result: any) => {
-        console.log('pending', { result })
-        await Post('/user/orders', { ...data, payment: result })
-        deleteCartAll()
-        localStorage.clear()
-        router.push('/me')
-      },
-      onError: async (result: any) => {
-        console.log('error', { result })
-      },
-    })
+    if (payment === 'cash on delivery') {
+      await Post('/user/orders', { ...data, payment: 'cash on delivery' })
+      deleteCartAll()
+      localStorage.clear()
+      router.push('/me')
+    } else {
+      const post: any = await Post('/user/pay', data)
+
+      window.snap.pay(post.transaction.token, {
+        onSuccess: async (result: any) => {
+          console.log('success', { result })
+        },
+        onPending: async (result: any) => {
+          console.log('pending', { result })
+          await Post('/user/orders', { ...data, payment: result })
+          deleteCartAll()
+          localStorage.clear()
+          router.push('/me')
+        },
+        onError: async (result: any) => {
+          console.log('error', { result })
+        },
+      })
+    }
   }
 
   return (
     <>
+      <Alert error={error} />
       <Script
         src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key="SB-Mid-client-A5zLo_R0ygqCcWAO"

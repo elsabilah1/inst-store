@@ -30,7 +30,7 @@ handler.post(async (req, res) => {
       cart: cartData,
       total: cartData.total,
       address: address,
-      paymentMethod: payment.payment_type ?? 'Cash on delivery',
+      paymentMethod: payment.payment_type ?? payment,
       paymentInfo: payment ?? {},
       status: { title: 'process', content: '' },
     })

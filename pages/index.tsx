@@ -22,16 +22,21 @@ const Home: NextPageWithLayout = ({ products }: any) => {
           best seller products
         </h1>
         <div className="mx-auto max-w-screen-lg px-3">
-          <Link href="/products">
+          <Link href="/products?sort=best seller" as="/products">
             <a className="flex items-center justify-end gap-1 font-bold text-secondary">
               see more
               <ArrowRightIcon className="h-4 w-4" />
             </a>
           </Link>
-          <div className="my-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {products.map((item: any) => (
-              <ProductCard key={item._id} item={item} />
-            ))}
+          <div className="my-3 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+            {products
+              .sort(
+                (a: { sold: number }, b: { sold: number }) => b.sold - a.sold
+              )
+              .slice(0, 5)
+              .map((item: any) => (
+                <ProductCard key={item._id} item={item} />
+              ))}
           </div>
         </div>
       </section>

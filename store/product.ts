@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Delete, Get, Post, Put } from '@/utils/axios'
+import { Delete, Post, Put } from '@/utils/axios'
 import create from 'zustand'
 
 interface IState {
@@ -9,7 +9,6 @@ interface IState {
   itemList: Array<any>
   reset: () => void
   setItem: (payload: any) => void
-  filter: (payload: any) => Promise<void>
   add: (payload: any) => Promise<void>
   edit: (payload: {
     id: string | string[] | undefined
@@ -28,23 +27,9 @@ export const useProduct = create<IState>((set) => ({
     set({ success: '' })
   },
   setItem: (payload) => {
-    set({ itemList: payload })
-  },
-  filter: async (payload) => {
     set({ loading: true })
-    try {
-      const res: any = await Get(`/products?filter=${payload}`)
-
-      if (res.error) {
-        throw new Error(res.error.message)
-      }
-
-      set({ loading: false })
-      set({ itemList: res })
-    } catch (error: any) {
-      set({ loading: false })
-      set({ error: error.message })
-    }
+    set({ itemList: payload })
+    set({ loading: false })
   },
   add: async (payload) => {
     set({ loading: true })

@@ -7,16 +7,7 @@ const handler = nc<NextApiRequest, NextApiResponse>()
 
 handler.get(async (req, res) => {
   try {
-    const { filter } = req.query
-
-    let data
-
-    if (filter) {
-      data = await Product.find({ category: filter })
-    } else {
-      data = await Product.find()
-    }
-
+    const data = await Product.find()
     return res.status(200).send(data)
   } catch (error: any) {
     res.status(error.status).send(error)

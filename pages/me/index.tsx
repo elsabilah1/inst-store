@@ -27,62 +27,66 @@ const DetailProfile: NextPageWithLayout = ({
   totalExpense,
 }: any) => {
   return (
-    <section className="mx-auto my-10 max-w-screen-md space-y-5 px-5">
-      <div className="grid place-items-center rounded bg-white p-5">
-        <div>
-          <div className="mb-3 flex gap-3">
-            <Image
-              src={user.imageUrl}
-              width="50"
-              height="50"
-              alt={user.name}
-              className="rounded-full"
-            />
-            <div>
-              <h3 className="font-bold">
-                {user.name}
-                <span className="text-sm font-light"> ({user.username})</span>
-              </h3>
-              <p className="text-sm font-light">{user.email}</p>
+    <div className="bg-primary/70">
+      <section className="mx-auto max-w-screen-md space-y-5 py-10 px-5">
+        <div className="grid place-items-center rounded border bg-white p-5 shadow-sm">
+          <div>
+            <div className="mb-3 flex gap-3">
+              <Image
+                src={user.imageUrl}
+                width="50"
+                height="50"
+                alt={user.name}
+                className="rounded-full"
+              />
+              <div>
+                <h3 className="font-bold">
+                  {user.name}
+                  <span className="text-sm font-light"> ({user.username})</span>
+                </h3>
+                <p className="text-sm font-light">{user.email}</p>
+              </div>
+            </div>
+            <div className="">
+              <div className="flex items-center gap-4">
+                <PhoneIcon className="h-4 w-4" />
+                {user.phone}
+              </div>
+              <div className="flex items-center gap-4">
+                <HomeIcon className="h-4 w-4" />
+                {user.address}
+              </div>
             </div>
           </div>
-          <div className="">
-            <div className="flex items-center gap-4">
-              <PhoneIcon className="h-4 w-4" />
-              {user.phone}
-            </div>
-            <div className="flex items-center gap-4">
-              <HomeIcon className="h-4 w-4" />
-              {user.address}
-            </div>
+        </div>
+
+        <div className="rounded border bg-white p-5 shadow-sm">
+          <h3 className="mb-4 text-xl font-semibold">Order history</h3>
+          <div className="grid gap-x-10 gap-y-5 md:mx-10 md:grid-cols-2">
+            {orders.map((item: any) => (
+              <OrderCard key={item._id} item={item} />
+            ))}
           </div>
         </div>
-      </div>
-      <div className="rounded bg-white p-5">
-        <h3 className="mb-4 text-xl font-semibold">Order history</h3>
-        <div className="grid gap-x-10 gap-y-5 md:mx-10 md:grid-cols-2">
-          {orders.map((item: any) => (
-            <OrderCard key={item._id} item={item} />
-          ))}
+
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div className="rounded border bg-white p-5 text-center shadow-sm">
+            <h3 className="mb-4 text-xl font-semibold text-gray-500">
+              Total Orders This Month
+            </h3>
+            <p className="text-3xl font-semibold">{orders?.length ?? 0}</p>
+          </div>
+          <div className="rounded border bg-white p-5 text-center shadow-sm">
+            <h3 className="mb-4 text-xl font-semibold text-gray-500">
+              Total Expenses This Month
+            </h3>
+            <p className="text-3xl font-semibold">
+              Rp. {totalExpense?.toLocaleString() ?? 0}
+            </p>
+          </div>
         </div>
-      </div>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div className="rounded bg-white p-5 text-center">
-          <h3 className="mb-4 text-xl font-semibold text-gray-500">
-            Total Orders This Month
-          </h3>
-          <p className="text-3xl font-semibold">{orders.length}</p>
-        </div>
-        <div className="rounded bg-white p-5 text-center">
-          <h3 className="mb-4 text-xl font-semibold text-gray-500">
-            Total Expenses This Month
-          </h3>
-          <p className="text-3xl font-semibold">
-            Rp. {totalExpense.toLocaleString()}
-          </p>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   )
 }
 

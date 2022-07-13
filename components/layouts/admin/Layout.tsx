@@ -23,7 +23,7 @@ const AdminLayout: React.FC<IAdminLayout> = ({ children, pageTitle }) => {
       </Head>
 
       <div className="mx-auto flex min-h-screen max-w-screen-xl">
-        <div className="sticky top-0 h-screen flex-1 bg-primary">
+        <div className="sticky top-0 hidden h-screen flex-1 bg-primary md:block">
           <Sidebar />
         </div>
         <div className="flex flex-[8] flex-col">

@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
-const CustomerMenu = [
+export const CustomerMenu = [
   {
     to: '/',
     title: 'home',

@@ -30,6 +30,8 @@ const ProductDetailModal: React.FC<IProductDetailModal> = ({
   }
 
   const handleAddProduct = () => {
+    if (data?.role === 1) return
+
     if (data) {
       if (isInCart(item)) {
         incCartItem(item)

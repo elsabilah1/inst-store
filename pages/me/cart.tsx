@@ -93,11 +93,11 @@ const Cart: NextPageWithLayout = ({ user }: any) => {
         src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key="SB-Mid-client-A5zLo_R0ygqCcWAO"
       />
-      <section className="mx-auto my-6 max-w-screen-lg px-4">
-        <h1 className="text-3xl font-bold text-white">Your Cart</h1>
+      <section className="mx-auto my-6 max-w-screen-lg px-4 md:my-10">
+        <h1 className="text-3xl font-bold text-primary">Your Cart</h1>
         <div className="mx-auto mt-4 grid max-w-screen-md gap-4 md:grid-cols-5">
           <div className="md:col-span-3">
-            <div className="space-y-4 rounded bg-white py-3 px-4">
+            <div className="space-y-4 rounded border bg-white py-3 px-4 shadow">
               {cart.length > 0
                 ? cart.map((product: any) => (
                     <ProductCardCart key={product._id} product={product} />
@@ -106,7 +106,7 @@ const Cart: NextPageWithLayout = ({ user }: any) => {
             </div>
           </div>
           <div className="md:col-span-2">
-            <div className="space-y-4 rounded bg-white py-3 px-4">
+            <div className="space-y-4 rounded border bg-white py-3 px-4 shadow">
               <Formik
                 initialValues={{
                   address: user.address,

@@ -33,21 +33,23 @@ const AdminOrders: NextPageWithLayout = ({ orders }: any) => {
         <tbody>
           {orders?.map((item: any, idx: any) => (
             <tr key={item._id} className="bg-white text-sm">
-              <td className="p-4">{idx + 1}</td>
-              <td>{item._id}</td>
-              <td>
+              <td className="px-4 py-2">{idx + 1}</td>
+              <td className="px-4 py-2">{item._id}</td>
+              <td className="px-4 py-2">
                 {new Date(item.createdAt).toLocaleDateString('id-ID', {
                   year: 'numeric',
                   month: '2-digit',
                   day: '2-digit',
                 })}
               </td>
-              <td>{item.total}</td>
-              <td>{item.paymentMethod.replace('_', ' ')}</td>
-              <td>
+              <td className="px-4 py-2">Rp. {item.total.toLocaleString()}</td>
+              <td className="px-4 py-2">
+                {item.paymentMethod.replace('_', ' ')}
+              </td>
+              <td className="px-4 py-2">
                 <OrderStatusBadge status={item.status.title} />
               </td>
-              <td>
+              <td className="px-4 py-2">
                 <Link href={`/admin/orders/${item._id}`}>
                   <a>
                     <PencilAltIcon className="h-5 w-5" />

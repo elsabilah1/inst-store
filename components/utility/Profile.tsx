@@ -11,22 +11,9 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { Fragment } from 'react'
 import { useCart } from 'store/cart'
+import { AdminMenu } from '../layouts/admin/Sidebar'
+import { CustomerMenu } from '../layouts/customer/Header'
 import Navbar from './Navbar'
-
-const CustomerMenu = [
-  {
-    to: '/',
-    title: 'home',
-  },
-  {
-    to: '/products',
-    title: 'products',
-  },
-  {
-    to: '/about',
-    title: 'about us',
-  },
-]
 
 const Profile: React.FC = () => {
   const { data: session } = useSession()
@@ -87,7 +74,9 @@ const Profile: React.FC = () => {
               <Popover.Panel className="absolute right-0 mt-2">
                 <div className="w-40 overflow-hidden rounded-lg border-2 border-white bg-primary py-4 text-white shadow-lg">
                   <div className="md:hidden">
-                    <Navbar menu={CustomerMenu} />
+                    <Navbar
+                      menu={session?.role === 0 ? CustomerMenu : AdminMenu}
+                    />
                   </div>
                   {session?.role === 0 && (
                     <a

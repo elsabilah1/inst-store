@@ -2,7 +2,6 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { useCart } from 'store/cart'
 import ProductDetailModal from '../modals/ProductDetailModal'
@@ -39,7 +38,7 @@ const ProductCard: React.FC<IProductCard> = ({ item }) => {
   return (
     <>
       <div className="w-full cursor-pointer rounded-sm border bg-white p-2 shadow-sm transition-all duration-200 hover:scale-105 hover:shadow-xl">
-        <div className="group relative">
+        <div className="group relative p-1">
           <div className="absolute inset-0 z-50 hidden place-items-end bg-primary/20 group-hover:grid">
             <button
               className="bg-primary p-2 text-xs text-white"
@@ -48,27 +47,15 @@ const ProductCard: React.FC<IProductCard> = ({ item }) => {
               view details
             </button>
           </div>
-          <Carousel
-            className="mb-2 border p-1"
-            showArrows
-            showStatus={false}
-            showIndicators={false}
-            showThumbs={false}
-            infiniteLoop={true}
-          >
-            {item.imageUrl.map((img: any) => (
-              <div className="relative h-52 w-full rounded-md" key={img}>
-                <Image
-                  src={img}
-                  alt={item.name}
-                  layout="fill"
-                  objectFit="contain"
-                  className="hover:scale-105"
-                  priority
-                />
-              </div>
-            ))}
-          </Carousel>
+          <div className="relative mb-2 h-52 w-full rounded-md">
+            <Image
+              src={item.imageUrl[0]}
+              alt={item.name}
+              layout="fill"
+              objectFit="cover"
+              priority
+            />
+          </div>
         </div>
         <div className="space-y-1">
           <h1 className="font-bold text-primary line-clamp-1">{item.name}</h1>

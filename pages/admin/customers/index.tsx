@@ -29,12 +29,12 @@ const Customers: NextPageWithLayout = ({ customers }: any) => {
         <tbody>
           {customers?.map((item: any, idx: any) => (
             <tr key={item._id} className="bg-white text-sm">
-              <td className="p-3">{idx + 1}</td>
-              <td>{item.name}</td>
-              <td>{item.username}</td>
-              <td>{item.email}</td>
-              <td>{item.phone}</td>
-              <td>{item.address}</td>
+              <td className="px-4 py-2">{idx + 1}</td>
+              <td className="px-4 py-2">{item.name}</td>
+              <td className="px-4 py-2">{item.username}</td>
+              <td className="px-4 py-2">{item.email}</td>
+              <td className="px-4 py-2">{item.phone}</td>
+              <td className="px-4 py-2">{item.address}</td>
             </tr>
           ))}
         </tbody>

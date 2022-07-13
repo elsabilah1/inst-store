@@ -19,11 +19,11 @@ const Button: React.FC<IButton> = ({
   disabled,
 }) => {
   const classes = cn(
-    'text-xs font-semibold rounded capitalize shadow-sm transition-all active:scale-95',
+    'text-xs font-semibold rounded capitalize shadow-sm transition-all active:scale-95  disabled:active:scale-100',
     variant === 'primary' &&
-      'bg-primary text-white border border-primary hover:border-white disabled:active:scale-100 disabled:bg-primary/50',
+      'bg-primary text-white border border-primary hover:border-white disabled:bg-primary/50',
     variant === 'secondary' &&
-      'bg-secondary text-primary/70 border border-secondary hover:bg-primary hover:border-white hover:text-white disabled:active:scale-100 disabled:bg-secondary/50',
+      'bg-secondary text-primary/70 border border-secondary hover:bg-primary hover:border-white hover:text-white disabled:bg-secondary/50',
     size === 'small' && 'py-2 w-20 md:w-28',
     size === 'default' && 'py-2 w-24 md:w-32 ',
     size === 'auto' && 'py-3 px-2 flex'

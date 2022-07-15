@@ -23,8 +23,8 @@ interface IState {
   success: string
   error: string
   user: any
-  reset: (payload: string) => void
-  fetchUser: () => Promise<void>
+  reset: () => void
+  fetchUser: (payload: string) => Promise<void>
   logIn: (payload: LogInPayload) => Promise<void>
   register: (payload: registerPayload) => Promise<void>
   updateProfile: (payload: any) => Promise<void>

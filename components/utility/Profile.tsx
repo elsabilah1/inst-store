@@ -41,11 +41,12 @@ const Profile: React.FC = () => {
               {session?.user && (
                 <>
                   <Image
-                    src={session.user.image!}
+                    src={session.user.image}
                     width={30}
                     height={30}
                     className="rounded-full bg-white/75"
                     alt="avatar"
+                    priority
                   />
                   <p className="capitalize">{session.user.name}</p>
                 </>

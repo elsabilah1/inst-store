@@ -1,6 +1,5 @@
 import { Navbar } from '@/components/utility'
-import Image from 'next/image'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export const AdminMenu = [
   {
@@ -22,14 +21,16 @@ export const AdminMenu = [
 ]
 
 const Sidebar: React.FC = () => {
+  const router = useRouter()
   return (
     <div className="bg-primary text-white shadow-sm">
       <div className="flex h-16 items-center pl-3">
-        <Link href="/">
-          <a className="flex">
-            <Image src="/images/logo.png" width={84} height={24} alt="logo" />
-          </a>
-        </Link>
+        <button
+          className="bg-secondary py-1 px-4 text-xs font-bold tracking-widest text-primary md:text-sm"
+          onClick={() => router.push('/')}
+        >
+          inst-store
+        </button>
       </div>
       <Navbar menu={AdminMenu} sidebar />
     </div>

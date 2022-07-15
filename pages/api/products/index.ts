@@ -7,7 +7,46 @@ const handler = nc<NextApiRequest, NextApiResponse>()
 
 handler.get(async (req, res) => {
   try {
-    const data = await Product.find()
+    const { category, keyword, sortBy } = req.query
+    let data = await Product.find()
+
+    // Filtering
+    if (keyword !== '')
+      data = data.filter((p: any) => p.name.toLowerCase().includes(keyword))
+
+    if (category !== 'all' && category !== '')
+      data = data.filter((p: any) => p.category === category)
+
+    // Sorting
+    if (sortBy !== '') {
+      if (sortBy === 'best seller')
+        data = data.sort(
+          (a: { sold: number }, b: { sold: number }) => b.sold - a.sold
+        )
+
+      if (sortBy === 'lowest price')
+        data = data.sort(
+          (a: { sellingPrice: number }, b: { sellingPrice: number }) =>
+            a.sellingPrice - b.sellingPrice
+        )
+
+      if (sortBy === 'highest price')
+        data = data.sort(
+          (a: { sellingPrice: number }, b: { sellingPrice: number }) =>
+            b.sellingPrice - a.sellingPrice
+        )
+
+      if (sortBy === 'a-z')
+        data = data.sort((a: { name: string }, b: { name: string }) =>
+          a.name.localeCompare(b.name)
+        )
+
+      if (sortBy === 'z-a')
+        data = data.sort((a: { name: string }, b: { name: string }) =>
+          b.name.localeCompare(a.name)
+        )
+    }
+
     return res.status(200).send(data)
   } catch (error: any) {
     res.status(error.status).send(error)

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Get, Post } from '@/utils/axios'
+import { Get, Post, Put } from '@/utils/axios'
 import { signIn } from 'next-auth/react'
 import create from 'zustand'
 
@@ -23,10 +23,11 @@ interface IState {
   success: string
   error: string
   user: any
-  reset: () => void
+  reset: (payload: string) => void
   fetchUser: () => Promise<void>
   logIn: (payload: LogInPayload) => Promise<void>
   register: (payload: registerPayload) => Promise<void>
+  updateProfile: (payload: any) => Promise<void>
 }
 
 export const useAuth = create<IState>((set) => ({
@@ -38,8 +39,8 @@ export const useAuth = create<IState>((set) => ({
     set({ error: '' })
     set({ success: '' })
   },
-  fetchUser: async () => {
-    const res: any = await Get('user/profile')
+  fetchUser: async (payload) => {
+    const res: any = await Get(`user/profile?id=${payload}`)
     set({ user: res.user })
   },
   logIn: async (payload) => {
@@ -68,6 +69,22 @@ export const useAuth = create<IState>((set) => ({
       } else {
         throw new Error('Password not match')
       }
+    } catch (error: any) {
+      set({ loading: false })
+      set({ error: error.message })
+    }
+  },
+  updateProfile: async (payload) => {
+    set({ loading: true })
+    try {
+      const res: any = await Put('/user/profile', payload, 'form-data')
+
+      if (res.error) {
+        throw new Error(res.error.message)
+      }
+
+      set({ loading: false })
+      set({ success: res.message })
     } catch (error: any) {
       set({ loading: false })
       set({ error: error.message })

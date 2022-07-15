@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 const Cart: NextPageWithLayout = ({ user }: any) => {
   const router = useRouter()
-  const [payment, setPayment] = useState<any>()
+  const [payment, setPayment] = useState<string>('')
   const { cartItems, total, deleteCartAll } = useCart()
   const [totalPrice, setTotal] = useState(0)
   const [cart, setCart] = useState<any[]>([])
@@ -58,7 +58,7 @@ const Cart: NextPageWithLayout = ({ user }: any) => {
     }
 
     if (values.address === '') return setError('invalid address.')
-    if (payment === undefined) return setError('invalid payment method.')
+    if (payment === '') return setError('invalid payment method.')
 
     if (payment === 'cash on delivery') {
       await Post('/user/orders', { ...data, payment: 'cash on delivery' })

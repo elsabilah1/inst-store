@@ -1,18 +1,20 @@
 /* eslint-disable no-unused-vars */
-import { PlusIcon } from '@heroicons/react/solid'
+import { CloudUploadIcon, PlusIcon } from '@heroicons/react/solid'
 import cn from 'classnames'
 import { useDropzone } from 'react-dropzone'
 
 interface IDropzoneField {
-  label: string
+  label?: string
   onDrop: (acceptedFiles: any) => any
-  disabled: boolean
+  disabled?: boolean
+  avatar?: boolean
 }
 
 const DropzoneField: React.FC<IDropzoneField> = ({
   label,
   onDrop,
   disabled,
+  avatar,
 }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -28,21 +30,30 @@ const DropzoneField: React.FC<IDropzoneField> = ({
   })
 
   const classes = cn(
-    'border-2 border-dashed w-20',
-    isDragActive ? 'border-secondary text-secondary' : 'text-gray-300'
+    'border-2 border-dashed',
+    isDragActive ? 'border-secondary text-secondary' : 'text-gray-300',
+    avatar ? 'rounded-full p-5' : ' w-20'
   )
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-baseline gap-2">
-        <label htmlFor={label} className="font-medium capitalize">
-          {label}
-        </label>
-        <div className="text-xs font-light text-gray-500">max 4 file</div>
-      </div>
+      {label && (
+        <div className="flex items-baseline gap-2">
+          <label htmlFor={label} className="font-medium capitalize">
+            {label}
+          </label>
+          {!avatar && (
+            <div className="text-xs font-light text-gray-500">max 4 file</div>
+          )}
+        </div>
+      )}
       <div {...getRootProps()} className={classes}>
         <input {...getInputProps()} disabled={disabled} />
-        <PlusIcon />
+        {avatar ? (
+          <CloudUploadIcon className="h-10 w-10 text-info" />
+        ) : (
+          <PlusIcon />
+        )}
       </div>
     </div>
   )

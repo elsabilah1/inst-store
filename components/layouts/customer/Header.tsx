@@ -26,13 +26,22 @@ const Header: React.FC = () => {
     <>
       <header className="sticky top-0 z-50 bg-primary text-white shadow">
         <div className="mx-auto max-w-screen-lg items-center gap-9 space-y-6 p-3 md:flex md:space-y-0">
-          <div className="flex w-full items-center justify-between">
-            <button className="flex" onClick={() => router.push('/')}>
-              <Image src="/images/logo.png" alt="logo" width={84} height={24} />
+          <div className="flex w-full items-center justify-between md:gap-10">
+            <button
+              className="bg-secondary py-1 px-4 text-xs font-bold tracking-widest text-primary md:text-sm"
+              onClick={() => router.push('/')}
+            >
+              inst-store
             </button>
 
             <div className="md:hidden">
-              {data ? <Profile /> : <AuthButton />}
+              {data ? (
+                <Profile />
+              ) : (
+                <Button variant="primary" onClick={() => router.push('/login')}>
+                  sign in
+                </Button>
+              )}
             </div>
 
             <div className="hidden flex-1 items-center justify-between md:flex">

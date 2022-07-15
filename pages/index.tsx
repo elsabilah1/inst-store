@@ -7,7 +7,12 @@ import Link from 'next/link'
 import { NextPageWithLayout } from './page'
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const products = await Get('/products')
+  const cat = ''
+  const keyword = ''
+  const sortBy = 'best seller'
+  const products = await Get(
+    `/products?category=${cat}&keyword=${keyword}&sortBy=${sortBy}`
+  )
 
   return {
     props: { products },
@@ -29,14 +34,9 @@ const Home: NextPageWithLayout = ({ products }: any) => {
             </a>
           </Link>
           <div className="my-3 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-            {products
-              .sort(
-                (a: { sold: number }, b: { sold: number }) => b.sold - a.sold
-              )
-              .slice(0, 5)
-              .map((item: any) => (
-                <ProductCard key={item._id} item={item} />
-              ))}
+            {products.slice(0, 5).map((item: any) => (
+              <ProductCard key={item._id} item={item} />
+            ))}
           </div>
         </div>
       </section>

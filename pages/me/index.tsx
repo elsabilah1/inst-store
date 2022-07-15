@@ -1,10 +1,11 @@
 import OrderCard from '@/components/cards/OrderCard'
 import CustomerLayout from '@/components/layouts/customer/Layout'
 import { Get } from '@/utils/axios'
-import { HomeIcon, PhoneIcon } from '@heroicons/react/solid'
+import { HomeIcon, PencilAltIcon, PhoneIcon } from '@heroicons/react/solid'
 import { GetServerSideProps } from 'next'
 import { getSession } from 'next-auth/react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { NextPageWithLayout } from '../page'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -26,10 +27,12 @@ const DetailProfile: NextPageWithLayout = ({
   orders,
   totalExpense,
 }: any) => {
+  const router = useRouter()
+
   return (
     <div className="bg-primary/70">
       <section className="mx-auto max-w-screen-md space-y-5 py-10 px-5">
-        <div className="grid place-items-center rounded border bg-white p-5 shadow-sm">
+        <div className="relative grid place-items-center rounded border bg-white p-5 shadow-sm">
           <div>
             <div className="mb-3 flex gap-3">
               <Image
@@ -47,17 +50,24 @@ const DetailProfile: NextPageWithLayout = ({
                 <p className="text-sm font-light">{user.email}</p>
               </div>
             </div>
-            <div className="">
-              <div className="flex items-center gap-4">
+            <div className="text-sm">
+              <div className="flex items-center gap-2">
                 <PhoneIcon className="h-4 w-4" />
                 {user.phone}
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
                 <HomeIcon className="h-4 w-4" />
                 {user.address}
               </div>
             </div>
           </div>
+
+          <button
+            className="absolute top-0 right-0 m-6"
+            onClick={() => router.push('/me/edit')}
+          >
+            <PencilAltIcon className="h-5 w-5" />
+          </button>
         </div>
 
         <div className="rounded border bg-white p-5 shadow-sm">

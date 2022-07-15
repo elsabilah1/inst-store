@@ -1,8 +1,7 @@
 import { Alert, Loader } from '@/components/utility'
 import { SessionProvider } from 'next-auth/react'
 import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
 import { useAuth } from 'store/auth'
 
@@ -12,6 +11,7 @@ interface IAuthLayout {
 }
 
 const AuthLayout: React.FC<IAuthLayout> = ({ children, pageTitle }) => {
+  const router = useRouter()
   const { loading, error, success, reset } = useAuth()
 
   if (error || success) {
@@ -34,17 +34,12 @@ const AuthLayout: React.FC<IAuthLayout> = ({ children, pageTitle }) => {
       <div className="flex min-h-screen flex-col">
         <header className="bg-primary text-white shadow-sm">
           <div className="mx-auto flex max-w-screen-lg items-center p-3">
-            <Link href="/">
-              <a className="inline-flex">
-                <Image
-                  className="cursor-pointer"
-                  src="/images/logo.png"
-                  alt="logo"
-                  width={84}
-                  height={24}
-                />
-              </a>
-            </Link>
+            <button
+              className="bg-secondary py-1 px-4 text-xs font-bold tracking-widest text-primary md:text-sm"
+              onClick={() => router.push('/')}
+            >
+              inst-store
+            </button>{' '}
           </div>
         </header>
         <main className="flex flex-1 items-center justify-center bg-primary/40">

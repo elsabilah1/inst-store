@@ -2,9 +2,11 @@ import { Get } from '@/utils/axios'
 import { PhoneIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 const Footer: React.FC = () => {
+  const router = useRouter()
   const [categories, setCategories] = useState<any>()
   const fetchCategories = async () => {
     const data = await Get('/products/categories')
@@ -21,7 +23,7 @@ const Footer: React.FC = () => {
         <div className="grid gap-6 font-bold capitalize md:grid-cols-4">
           <div className="space-y-2">
             <h1>shop by categories</h1>
-            {categories?.map((item: any) => (
+            {categories?.slice(0, 5).map((item: any) => (
               <Link
                 key={item._id}
                 href={`/products?cat=${item.name}`}
@@ -86,17 +88,12 @@ const Footer: React.FC = () => {
           </div>
           <div>
             <h1 className="mb-2 text-sm">&copy; InstStore 2022</h1>
-            <Link href="/">
-              <a>
-                <Image
-                  src="/images/logo.png"
-                  className="cursor-pointer"
-                  alt="logo"
-                  width={84}
-                  height={24}
-                />
-              </a>
-            </Link>
+            <button
+              className="bg-secondary py-1 px-4 text-xs font-bold tracking-widest text-primary md:text-sm"
+              onClick={() => router.push('/')}
+            >
+              inst-store
+            </button>
           </div>
         </div>
       </div>

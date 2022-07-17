@@ -8,10 +8,10 @@ const handler = nc<NextApiRequest, NextApiResponse>()
 
 handler.get(async (req, res) => {
   try {
+    let { page, limit } = req.query
     const orders: any = await Order.find()
     let products: any = await Product.find()
-
-    // item.profit = item.sellingPrice - item.buyingPrice
+    const length = products.length
 
     products = products.map((item: any) => ({
       item,
@@ -43,7 +43,34 @@ handler.get(async (req, res) => {
       },
     ]
 
-    const data = { products, orders, overview }
+    // Paginating
+    page = page ? page.toString() : '1'
+    limit = limit ? limit.toString() : '10'
+
+    const pageNum = parseInt(page)
+    const limitNum = parseInt(limit)
+    const skip = (pageNum - 1) * limitNum
+
+    const handleLimit = (c: any) => {
+      return products.filter((x:any, i:any) => {
+        if (i <= c - 1) {
+          return true
+        }
+      })
+    }
+
+    const handleSkip = (c: any) => {
+      return products.filter((x:any, i:any) => {
+        if (i > c - 1) {
+          return true
+        }
+      })
+    }
+
+    products = handleSkip(skip)
+    products = handleLimit(limitNum)
+
+    const data = { products, orders, overview, result: products.length, length }
 
     return res.status(200).send(data)
   } catch (error: any) {

@@ -28,7 +28,7 @@ const Button: React.FC<IButton> = ({
       'bg-secondary text-primary/70 border border-secondary hover:bg-primary hover:border-white hover:text-white',
     size === 'small' && 'py-2 w-20 md:w-28',
     size === 'default' && 'py-2 w-24 md:w-32 ',
-    size === 'auto' && 'py-3 px-2 flex'
+    size === 'auto' && 'py-2 px-2 flex'
   )
 
   return (

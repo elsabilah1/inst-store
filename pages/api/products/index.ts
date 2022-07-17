@@ -7,7 +7,7 @@ const handler = nc<NextApiRequest, NextApiResponse>()
 
 handler.get(async (req, res) => {
   try {
-    const { category, keyword, sortBy } = req.query
+    let { category, keyword, sortBy, page, limit } = req.query
     let data = await Product.find()
 
     // Filtering
@@ -46,6 +46,33 @@ handler.get(async (req, res) => {
           b.name.localeCompare(a.name)
         )
     }
+
+    // Paginating
+    page = page ? page.toString() : '1'
+    limit = limit ? limit.toString() : '10'
+
+    const pageNum = parseInt(page)
+    const limitNum = parseInt(limit)
+    const skip = (pageNum - 1) * limitNum
+
+    const handleLimit = (c: any) => {
+      return data.filter((x: any, i: any) => {
+        if (i <= c - 1) {
+          return true
+        }
+      })
+    }
+
+    const handleSkip = (c: any) => {
+      return data.filter((x: any, i: any) => {
+        if (i > c - 1) {
+          return true
+        }
+      })
+    }
+
+    data = handleSkip(skip)
+    data = handleLimit(limitNum)
 
     return res.status(200).send(data)
   } catch (error: any) {

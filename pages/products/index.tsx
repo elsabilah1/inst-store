@@ -1,13 +1,13 @@
 import LoaderCard from '@/components/cards/LoaderCard'
 import ProductCard from '@/components/cards/ProductCard'
 import CustomerLayout from '@/components/layouts/customer/Layout'
-import { SelectField } from '@/components/utility'
+import { Button, SelectField } from '@/components/utility'
 import { Get } from '@/utils/axios'
 import { SearchIcon } from '@heroicons/react/solid'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import useSWR from 'swr'
+import useSWRInfinite from 'swr/infinite'
 import { NextPageWithLayout } from '../page'
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -34,10 +34,23 @@ const Products: NextPageWithLayout = ({ categoryList, sortList }: any) => {
   const [sortBy, setSortBy] = useState<any>('')
   const [keyword, setKeyword] = useState<any>('')
 
-  const { data, error } = useSWR(
-    `/products?category=${category}&keyword=${keyword}&sortBy=${sortBy}`,
+  const PAGE_LIMIT = 5
+
+  const { data, error, size, setSize } = useSWRInfinite(
+    (index) =>
+      `/products?page=${
+        index + 1
+      }&limit=${PAGE_LIMIT}&category=${category}&keyword=${keyword}&sortBy=${sortBy}`,
     (url: any) => Get(url).then((res: any) => res)
   )
+  const products = data ? [].concat(...data) : []
+  const isLoadingInitialData = !data && !error
+  const isLoadingMore =
+    isLoadingInitialData ||
+    (size > 0 && data && typeof data[size - 1] === 'undefined')
+  const isEmpty = data?.[0]?.length === 0
+  const isReachingEnd =
+    isEmpty || (data && data[data.length - 1]?.length < PAGE_LIMIT)
 
   useEffect(() => {
     if (cat) setCategory(cat)
@@ -75,14 +88,26 @@ const Products: NextPageWithLayout = ({ categoryList, sortList }: any) => {
         </section>
 
         <section className="grid gap-4 py-6 sm:grid-cols-2  md:grid-cols-3  lg:grid-cols-5">
-          {!data && !error ? (
+          {isLoadingInitialData ? (
             <LoaderCard length={5} />
-          ) : data.length > 0 ? (
-            data.map((item: any) => <ProductCard key={item._id} item={item} />)
+          ) : products.length > 0 ? (
+            products.map((item: any) => (
+              <ProductCard key={item._id} item={item} />
+            ))
           ) : (
             <div>Empty List</div>
           )}
         </section>
+        <div className="mb-4 text-center">
+          <Button
+            variant="primary"
+            loading={isLoadingMore}
+            onClick={() => setSize(size + 1)}
+            disabled={isReachingEnd}
+          >
+            Load more
+          </Button>
+        </div>
       </div>
     </div>
   )

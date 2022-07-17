@@ -5,7 +5,10 @@ const LoaderCard: React.FC<ILoaderCard> = ({ length }) => {
   let content = []
   for (let i = 0; i < length; i++) {
     content.push(
-      <div className="w-full animate-pulse rounded-sm bg-neutral-200 p-2 shadow-sm">
+      <div
+        key={i}
+        className="w-full animate-pulse rounded-sm bg-neutral-200 p-2 shadow-sm"
+      >
         <div className="relative mb-2 h-52 w-full rounded-md bg-neutral-300" />
         <div className="space-y-1">
           <div className="h-5 bg-neutral-300" />

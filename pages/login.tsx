@@ -3,6 +3,7 @@ import { Button, InputField } from '@/components/utility'
 import { Form, Formik } from 'formik'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import { useAuth } from 'store/auth'
 import { useCart } from 'store/cart'
 import { z } from 'zod'
@@ -18,16 +19,18 @@ const Login: NextPageWithLayout = () => {
   const router = useRouter()
   const { logIn, loading } = useAuth()
   const { addToCartAll } = useCart()
-
   const { status, data } = useSession()
-  if (status === 'authenticated') {
-    if (data?.role === 1) {
-      router.replace(`/admin`)
-    } else {
-      addToCartAll()
-      router.replace('/')
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      if (data?.role === 1) {
+        router.replace(`/admin`)
+      } else {
+        addToCartAll()
+        router.replace('/')
+      }
     }
-  }
+  }, [addToCartAll, data?.role, router, status])
 
   const handleLogin = async (values: any) => {
     await logIn(values)

@@ -1,6 +1,6 @@
 import ProductCardAdmin from '@/components/cards/ProductCardAdmin'
 import AdminLayout from '@/components/layouts/admin/Layout'
-import { Alert, Button, Loader } from '@/components/utility'
+import { Alert, Button } from '@/components/utility'
 import { Get } from '@/utils/axios'
 import { PlusIcon } from '@heroicons/react/solid'
 import { GetServerSideProps } from 'next'
@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 const AdminProducts: NextPageWithLayout = ({ products }: any) => {
   const router = useRouter()
-  const { loading, success, error, reset } = useProduct()
+  const { success, error, reset } = useProduct()
 
   if (error) {
     setTimeout(() => {
@@ -36,8 +36,6 @@ const AdminProducts: NextPageWithLayout = ({ products }: any) => {
     <>
       <section className="mt-2 flex justify-end">
         <Alert error={error} success={success} />
-        {loading && <Loader />}
-
         <Button
           variant="secondary"
           size="auto"

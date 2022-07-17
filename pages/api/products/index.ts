@@ -11,14 +11,14 @@ handler.get(async (req, res) => {
     let data = await Product.find()
 
     // Filtering
-    if (keyword !== '')
+    if (keyword !== '' && keyword !== undefined)
       data = data.filter((p: any) => p.name.toLowerCase().includes(keyword))
 
-    if (category !== 'all' && category !== '')
+    if (category !== 'all' && category !== '' && category !== undefined)
       data = data.filter((p: any) => p.category === category)
 
     // Sorting
-    if (sortBy !== '') {
+    if (sortBy !== '' && sortBy !== undefined) {
       if (sortBy === 'best seller')
         data = data.sort(
           (a: { sold: number }, b: { sold: number }) => b.sold - a.sold

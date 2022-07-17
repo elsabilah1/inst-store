@@ -1,3 +1,4 @@
+import LoaderCard from '@/components/cards/LoaderCard'
 import ProductCard from '@/components/cards/ProductCard'
 import CustomerLayout from '@/components/layouts/customer/Layout'
 import { SelectField } from '@/components/utility'
@@ -75,7 +76,7 @@ const Products: NextPageWithLayout = ({ categoryList, sortList }: any) => {
 
         <section className="grid gap-4 py-6 sm:grid-cols-2  md:grid-cols-3  lg:grid-cols-5">
           {!data && !error ? (
-            <div>Loading...</div>
+            <LoaderCard length={5} />
           ) : data.length > 0 ? (
             data.map((item: any) => <ProductCard key={item._id} item={item} />)
           ) : (

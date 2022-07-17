@@ -4,7 +4,6 @@ import {
   Button,
   DropzoneField,
   InputField,
-  Loader,
   SelectField,
 } from '@/components/utility'
 import { Get } from '@/utils/axios'
@@ -13,7 +12,7 @@ import { Form, Formik } from 'formik'
 import { GetServerSideProps } from 'next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useProduct } from 'store/product'
 import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
@@ -40,21 +39,23 @@ const AdminAddProduct: NextPageWithLayout = ({ categories }: any) => {
   const router = useRouter()
   const { add: addProduct, loading, error, success, reset } = useProduct()
   const categoryList = categories.map((item: any) => item.name)
-  const [category, setCategory] = useState<any>()
+  const [category, setCategory] = useState<any>('')
   const [productImages, setProductImages] = useState<any[]>([])
 
-  if (error) {
-    setTimeout(() => {
-      reset()
-    }, 4000)
-  }
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        reset()
+      }, 4000)
+    }
 
-  if (success) {
-    setTimeout(() => {
-      reset()
-      router.replace('/admin/products')
-    }, 4000)
-  }
+    if (success) {
+      setTimeout(() => {
+        reset()
+        router.replace('/admin/products')
+      }, 4000)
+    }
+  }, [error, reset, router, success])
 
   const onDrop = useCallback((acceptedFiles: any) => {
     const images = acceptedFiles.map((file: any) =>
@@ -83,7 +84,6 @@ const AdminAddProduct: NextPageWithLayout = ({ categories }: any) => {
   return (
     <>
       <Alert error={error} success={success} />
-      {loading && <Loader />}
       <section className="mx-auto mt-6 max-w-screen-md rounded-md bg-white py-8 px-20">
         <Formik
           initialValues={{
@@ -104,24 +104,28 @@ const AdminAddProduct: NextPageWithLayout = ({ categories }: any) => {
                 placeholder="name"
                 error={errors.name}
                 touched={touched.name}
+                disabled={loading}
               />
               <InputField
                 name="buyingPrice"
                 placeholder="buying price"
                 error={errors.buyingPrice}
                 touched={touched.buyingPrice}
+                disabled={loading}
               />
               <InputField
                 name="sellingPrice"
                 placeholder="selling price"
                 error={errors.sellingPrice}
                 touched={touched.sellingPrice}
+                disabled={loading}
               />
               <InputField
                 name="stock"
                 placeholder="stock"
                 error={errors.stock}
                 touched={touched.stock}
+                disabled={loading}
               />
 
               <div>
@@ -136,6 +140,7 @@ const AdminAddProduct: NextPageWithLayout = ({ categories }: any) => {
                   selected={category}
                   setSelected={setCategory}
                   placeholder="Choose category"
+                  disabled={loading}
                 />
               </div>
               <InputField
@@ -143,6 +148,7 @@ const AdminAddProduct: NextPageWithLayout = ({ categories }: any) => {
                 placeholder="add new category"
                 error={errors.newCategory}
                 touched={touched.newCategory}
+                disabled={loading}
               />
               <InputField
                 name="description"
@@ -150,12 +156,13 @@ const AdminAddProduct: NextPageWithLayout = ({ categories }: any) => {
                 error={errors.description}
                 touched={touched.description}
                 component="textarea"
+                disabled={loading}
               />
               <div className="flex items-end gap-3">
                 <DropzoneField
                   label="foto"
                   onDrop={onDrop}
-                  disabled={productImages.length === 4}
+                  disabled={productImages.length === 4 || loading}
                 />
                 <div className="grid grid-cols-4 gap-1">
                   {productImages?.map((file: any, idx: any) => (
@@ -177,7 +184,7 @@ const AdminAddProduct: NextPageWithLayout = ({ categories }: any) => {
                   ))}
                 </div>
               </div>
-              <Button type="submit" variant="secondary">
+              <Button type="submit" variant="secondary" loading={loading}>
                 save
               </Button>
             </Form>

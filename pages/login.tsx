@@ -16,7 +16,7 @@ const Schema = z.object({
 
 const Login: NextPageWithLayout = () => {
   const router = useRouter()
-  const { logIn } = useAuth()
+  const { logIn, loading } = useAuth()
   const { addToCartAll } = useCart()
 
   const { status, data } = useSession()
@@ -50,6 +50,7 @@ const Login: NextPageWithLayout = () => {
             placeholder="username/email"
             error={errors.emailOrUsername}
             touched={touched.emailOrUsername}
+            disabled={loading}
           />
           <InputField
             name="password"
@@ -57,10 +58,11 @@ const Login: NextPageWithLayout = () => {
             error={errors.password}
             touched={touched.password}
             secure
+            disabled={loading}
           />
 
           <div className="mt-3">
-            <Button type="submit" variant="secondary">
+            <Button type="submit" variant="secondary" loading={loading}>
               Sign In
             </Button>
             <div className="mt-2 text-sm">

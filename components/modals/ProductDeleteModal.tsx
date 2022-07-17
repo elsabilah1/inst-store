@@ -14,7 +14,7 @@ const ProductDeleteModal: React.FC<IProductDeleteModal> = ({
   setModal,
   item,
 }) => {
-  const { delete: deleteProduct } = useProduct()
+  const { delete: deleteProduct, loading } = useProduct()
 
   return (
     <Transition appear show={modal} as={Fragment}>
@@ -73,12 +73,17 @@ const ProductDeleteModal: React.FC<IProductDeleteModal> = ({
                   <button
                     type="button"
                     className="inline-flex justify-center rounded-md border border-transparent bg-danger px-4 py-2 text-sm font-medium text-white hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    disabled={loading}
                     onClick={() => {
                       deleteProduct(item._id)
                       setModal(false)
                     }}
                   >
-                    Delete
+                    {loading ? (
+                      <div className="animate-bounce text-[5px]">⚪⚪⚪</div>
+                    ) : (
+                      'Delete'
+                    )}
                   </button>
                 </div>
               </Dialog.Panel>

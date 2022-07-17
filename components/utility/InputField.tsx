@@ -9,6 +9,7 @@ interface IInputField {
   error: any
   touched: any
   inputVariant?: string
+  disabled?: boolean
 }
 
 const InputField: React.FC<IInputField> = ({
@@ -19,6 +20,7 @@ const InputField: React.FC<IInputField> = ({
   error,
   touched,
   inputVariant,
+  disabled,
 }) => {
   const classes = cn(
     'shadow-sm w-full text-sm placeholder:text-sm focus:border-secondary focus:ring-secondary disabled:bg-primary/20',
@@ -40,6 +42,7 @@ const InputField: React.FC<IInputField> = ({
           id={name}
           placeholder={placeholder}
           component={component ? component : 'input'}
+          disabled={disabled}
         />
         {error && touched ? (
           <div className="text-sm font-bold text-danger">{error}</div>

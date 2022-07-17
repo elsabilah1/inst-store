@@ -110,7 +110,7 @@ const ProductDetailModal: React.FC<IProductDetailModal> = ({
                     ))}
                   </Carousel>
 
-                  <div className="grid justify-between">
+                  <div>
                     <div className="space-y-2">
                       <p className="inline rounded-full bg-primary px-2 py-1 text-[10px] font-semibold text-white/70">
                         {item.category}
@@ -141,7 +141,7 @@ const ProductDetailModal: React.FC<IProductDetailModal> = ({
                         </button>
                       )}
                     </div>
-                    <div className="flex items-end justify-between">
+                    <div className="flex w-full items-end justify-between">
                       <div>
                         <p className="my-2 text-sm">
                           stock:{' '}

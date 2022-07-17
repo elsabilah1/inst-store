@@ -3,6 +3,7 @@ import { Button, InputField } from '@/components/utility'
 import { Form, Formik } from 'formik'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import { useAuth } from 'store/auth'
 import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
@@ -21,15 +22,17 @@ const Schema = z.object({
 const Register: NextPageWithLayout = () => {
   const router = useRouter()
   const { status, data: session } = useSession()
-  const { register } = useAuth()
+  const { register, loading } = useAuth()
 
-  if (status === 'authenticated') {
-    if (session?.role === 1) {
-      router.replace(`/admin`)
-    } else {
-      router.replace('/')
+  useEffect(() => {
+    if (status === 'authenticated') {
+      if (session?.role === 1) {
+        router.replace(`/admin`)
+      } else {
+        router.replace('/')
+      }
     }
-  }
+  }, [router, session?.role, status])
 
   return (
     <Formik
@@ -55,24 +58,28 @@ const Register: NextPageWithLayout = () => {
                 placeholder="name"
                 error={errors.name}
                 touched={touched.name}
+                disabled={loading}
               />
               <InputField
                 name="username"
                 placeholder="username"
                 error={errors.username}
                 touched={touched.username}
+                disabled={loading}
               />
               <InputField
                 name="email"
                 placeholder="email"
                 error={errors.email}
                 touched={touched.email}
+                disabled={loading}
               />
               <InputField
                 name="phone"
                 placeholder="phone number"
                 error={errors.phone}
                 touched={touched.phone}
+                disabled={loading}
               />
             </div>
             <div className="space-y-3">
@@ -82,6 +89,7 @@ const Register: NextPageWithLayout = () => {
                 error={errors.address}
                 touched={touched.address}
                 component="textarea"
+                disabled={loading}
               />
               <InputField
                 name="password"
@@ -89,6 +97,7 @@ const Register: NextPageWithLayout = () => {
                 error={errors.password}
                 touched={touched.password}
                 secure
+                disabled={loading}
               />
               <InputField
                 name="confirmPassword"
@@ -96,12 +105,13 @@ const Register: NextPageWithLayout = () => {
                 error={errors.confirmPassword}
                 touched={touched.confirmPassword}
                 secure
+                disabled={loading}
               />
             </div>
           </div>
 
           <div className="mt-3">
-            <Button type="submit" variant="secondary">
+            <Button type="submit" variant="secondary" loading={loading}>
               register
             </Button>
             <div className="mt-2 flex gap-1 text-sm">

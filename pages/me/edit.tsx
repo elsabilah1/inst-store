@@ -1,11 +1,5 @@
 import CustomerLayout from '@/components/layouts/customer/Layout'
-import {
-  Alert,
-  Button,
-  DropzoneField,
-  InputField,
-  Loader,
-} from '@/components/utility'
+import { Alert, Button, DropzoneField, InputField } from '@/components/utility'
 import { Get } from '@/utils/axios'
 import { XIcon } from '@heroicons/react/solid'
 import { Form, Formik } from 'formik'
@@ -13,7 +7,7 @@ import { GetServerSideProps } from 'next'
 import { getSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useAuth } from 'store/auth'
 import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
@@ -64,17 +58,18 @@ const EditProfile: NextPageWithLayout = ({ user }: any) => {
     updateProfile(data)
   }
 
-  if (success) {
-    setTimeout(() => {
-      reset()
-      router.replace('/me')
-    }, 4000)
-  }
+  useEffect(() => {
+    if (success) {
+      setTimeout(() => {
+        reset()
+        router.replace('/me')
+      }, 4000)
+    }
+  }, [reset, router, success])
 
   return (
     <>
       <Alert error={error} success={success} />
-      {loading && <Loader />}
       <section className="bg-primary/70 px-4 py-6">
         <div className="mx-auto max-w-screen-sm rounded bg-white py-8 px-6 shadow">
           <h1 className="mb-2 text-2xl font-bold">Edit Profile</h1>
@@ -123,18 +118,21 @@ const EditProfile: NextPageWithLayout = ({ user }: any) => {
                       placeholder="name"
                       error={errors.name}
                       touched={touched.name}
+                      disabled={loading}
                     />
                     <InputField
                       name="username"
                       placeholder="username"
                       error={errors.username}
                       touched={touched.username}
+                      disabled={loading}
                     />
                     <InputField
                       name="email"
                       placeholder="email"
                       error={errors.email}
                       touched={touched.email}
+                      disabled={loading}
                     />
                   </div>
                   <div className="space-y-3">
@@ -143,6 +141,7 @@ const EditProfile: NextPageWithLayout = ({ user }: any) => {
                       placeholder="phone number"
                       error={errors.phone}
                       touched={touched.phone}
+                      disabled={loading}
                     />
                     <InputField
                       name="address"
@@ -150,11 +149,12 @@ const EditProfile: NextPageWithLayout = ({ user }: any) => {
                       error={errors.address}
                       touched={touched.address}
                       component="textarea"
+                      disabled={loading}
                     />
                   </div>
                 </div>
                 <div className="mt-3 text-center">
-                  <Button type="submit" variant="secondary">
+                  <Button type="submit" variant="secondary" loading={loading}>
                     save
                   </Button>
                 </div>

@@ -1,8 +1,8 @@
-import { Alert, Loader } from '@/components/utility'
+import { Alert } from '@/components/utility'
 import { SessionProvider } from 'next-auth/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { useAuth } from 'store/auth'
 
 interface IAuthLayout {
@@ -12,13 +12,15 @@ interface IAuthLayout {
 
 const AuthLayout: React.FC<IAuthLayout> = ({ children, pageTitle }) => {
   const router = useRouter()
-  const { loading, error, success, reset } = useAuth()
+  const { error, success, reset } = useAuth()
 
-  if (error || success) {
-    setTimeout(() => {
-      reset()
-    }, 4000)
-  }
+  useEffect(() => {
+    if (error || success) {
+      setTimeout(() => {
+        reset()
+      }, 4000)
+    }
+  }, [error, reset, success])
 
   return (
     <SessionProvider>
@@ -45,7 +47,6 @@ const AuthLayout: React.FC<IAuthLayout> = ({ children, pageTitle }) => {
         <main className="flex flex-1 items-center justify-center bg-primary/40">
           {children}
         </main>
-        {loading && <Loader />}
         <Alert error={error} success={success} />
       </div>
     </SessionProvider>

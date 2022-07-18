@@ -10,11 +10,42 @@ const handler = nc<NextApiRequest, NextApiResponse>()
 
 handler.get(async (req, res) => {
   try {
-    const orders = await Order.find({
-      userId: req.query.id,
+    let { page, limit, id } = req.query
+
+    let data = await Order.find({
+      userId: id,
     })
 
-    res.status(200).send({ orders })
+    // Paginating
+    page = page ? page.toString() : '1'
+    limit = limit ? limit.toString() : data.length.toString()
+
+    const pageNum = parseInt(page)
+    const limitNum = parseInt(limit)
+    const skip = (pageNum - 1) * limitNum
+
+    console.log({ pageNum, limitNum, skip, data })
+
+    const handleLimit = (c: any) => {
+      return data.filter((x: any, i: any) => {
+        if (i <= c - 1) {
+          return true
+        }
+      })
+    }
+
+    const handleSkip = (c: any) => {
+      return data.filter((x: any, i: any) => {
+        if (i > c - 1) {
+          return true
+        }
+      })
+    }
+
+    data = handleSkip(skip)
+    data = handleLimit(limitNum)
+
+    res.status(200).send(data)
   } catch (error) {
     res.status(500).send('Something went wrong.')
   }

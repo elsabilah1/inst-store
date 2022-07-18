@@ -1,5 +1,7 @@
+import { EyeIcon, EyeOffIcon } from '@heroicons/react/solid'
 import cn from 'classnames'
 import { Field } from 'formik'
+import { useState } from 'react'
 
 interface IInputField {
   secure?: boolean
@@ -28,6 +30,7 @@ const InputField: React.FC<IInputField> = ({
       ? 'border-white border-b-primary/20'
       : 'rounded-sm border-primary/20'
   )
+  const [hide, setHide] = useState(true)
 
   return (
     <div className="flex flex-col gap-2">
@@ -35,15 +38,30 @@ const InputField: React.FC<IInputField> = ({
         {placeholder}
       </label>
       <div>
-        <Field
-          type={secure ? 'password' : 'text'}
-          className={classes}
-          name={name}
-          id={name}
-          placeholder={placeholder}
-          component={component ? component : 'input'}
-          disabled={disabled}
-        />
+        <div className="relative">
+          <Field
+            type={secure ? (hide ? 'password' : 'text') : 'text'}
+            className={classes}
+            name={name}
+            id={name}
+            placeholder={placeholder}
+            component={component ? component : 'input'}
+            disabled={disabled}
+          />
+          {secure && (
+            <button
+              className="absolute inset-y-0 right-0 mr-3 text-primary transition-all"
+              onClick={() => setHide(!hide)}
+              type="button"
+            >
+              {hide ? (
+                <EyeIcon className="h-5 w-5" />
+              ) : (
+                <EyeOffIcon className="h-5 w-5" />
+              )}
+            </button>
+          )}
+        </div>
         {error && touched ? (
           <div className="text-sm font-bold text-danger">{error}</div>
         ) : null}

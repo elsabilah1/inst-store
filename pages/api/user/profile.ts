@@ -22,7 +22,7 @@ handler.put(async (req, res) => {
   const session = await getSession({ req })
 
   try {
-    if (session?.role === 0) {
+    if (session) {
       const user = await User.findById(session.id)
       const fData = await getFormData(req)
       const { name, username, email, phone, address } = fData.fields

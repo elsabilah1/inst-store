@@ -25,6 +25,8 @@ const Login: NextPageWithLayout = () => {
     if (status === 'authenticated') {
       if (data?.role === 1) {
         router.replace(`/admin`)
+      } else if (data?.role === 2) {
+        router.replace(`/admin/products`)
       } else {
         addToCartAll()
         router.replace('/')

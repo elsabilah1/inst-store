@@ -1,4 +1,5 @@
 import { Navbar } from '@/components/utility'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
 export const AdminMenu = [
@@ -20,8 +21,17 @@ export const AdminMenu = [
   },
 ]
 
+export const SupplierMenu = [
+  {
+    to: '/admin/products',
+    title: 'products',
+  },
+]
+
 const Sidebar: React.FC = () => {
   const router = useRouter()
+  const { data } = useSession()
+
   return (
     <div className="bg-primary text-white shadow-sm">
       <div className="flex h-16 items-center pl-3">
@@ -32,7 +42,7 @@ const Sidebar: React.FC = () => {
           inst-store
         </button>
       </div>
-      <Navbar menu={AdminMenu} sidebar />
+      <Navbar menu={data?.role === 1 ? AdminMenu : SupplierMenu} sidebar />
     </div>
   )
 }

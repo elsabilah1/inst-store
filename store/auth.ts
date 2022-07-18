@@ -16,6 +16,7 @@ interface registerPayload {
   address: string
   password: string
   confirmPassword: string
+  role?: number
 }
 
 interface IState {
@@ -58,7 +59,10 @@ export const useAuth = create<IState>((set) => ({
     set({ loading: true })
     try {
       if (payload.password === payload.confirmPassword) {
-        const res: any = await Post('/auth/register', payload)
+        const res: any = await Post(
+          `/auth/register?role=${payload?.role ?? 0}`,
+          payload
+        )
 
         if (res.error) {
           throw new Error(res.error.message)

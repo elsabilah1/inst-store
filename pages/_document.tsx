@@ -11,6 +11,10 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
             rel="stylesheet"
           />
+          <script
+            defer
+            src="https://widget-js.cometchat.io/v3/cometchatwidget.js"
+          ></script>
         </Head>
         <body>
           <Main />

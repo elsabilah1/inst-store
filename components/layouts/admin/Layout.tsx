@@ -7,9 +7,14 @@ import Sidebar from './Sidebar'
 interface IAdminLayout {
   children: ReactNode
   pageTitle: string
+  hideTitle?: boolean
 }
 
-const AdminLayout: React.FC<IAdminLayout> = ({ children, pageTitle }) => {
+const AdminLayout: React.FC<IAdminLayout> = ({
+  children,
+  pageTitle,
+  hideTitle,
+}) => {
   return (
     <SessionProvider>
       <Head>
@@ -29,7 +34,9 @@ const AdminLayout: React.FC<IAdminLayout> = ({ children, pageTitle }) => {
         <div className="flex flex-[8] flex-col">
           <Header />
           <div className="flex-1 bg-primary/70 py-6 px-12">
-            <h1 className="text-3xl font-bold text-secondary">{pageTitle}</h1>
+            {!hideTitle && (
+              <h1 className="text-3xl font-bold text-secondary">{pageTitle}</h1>
+            )}
             {children}
           </div>
         </div>

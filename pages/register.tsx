@@ -28,6 +28,8 @@ const Register: NextPageWithLayout = () => {
     if (status === 'authenticated') {
       if (session?.role === 1) {
         router.replace(`/admin`)
+      } else if (session?.role === 2) {
+        router.replace(`/admin/products`)
       } else {
         router.replace('/')
       }

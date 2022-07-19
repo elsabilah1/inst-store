@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Get } from '@/utils/axios'
 import { PhoneIcon } from '@heroicons/react/solid'
 import { useSession } from 'next-auth/react'

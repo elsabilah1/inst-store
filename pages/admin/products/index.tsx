@@ -18,6 +18,7 @@ const AdminProducts: NextPageWithLayout = () => {
     (index) => `/products?page=${index + 1}&limit=${PAGE_LIMIT}`,
     (url: any) => Get(url).then((res: any) => res)
   )
+
   const products = data ? [].concat(...data) : []
   const isLoadingInitialData = !data && !error
   const isLoadingMore =

@@ -12,7 +12,7 @@ const handler = nc<NextApiRequest, NextApiResponse>()
 handler.put(async (req, res) => {
   const session = await getSession({ req })
   try {
-    if (session?.role === 1) {
+    if (session?.role === 1 || session?.role === 2) {
       const selectedProduct = await Product.findById(req.query.id)
 
       const fData = await getFormData(req)
@@ -91,7 +91,7 @@ handler.put(async (req, res) => {
 handler.delete(async (req, res) => {
   const session = await getSession({ req })
   try {
-    if (session?.role === 1) {
+    if (session?.role === 1 || session?.role === 2) {
       const selectedProduct = await Product.findById(req.query.id)
 
       selectedProduct.imageId.forEach(async (item: any) => {

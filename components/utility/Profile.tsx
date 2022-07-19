@@ -79,18 +79,18 @@ const Profile: React.FC = () => {
                       menu={session?.role === 0 ? CustomerMenu : AdminMenu}
                     />
                   </div>
-                  {session?.role === 0 && (
-                    <a
-                      onClick={() => router.push('/me')}
-                      className="flow-root cursor-pointer py-2 pl-3 transition-all  hover:text-secondary focus:outline-none active:bg-white/70 active:text-primary"
-                    >
-                      <span className="flex items-center">
-                        <span className="flex gap-3 text-sm font-medium">
-                          <UserIcon className="h-5 w-5 text-info" /> Profile
-                        </span>
+                  <a
+                    onClick={() =>
+                      router.push(session?.role === 0 ? '/me' : '/admin/me')
+                    }
+                    className="flow-root cursor-pointer py-2 pl-3 transition-all  hover:text-secondary focus:outline-none active:bg-white/70 active:text-primary"
+                  >
+                    <span className="flex items-center">
+                      <span className="flex gap-3 text-sm font-medium">
+                        <UserIcon className="h-5 w-5 text-info" /> Profile
                       </span>
-                    </a>
-                  )}
+                    </span>
+                  </a>
                   <a
                     onClick={() => {
                       deleteCartAll()

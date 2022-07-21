@@ -184,7 +184,12 @@ const AdminAddProduct: NextPageWithLayout = ({ categories }: any) => {
                   ))}
                 </div>
               </div>
-              <Button type="submit" variant="secondary" loading={loading}>
+              <Button
+                type="submit"
+                variant="secondary"
+                loading={loading}
+                disabled={productImages.length === 0}
+              >
                 save
               </Button>
             </Form>

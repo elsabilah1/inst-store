@@ -5,10 +5,16 @@ const orderSchema = new Schema(
   {
     trackingNumber: {
       type: Number,
-      required: true,
       unique: true,
     },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    shippingService: {
+      type: Object,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
     address: {
       type: String,
       required: true,

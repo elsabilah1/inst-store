@@ -53,11 +53,10 @@ handler.get(async (req, res) => {
 
 handler.post(async (req, res) => {
   try {
-    const { _id: userId, cartId, orders, address, payment } = req.body
+    const { _id: userId, cartId, address, payment } = req.body
     const cartData: any = await Cart.findById(cartId)
 
-    const order = await Order.create({
-      trackingNumber: +new Date(),
+    const order: any = await Order.create({
       userId: cartData.userId,
       cart: cartData,
       total: cartData.total,
@@ -68,7 +67,9 @@ handler.post(async (req, res) => {
     })
 
     await User.findByIdAndUpdate(userId, {
-      orders: orders.push(order._id),
+      $push: {
+        orders: order._id,
+      },
     })
 
     cartData.cartItems.map(

@@ -2,25 +2,67 @@ import OrderDetailStatusBadgeAdmin from '@/components/badges/OrderDetailStatusBa
 import OrderStatusBadge from '@/components/badges/OrderStatusBadge'
 import OrderDetailCard from '@/components/cards/OrderDetailCard'
 import AdminLayout from '@/components/layouts/admin/Layout'
-import { Get } from '@/utils/axios'
+import { InputField, SelectField } from '@/components/utility'
+import { Get, Put } from '@/utils/axios'
+import { Form, Formik } from 'formik'
 import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import { z } from 'zod'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
 import { NextPageWithLayout } from '../../page'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const res: any = await Get(`/admin/orders/${ctx.query.id}`)
+  const shippings = await Get('/admin/orders/shippings')
   const data = res.orders
 
   return {
-    props: { data },
+    props: { data, shippings },
   }
 }
 
-const AdminDetailOrder: NextPageWithLayout = ({ data }: any) => {
+const AdminDetailOrder: NextPageWithLayout = ({ data, shippings }: any) => {
+  const router = useRouter()
+  const shippingList = shippings.map((item: any) => item.name)
+  const [shipping, setShipping] = useState<any>('')
+
+  const changeOrderStatus = async (values: any) => {
+    const trackingNumber = values.trackingNumber
+    const shippingService = shippings.find(
+      (item: any) => item.name === shipping
+    )
+
+    const newStatus =
+      data.order.status.title === 'process' ? 'delivery' : 'complaint_processed'
+
+    await Put(`/admin/orders/${router.query.id}`, {
+      title: newStatus,
+      content: data.order.status.content,
+      trackingNumber,
+      shippingService,
+    })
+    router.reload()
+  }
+
   return (
     <section className="mt-6 grid grid-cols-5">
-      <div className="col-span-5 mb-6 grid grid-cols-5 gap-3">
-        <div className="col-span-3 rounded bg-white p-6 text-sm capitalize">
-          <div className="grid grid-cols-2">
+      <div className="col-span-5 mb-6 grid gap-3 md:grid-cols-5">
+        <div className="rounded bg-white p-6 text-sm capitalize md:col-span-3">
+          <div className="mb-2 space-y-1 text-xs">
+            <p className="font-bold">
+              oid:
+              <span className="ml-2 font-normal">{data.order._id}</span>
+            </p>
+            <p className="block w-full font-bold">
+              tracking number:
+              <span className="ml-2 font-normal">
+                {data.order.trackingNumber ?? '-'}
+                {` (${data.order.shippingService.name})` ?? ''}
+              </span>
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2">
             <div className="grid gap-3">
               <span>
                 <p className="font-bold">name</p>
@@ -53,30 +95,52 @@ const AdminDetailOrder: NextPageWithLayout = ({ data }: any) => {
             </div>
           </div>
         </div>
-        <div className="col-span-2 grid rounded bg-white p-6">
-          <div className="grid grid-cols-2">
-            <span>
-              <p className="mb-1 font-bold">Action</p>
-              <OrderDetailStatusBadgeAdmin
-                status={data.order.status.title}
-                content={data.order.status.content}
-              />
-            </span>
-            <span className="space-y-1 text-xs">
-              <p className="font-bold">
-                oid:
-                <span className="ml-2 font-normal">{data.order._id}</span>
-              </p>
-              <p className="block w-full font-bold">
-                tracking number:
-                <span className="ml-2 font-normal">
-                  {data.order.trackingNumber}
-                </span>
-              </p>
-            </span>
+        <div className="grid rounded bg-white p-6 md:col-span-2">
+          <div className="mb-2">
+            <p className="mb-1 font-bold">Action</p>
+            {(data.order.status.title === 'process' ||
+              data.order.status.title === 'complaint') && (
+              <Formik
+                initialValues={{
+                  trackingNumber: '',
+                }}
+                validationSchema={toFormikValidationSchema(
+                  z.object({
+                    trackingNumber: z.string(),
+                  })
+                )}
+                onSubmit={(values) => changeOrderStatus(values)}
+              >
+                {({ errors, touched }) => (
+                  <Form className="my-4 space-y-4">
+                    <SelectField
+                      data={shippingList}
+                      selected={shipping}
+                      setSelected={setShipping}
+                      placeholder="Choose service"
+                    />
+                    <InputField
+                      name="trackingNumber"
+                      placeholder="tracking number"
+                      error={errors.trackingNumber}
+                      touched={touched.trackingNumber}
+                      inputVariant="underline"
+                    />
+                    <OrderDetailStatusBadgeAdmin
+                      status={data.order.status.title}
+                    />
+                  </Form>
+                )}
+              </Formik>
+            )}
+
+            {data.order.status.title !== 'process' &&
+              data.order.status.title !== 'complaint' && (
+                <OrderDetailStatusBadgeAdmin status={data.order.status.title} />
+              )}
           </div>
           <span>
-            <p className="mb-1 font-bold">Complain</p>
+            <p className="mb-1 font-bold">Complaint</p>
             <p className="text-xs">{data.order.status.content || '-'}</p>
           </span>
         </div>

@@ -23,11 +23,18 @@ handler.get(async (req, res) => {
 handler.put(async (req, res) => {
   try {
     const { id } = req.query
-    const { title, content } = req.body
+    const { title, content, trackingNumber, shippingService } = req.body
 
     await Order.findByIdAndUpdate(id, {
       status: { title, content: content || '' },
     })
+
+    if (trackingNumber && shippingService) {
+      await Order.findByIdAndUpdate(id, {
+        trackingNumber,
+        shippingService,
+      })
+    }
 
     res.status(200).send({ message: 'Status updated successfully.' })
   } catch (error: any) {

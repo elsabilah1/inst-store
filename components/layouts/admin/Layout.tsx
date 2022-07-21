@@ -8,12 +8,14 @@ interface IAdminLayout {
   children: ReactNode
   pageTitle: string
   hideTitle?: boolean
+  noPadding?: boolean
 }
 
 const AdminLayout: React.FC<IAdminLayout> = ({
   children,
   pageTitle,
   hideTitle,
+  noPadding,
 }) => {
   return (
     <SessionProvider>
@@ -33,7 +35,9 @@ const AdminLayout: React.FC<IAdminLayout> = ({
         </div>
         <div className="flex flex-[8] flex-col">
           <Header />
-          <div className="flex-1 bg-primary/70 py-6 px-12">
+          <div
+            className={`flex-1 bg-primary/70 ${noPadding ? '' : 'py-6 px-12'}`}
+          >
             {!hideTitle && (
               <h1 className="text-3xl font-bold text-secondary">{pageTitle}</h1>
             )}

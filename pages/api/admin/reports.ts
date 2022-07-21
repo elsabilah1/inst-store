@@ -24,7 +24,7 @@ handler.get(async (req, res) => {
     )
 
     const totalProfits = products.reduce(
-      (total: number, item: any) => total + item.profit,
+      (total: number, item: any) => total + item.profit * item.item.sold,
       0
     )
 
@@ -52,7 +52,7 @@ handler.get(async (req, res) => {
     const skip = (pageNum - 1) * limitNum
 
     const handleLimit = (c: any) => {
-      return products.filter((x:any, i:any) => {
+      return products.filter((x: any, i: any) => {
         if (i <= c - 1) {
           return true
         }
@@ -60,7 +60,7 @@ handler.get(async (req, res) => {
     }
 
     const handleSkip = (c: any) => {
-      return products.filter((x:any, i:any) => {
+      return products.filter((x: any, i: any) => {
         if (i > c - 1) {
           return true
         }

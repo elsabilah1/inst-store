@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#cometchat .app__messenger {
+  z-index: 1 !important;
+}

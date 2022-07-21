@@ -1,6 +1,7 @@
 import { SessionProvider } from 'next-auth/react'
 import Head from 'next/head'
 import { ReactNode } from 'react'
+import ChatWidget from './ChatWidget'
 import Footer from './Footer'
 import Header from './Header'
 
@@ -24,6 +25,7 @@ const CustomerLayout: React.FC<ICustomerLayout> = ({ children, pageTitle }) => {
       <div className="mx-auto flex min-h-screen max-w-screen-xl flex-col">
         <Header />
         <main className="flex-grow">{children}</main>
+        <ChatWidget />
         <Footer />
       </div>
     </SessionProvider>

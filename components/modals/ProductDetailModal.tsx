@@ -1,9 +1,14 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { ChevronDownIcon, ChevronUpIcon, XIcon } from '@heroicons/react/solid'
+import {
+  ChatAlt2Icon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  XIcon,
+} from '@heroicons/react/solid'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { Fragment, useState } from 'react'
+import { Fragment, useRef, useState } from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { useCart } from 'store/cart'
@@ -22,6 +27,7 @@ const ProductDetailModal: React.FC<IProductDetailModal> = ({
 }) => {
   const { data } = useSession()
   const router = useRouter()
+  const chatRef: any = useRef()
   const { cartItems, addToCart, incCartItem, postUpdatedCart } = useCart()
   const [more, setMore] = useState(false)
 
@@ -30,7 +36,7 @@ const ProductDetailModal: React.FC<IProductDetailModal> = ({
   }
 
   const handleAddProduct = () => {
-    if (data?.role === 1) return
+    if (data?.role !== 0) return
 
     if (data) {
       if (isInCart(item)) {
@@ -40,6 +46,19 @@ const ProductDetailModal: React.FC<IProductDetailModal> = ({
       }
 
       postUpdatedCart()
+    } else {
+      router.replace('/login')
+    }
+  }
+
+  const handleChat = () => {
+    if (data) {
+      const chatElement = document.querySelector('.app__launcher')
+
+      if (chatElement) {
+        chatRef.current = chatElement
+        chatRef.current.click()
+      }
     } else {
       router.replace('/login')
     }
@@ -161,9 +180,18 @@ const ProductDetailModal: React.FC<IProductDetailModal> = ({
                       <Button
                         onClick={() => handleAddProduct()}
                         variant="secondary"
+                        disabled={item.stock === 0}
                       >
                         add to cart
                       </Button>
+                    </div>
+                    <div className="mt-2">
+                      <button
+                        onClick={handleChat}
+                        className="flex gap-2 p-1 text-sm shadow"
+                      >
+                        <ChatAlt2Icon className="h-5 w-5" /> Chat now
+                      </button>
                     </div>
                   </div>
                 </div>

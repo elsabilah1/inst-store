@@ -66,14 +66,20 @@ const ProductCard: React.FC<IProductCard> = ({ item }) => {
             sold <span className="font-bold text-secondary">{item.sold}</span>{' '}
             times
           </p>
-          <div className="text-right">
-            <Button
-              onClick={() => handleAddProduct()}
-              variant="secondary"
-              size="small"
-            >
-              add to cart
-            </Button>
+          <div className="flex items-center justify-between">
+            {item.stock === 0 && (
+              <p className="text-xs font-bold text-danger">Out of stock</p>
+            )}
+            <div className="flex-1 text-right">
+              <Button
+                onClick={() => handleAddProduct()}
+                variant="secondary"
+                size="small"
+                disabled={item.stock === 0}
+              >
+                add to cart
+              </Button>
+            </div>
           </div>
         </div>
       </div>

@@ -34,7 +34,7 @@ const ChatAdmin: NextPageWithLayout = () => {
               widgetID: wid,
               target: '#cometchat',
               roundedCorners: 'false',
-              height: '500px',
+              height: '100%',
               width: '100%',
               defaultID: '', //default UID (user) or GUID (group) to show,
               defaultType: 'user', //user or group
@@ -53,22 +53,23 @@ const ChatAdmin: NextPageWithLayout = () => {
       }
     )
   }, [])
+
   if (loading) {
     return (
-      <div className="mt-5 grid h-[500px] w-full place-items-center bg-white">
+      <div className="grid h-full w-full place-items-center">
         <MDSpinner />
       </div>
     )
   }
 
-  return <div id="cometchat" className="my-5" />
+  return <div id="cometchat" className="h-full" />
 }
 
 export default ChatAdmin
 
 ChatAdmin.getLayout = (page) => {
   return (
-    <AdminLayout pageTitle="Chats" hideTitle>
+    <AdminLayout pageTitle="Chats" hideTitle noPadding>
       {page}
     </AdminLayout>
   )

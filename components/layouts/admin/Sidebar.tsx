@@ -41,7 +41,7 @@ const Sidebar: React.FC = () => {
       <div className="flex h-16 items-center pl-3">
         <button
           className="bg-secondary py-1 px-4 text-xs font-bold tracking-widest text-primary md:text-sm"
-          onClick={() => router.push('/')}
+          onClick={() => router.push('/admin')}
         >
           inst-store
         </button>

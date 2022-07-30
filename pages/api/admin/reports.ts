@@ -27,7 +27,7 @@ handler.get(async (req, res) => {
     }
     const length = products.length
 
-    const soldProducts = orders.reduce(
+    const soldProducts: any = orders.reduce(
       (total: number, item: any) => total + item.cart.totalqty,
       0
     )
@@ -85,7 +85,13 @@ handler.get(async (req, res) => {
       },
     ]
 
-    const data = { products, orders, overview, result: products.length, length }
+    const data: any = {
+      products,
+      orders,
+      overview,
+      result: products.length,
+      length,
+    }
 
     return res.status(200).send(data)
   } catch (error: any) {

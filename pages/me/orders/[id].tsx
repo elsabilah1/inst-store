@@ -33,12 +33,27 @@ const DetailOrder: NextPageWithLayout = ({ order }: any) => {
         <div className="md:col-span-2">
           <OrderDetailStatusBadge status={order.status.title} />
           <div className="space-y-4 rounded border bg-white py-3 px-4 shadow">
+            <div className="mb-2 space-y-1 text-xs">
+              <p className="font-bold">
+                oid:
+                <span className="ml-2 font-normal">{order._id}</span>
+              </p>
+              <p className="block w-full font-bold">
+                tracking number:
+                <span className="ml-2 font-normal">
+                  {order.trackingNumber ?? '-'}
+                  {` (${order.shippingService.name})` ?? ''}
+                </span>
+              </p>
+            </div>
+
             <div className="flex flex-col gap-2">
               <label className="font-medium capitalize">Address</label>
               <div className="border-b border-b-primary/20 px-4 py-2 text-sm shadow-sm">
                 {order.address}
               </div>
             </div>
+
             <div className="flex items-center justify-between pt-10">
               <p className="font-medium">Payment Method :</p>
               <p className="text-sm font-medium">

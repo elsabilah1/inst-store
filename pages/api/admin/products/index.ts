@@ -44,7 +44,7 @@ handler.post(async (req, res) => {
       let category
       if (newCategory) {
         await Category.create({ name: newCategory.toLowerCase() })
-        category = newCategory
+        category = newCategory.toLowerCase()
       } else {
         category = cat
       }

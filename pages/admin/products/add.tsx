@@ -37,7 +37,14 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 const AdminAddProduct: NextPageWithLayout = ({ categories }: any) => {
   const router = useRouter()
-  const { add: addProduct, loading, error, success, reset } = useProduct()
+  const {
+    add: addProduct,
+    loading,
+    error: errorProduct,
+    success,
+    reset,
+  } = useProduct()
+  const [error, setError] = useState<any>(errorProduct)
   const categoryList = categories.map((item: any) => item.name)
   const [category, setCategory] = useState<any>('')
   const [productImages, setProductImages] = useState<any[]>([])
@@ -45,6 +52,7 @@ const AdminAddProduct: NextPageWithLayout = ({ categories }: any) => {
   useEffect(() => {
     if (error) {
       setTimeout(() => {
+        setError('')
         reset()
       }, 4000)
     }
@@ -71,6 +79,17 @@ const AdminAddProduct: NextPageWithLayout = ({ categories }: any) => {
   }
 
   const handleSubmit = (values: any) => {
+    if (values.newCategory) {
+      const catDefined = categories.find(
+        (item: any) => item.name === values.newCategory.toLowerCase()
+      )
+
+      if (catDefined) {
+        setError(`Category "${values.newCategory}" has been defined.`)
+        return
+      }
+    }
+
     const data = new FormData()
     const formData = { ...values, category }
     productImages.map((file) => data.append(file.name, file))

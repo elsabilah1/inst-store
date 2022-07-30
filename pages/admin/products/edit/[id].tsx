@@ -36,7 +36,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 const AdminEditProduct: NextPageWithLayout = ({ product, categories }: any) => {
   const router = useRouter()
-  const { edit: editProduct, loading, error, success, reset } = useProduct()
+  const {
+    edit: editProduct,
+    loading,
+    error: errorProduct,
+    success,
+    reset,
+  } = useProduct()
+  const [error, setError] = useState<string>(errorProduct)
   const categoryList = categories.map((item: any) => item.name)
   const [category, setCategory] = useState<any>(product.category)
   const [productImages, setProductImages] = useState<any[]>(product.imageUrl)
@@ -78,6 +85,17 @@ const AdminEditProduct: NextPageWithLayout = ({ product, categories }: any) => {
   }
 
   const handleSubmit = (values: any) => {
+    if (values.newCategory) {
+      const catDefined = categories.find(
+        (item: any) => item.name === values.newCategory.toLowerCase()
+      )
+
+      if (catDefined) {
+        setError(`Category "${values.newCategory}" has been defined.`)
+        return
+      }
+    }
+
     const formData = {
       ...values,
       category,

@@ -8,23 +8,65 @@ const handler = nc<NextApiRequest, NextApiResponse>()
 
 handler.get(async (req, res) => {
   try {
-    let { page, limit } = req.query
-    const orders: any = await Order.find()
-    let products: any = await Product.find()
-    const length = products.length
+    let { page, limit, start, end } = req.query
+    let orders: any = await Order.find()
+    orders = orders.filter(
+      (item: any) =>
+        item.createdAt.toLocaleDateString('en-CA').toString() >= start! &&
+        item.createdAt.toLocaleDateString('en-CA').toString() <= end!
+    )
 
-    products = products.map((item: any) => ({
-      item,
-      profit: item.sellingPrice - item.buyingPrice,
-    }))
+    let p: any = orders.flatMap((item: any) => item.cart.cartItems)
+    const pid: any = p.map((item: any) => item._id)
+    const pids: any = [...new Set(pid)]
+
+    let products: any = []
+    for (let i = 0; i < pids.length; i++) {
+      const item = await Product.findById(pids[i])
+      products.push(item)
+    }
+    const length = products.length
 
     const soldProducts = orders.reduce(
       (total: number, item: any) => total + item.cart.totalqty,
       0
     )
 
-    const totalProfits = products.reduce(
-      (total: number, item: any) => total + item.profit,
+    products = products.map((item: any) => ({
+      item,
+      profit: item.sellingPrice - item.buyingPrice,
+    }))
+
+    // Paginating
+    page = page ? page.toString() : '1'
+    limit = limit ? limit.toString() : '10'
+
+    const pageNum = parseInt(page)
+    const limitNum = parseInt(limit)
+    const skip = (pageNum - 1) * limitNum
+
+    const handleLimit = (c: any) => {
+      return products.filter((x: any, i: any) => {
+        if (i <= c - 1) {
+          return true
+        }
+      })
+    }
+
+    const handleSkip = (c: any) => {
+      return products.filter((x: any, i: any) => {
+        if (i > c - 1) {
+          return true
+        }
+      })
+    }
+
+    products = handleSkip(skip)
+    products = handleLimit(limitNum)
+
+    const totalProfits = p.reduce(
+      (total: number, item: any) =>
+        total + item.quantity * (item.sellingPrice - item.buyingPrice),
       0
     )
 
@@ -42,33 +84,6 @@ handler.get(async (req, res) => {
         value: `Rp. ${totalProfits.toLocaleString()}`,
       },
     ]
-
-    // Paginating
-    page = page ? page.toString() : '1'
-    limit = limit ? limit.toString() : '10'
-
-    const pageNum = parseInt(page)
-    const limitNum = parseInt(limit)
-    const skip = (pageNum - 1) * limitNum
-
-    const handleLimit = (c: any) => {
-      return products.filter((x:any, i:any) => {
-        if (i <= c - 1) {
-          return true
-        }
-      })
-    }
-
-    const handleSkip = (c: any) => {
-      return products.filter((x:any, i:any) => {
-        if (i > c - 1) {
-          return true
-        }
-      })
-    }
-
-    products = handleSkip(skip)
-    products = handleLimit(limitNum)
 
     const data = { products, orders, overview, result: products.length, length }
 

@@ -58,7 +58,7 @@ const AdminDetailOrder: NextPageWithLayout = ({ data, shippings }: any) => {
               tracking number:
               <span className="ml-2 font-normal">
                 {data.order.trackingNumber ?? '-'}
-                {` (${data.order.shippingService.name})` ?? ''}
+                {` (${data?.order?.shippingService?.name})` ?? ''}
               </span>
             </p>
           </div>
@@ -100,39 +100,39 @@ const AdminDetailOrder: NextPageWithLayout = ({ data, shippings }: any) => {
             <p className="mb-1 font-bold">Action</p>
             {(data.order.status.title === 'process' ||
               data.order.status.title === 'complaint') && (
-              <Formik
-                initialValues={{
-                  trackingNumber: '',
-                }}
-                validationSchema={toFormikValidationSchema(
-                  z.object({
-                    trackingNumber: z.string(),
-                  })
-                )}
-                onSubmit={(values) => changeOrderStatus(values)}
-              >
-                {({ errors, touched }) => (
-                  <Form className="my-4 space-y-4">
-                    <SelectField
-                      data={shippingList}
-                      selected={shipping}
-                      setSelected={setShipping}
-                      placeholder="Choose service"
-                    />
-                    <InputField
-                      name="trackingNumber"
-                      placeholder="tracking number"
-                      error={errors.trackingNumber}
-                      touched={touched.trackingNumber}
-                      inputVariant="underline"
-                    />
-                    <OrderDetailStatusBadgeAdmin
-                      status={data.order.status.title}
-                    />
-                  </Form>
-                )}
-              </Formik>
-            )}
+                <Formik
+                  initialValues={{
+                    trackingNumber: '',
+                  }}
+                  validationSchema={toFormikValidationSchema(
+                    z.object({
+                      trackingNumber: z.string(),
+                    })
+                  )}
+                  onSubmit={(values) => changeOrderStatus(values)}
+                >
+                  {({ errors, touched }) => (
+                    <Form className="my-4 space-y-4">
+                      <SelectField
+                        data={shippingList}
+                        selected={shipping}
+                        setSelected={setShipping}
+                        placeholder="Choose service"
+                      />
+                      <InputField
+                        name="trackingNumber"
+                        placeholder="tracking number"
+                        error={errors.trackingNumber}
+                        touched={touched.trackingNumber}
+                        inputVariant="underline"
+                      />
+                      <OrderDetailStatusBadgeAdmin
+                        status={data.order.status.title}
+                      />
+                    </Form>
+                  )}
+                </Formik>
+              )}
 
             {data.order.status.title !== 'process' &&
               data.order.status.title !== 'complaint' && (

@@ -11,7 +11,7 @@ cloudinary.config({
     api_secret: 'kzP7N79zdTdBeGMNsrO79lHbXqM',
     secure: true
 });
-const apiSecret = cloudinary.config().api_secret;
+const apiSecret = cloudinary.config().api_secret ?? ""
 const handler = nc<NextApiRequest, NextApiResponse>()
 
 handler.get((req, res) => {

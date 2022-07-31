@@ -31,7 +31,7 @@ const DetailOrder: NextPageWithLayout = ({ order, timestamp, signature, api_key 
     formData.append("signature", signature);
     formData.append("eager", "c_pad,h_300,w_400|c_crop,h_200,w_260");
     formData.append("folder", "signed_upload_demo_form");
-    const res = await Post('https://api.cloudinary.com/v1_1/dk6ifbred/auto/upload', formData, "application/json")
+    const res: any = await Post('https://api.cloudinary.com/v1_1/dk6ifbred/auto/upload', formData, "application/json")
     await Put(`/user/orders?type=updateimage`, {
       _id: order._id,
       url: res.url
@@ -103,21 +103,21 @@ const DetailOrder: NextPageWithLayout = ({ order, timestamp, signature, api_key 
                 </div>))
             }
             {order.paymentMethod === ("cash on delivery") &&
-              order.courier_name_cod !== undefined ?
-              (
-                <div className="flex items-center justify-between pt-10">
-                  <p className="font-medium">Name Courier Cod</p>
-                  <p className="text-sm font-medium">
-                    {order.courier_name_cod ?? '-'}
-                  </p>
-                </div>
-              ) : (<div className="flex items-center justify-between pt-10">
-                <input type="text" className="form-control" placeholder="Courier name for cod" value={nameCourir} onChange={e => setnameCourir(e.target.value)} />
-                <button className="rounded border border-info py-2 px-2 text-sm font-bold text-info shadow" onClick={saveCourierName}>
-                  Save
-                </button>
+              (order.courier_name_cod !== undefined ?
+                (
+                  <div className="flex items-center justify-between pt-10">
+                    <p className="font-medium">Name Courier Cod</p>
+                    <p className="text-sm font-medium">
+                      {order.courier_name_cod ?? '-'}
+                    </p>
+                  </div>
+                ) : (<div className="flex items-center justify-between pt-10">
+                  <input type="text" className="form-control" placeholder="Courier name for cod" value={nameCourir} onChange={e => setnameCourir(e.target.value)} />
+                  <button className="rounded border border-info py-2 px-2 text-sm font-bold text-info shadow" onClick={saveCourierName}>
+                    Save
+                  </button>
 
-              </div>)
+                </div>))
             }
             <div className="flex justify-between">
               <p className="font-medium">Total :</p>

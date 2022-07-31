@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import OrderStatusBadge from '@/components/badges/OrderStatusBadge'
 import AdminLayout from '@/components/layouts/admin/Layout'
 import { Button } from '@/components/utility'
@@ -5,7 +6,7 @@ import { Get } from '@/utils/axios'
 import {
   ArrowSmLeftIcon,
   ArrowSmRightIcon,
-  PencilAltIcon,
+  PencilAltIcon
 } from '@heroicons/react/solid'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -19,6 +20,7 @@ const AdminOrders: NextPageWithLayout = () => {
     (url: any) => Get(url).then((res: any) => res)
   )
 
+
   return (
     <section className="mt-6">
       <table className="w-full">
@@ -29,6 +31,8 @@ const AdminOrders: NextPageWithLayout = () => {
             <td>order date</td>
             <td>total price</td>
             <td>payment method</td>
+            <td>Courier name for cod</td>
+            <td>Transfer Va Proof</td>
             <td>status</td>
             <td></td>
           </tr>
@@ -55,6 +59,22 @@ const AdminOrders: NextPageWithLayout = () => {
                 <td className="px-4 py-2">Rp. {item.total.toLocaleString()}</td>
                 <td className="px-4 py-2">
                   {item.paymentMethod.replace('_', ' ')}
+                </td>
+                <td className="px-4 py-2">
+                  {item.courier_name_cod ?? '-'}
+                </td>
+                <td className="px-4 py-2">
+                  {
+                    // eslint-disable-next-line @next/next/no-img-element
+                    item.image_proof ? <img src={item.image_proof}
+                      width={100}
+                      height={100}
+                      style={{
+                        width: 100,
+                        height: 100,
+                        objectFit: "cover"
+                      }} /> : "-"
+                  }
                 </td>
                 <td className="px-4 py-2">
                   <OrderStatusBadge status={item.status.title} />

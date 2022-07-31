@@ -100,7 +100,7 @@ handler.delete(async (req, res) => {
 
       await Product.findByIdAndDelete(req.query.id)
 
-      res.status(200).send({ message: 'Product deleted successfully' })
+      return res.status(200).send({ message: 'Product deleted successfully' })
     }
     throw new Error('Unauthorized')
   } catch (error: any) {

@@ -87,13 +87,13 @@ const Dashboard: NextPageWithLayout = () => {
                 </td>
               </tr>
             ) : data?.products.length > 0 ? (
-              data.products.map(({ item, profit }: any, idx: any) => (
+              data.products.map(({ item, profit, sold }: any, idx: any) => (
                 <tr key={item._id} className="bg-white text-sm">
                   <td className="p-2">{idx + 1}</td>
                   <td className="w-60 p-2">
                     <p className="line-clamp-2">{item.name}</p>
                   </td>
-                  <td className="p-2">{item.sold}</td>
+                  <td className="p-2">{sold}</td>
                   <td className="p-2">
                     Rp. {item.buyingPrice.toLocaleString()}
                   </td>

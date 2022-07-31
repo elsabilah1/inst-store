@@ -53,6 +53,7 @@ const ProductCardAdmin: React.FC<IProductCardAdmin> = ({ item }) => {
               <p>Sell: Rp. {item.sellingPrice.toLocaleString()}</p>
             </div>
             <div className="text-xs">
+              <p>Initial Stock: {item.initialStock}</p>
               <p>Stock: {item.stock}</p>
               <p>Sold: {item.sold}</p>
             </div>

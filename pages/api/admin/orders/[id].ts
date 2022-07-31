@@ -1,4 +1,5 @@
 import connectDB from '@/lib/db'
+import History from '@/lib/models/History'
 import Order from '@/lib/models/Order'
 import User from '@/lib/models/User'
 import { NextApiRequest, NextApiResponse } from 'next'
@@ -33,6 +34,16 @@ handler.put(async (req, res) => {
       await Order.findByIdAndUpdate(id, {
         trackingNumber,
         shippingService,
+      })
+    }
+
+    if (title === 'completed') {
+      const data: any = await Order.findById(id)
+      const { _id, createdAt, updatedAt, __v, ...restData } = data._doc
+
+      await History.create({
+        orderId: _id,
+        ...restData,
       })
     }
 

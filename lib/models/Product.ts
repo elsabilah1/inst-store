@@ -37,6 +37,11 @@ const productSchema = new Schema(
       required: false,
       default: 0,
     },
+    initialStock: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     stock: {
       type: Number,
       required: true,

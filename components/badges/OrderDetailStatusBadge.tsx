@@ -3,12 +3,29 @@ import OrderStatusModal from '../modals/OrderStatusModal'
 
 interface IOrderDetailStatusBadge {
   status: string
+  disabled?: boolean
 }
 
 const OrderDetailStatusBadge: React.FC<IOrderDetailStatusBadge> = ({
   status,
+  disabled,
 }) => {
   const [modal, setModal] = useState(false)
+
+  if (status === 'payment')
+    return (
+      <div className="mb-3 flex justify-between rounded bg-warning p-2 shadow">
+        <div className="text-xs font-bold text-primary/75">Status: </div>
+        <div className="text-right">
+          <h3 className="md:text-normal text-sm font-bold text-primary">
+            Waiting for Payment.
+          </h3>
+          <p className="text-xs md:text-sm">
+            Fill in the proof of payment in the field below.
+          </p>
+        </div>
+      </div>
+    )
 
   if (status === 'process')
     return (
@@ -37,6 +54,7 @@ const OrderDetailStatusBadge: React.FC<IOrderDetailStatusBadge> = ({
             <button
               onClick={() => setModal(true)}
               className="rounded-md bg-success py-1 px-2 text-xs font-semibold shadow active:scale-95"
+              disabled={disabled}
             >
               order
               <br />

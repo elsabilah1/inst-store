@@ -5,6 +5,16 @@ interface IOrderDetailStatusBadgeAdmin {
 const OrderDetailStatusBadgeAdmin: React.FC<IOrderDetailStatusBadgeAdmin> = ({
   status,
 }) => {
+  if (status === 'payment')
+    return (
+      <button
+        className="rounded border border-warning bg-warning py-2 px-4 text-sm font-bold text-primary/70 shadow active:scale-95"
+        type="submit"
+      >
+        Process Payment
+      </button>
+    )
+
   if (status === 'process')
     return (
       <button

@@ -38,7 +38,7 @@ const AdminProducts: NextPageWithLayout = () => {
     if (success) {
       setTimeout(() => {
         reset()
-        router.replace('/admin/products')
+        router.reload()
       }, 4000)
     }
   }, [error, reset, router, success])

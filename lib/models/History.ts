@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
-const orderSchema = new Schema(
+const historySchema = new Schema(
   {
     trackingNumber: {
       type: Number,
@@ -9,6 +9,11 @@ const orderSchema = new Schema(
     },
     shippingService: {
       type: Object,
+    },
+    orderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Order',
+      required: true,
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -50,6 +55,7 @@ const orderSchema = new Schema(
   }
 )
 
-const Order = mongoose.models.Order || mongoose.model('Order', orderSchema)
+const History =
+  mongoose.models.History || mongoose.model('History', historySchema)
 
-export default Order
+export default History

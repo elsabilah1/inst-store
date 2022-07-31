@@ -45,6 +45,30 @@ const AdminDetailOrder: NextPageWithLayout = ({ data, shippings }: any) => {
     router.reload()
   }
 
+  const processPayment = async (e: any) => {
+    e.preventDefault()
+
+    const paymentStatus = e.target.payment.value
+
+    if (paymentStatus === 'accept') {
+      await Put(`/admin/orders/${router.query.id}`, {
+        title: 'process',
+        content: '',
+      })
+      router.reload()
+    } else if (paymentStatus === 'reject') {
+      await Put(
+        `/user/orders?type=updateimage`,
+        {
+          _id: router.query.id,
+          url: '',
+        },
+        'application/json'
+      )
+      router.reload()
+    }
+  }
+
   return (
     <section className="mt-6 grid grid-cols-5">
       <div className="col-span-5 mb-6 grid gap-3 md:grid-cols-5">
@@ -93,49 +117,96 @@ const AdminDetailOrder: NextPageWithLayout = ({ data, shippings }: any) => {
                 </p>
               </span>
             </div>
+            {data.order.paymentMethod !== 'cash on delivery' && (
+              <div className="mt-3 space-y-2">
+                <p className="mb-1 font-bold">Proof of payment:</p>
+                {data.order.image_proof ? (
+                  <img
+                    src={data.order.image_proof}
+                    alt={'image'}
+                    width={300}
+                    style={{ objectFit: 'cover' }}
+                  />
+                ) : (
+                  <p>-</p>
+                )}
+              </div>
+            )}
           </div>
         </div>
-        <div className="grid rounded bg-white p-6 md:col-span-2">
+        <div className="grid h-fit rounded bg-white p-6 md:col-span-2">
           <div className="mb-2">
             <p className="mb-1 font-bold">Action</p>
+
             {(data.order.status.title === 'process' ||
               data.order.status.title === 'complaint') && (
-                <Formik
-                  initialValues={{
-                    trackingNumber: '',
-                  }}
-                  validationSchema={toFormikValidationSchema(
-                    z.object({
-                      trackingNumber: z.string(),
-                    })
-                  )}
-                  onSubmit={(values) => changeOrderStatus(values)}
-                >
-                  {({ errors, touched }) => (
-                    <Form className="my-4 space-y-4">
-                      <SelectField
-                        data={shippingList}
-                        selected={shipping}
-                        setSelected={setShipping}
-                        placeholder="Choose service"
-                      />
-                      <InputField
-                        name="trackingNumber"
-                        placeholder="tracking number"
-                        error={errors.trackingNumber}
-                        touched={touched.trackingNumber}
-                        inputVariant="underline"
-                      />
-                      <OrderDetailStatusBadgeAdmin
-                        status={data.order.status.title}
-                      />
-                    </Form>
-                  )}
-                </Formik>
-              )}
+              <Formik
+                initialValues={{
+                  trackingNumber: '',
+                }}
+                validationSchema={toFormikValidationSchema(
+                  z.object({
+                    trackingNumber: z.string(),
+                  })
+                )}
+                onSubmit={(values) => changeOrderStatus(values)}
+              >
+                {({ errors, touched }) => (
+                  <Form className="my-4 space-y-4">
+                    <SelectField
+                      data={shippingList}
+                      selected={shipping}
+                      setSelected={setShipping}
+                      placeholder="Choose service"
+                    />
+                    <InputField
+                      name="trackingNumber"
+                      placeholder="tracking number"
+                      error={errors.trackingNumber}
+                      touched={touched.trackingNumber}
+                      inputVariant="underline"
+                    />
+                    <OrderDetailStatusBadgeAdmin
+                      status={data.order.status.title}
+                    />
+                  </Form>
+                )}
+              </Formik>
+            )}
+
+            {data.order.status.title === 'payment' && (
+              <form className="space-y-3" onSubmit={processPayment}>
+                <div className="flex justify-evenly">
+                  <div className="flex items-center gap-2 text-sm">
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="accept"
+                      id="accept"
+                      className="h-3 w-3"
+                      disabled={!data.order.image_proof}
+                    />
+                    <label htmlFor="accept">Accept payment</label>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="reject"
+                      id="reject"
+                      className="h-3 w-3"
+                      disabled={!data.order.image_proof}
+                    />
+                    <label htmlFor="reject">Reject payment</label>
+                  </div>
+                </div>
+                <OrderDetailStatusBadgeAdmin status={data.order.status.title} />
+              </form>
+            )}
 
             {data.order.status.title !== 'process' &&
-              data.order.status.title !== 'complaint' && (
+              data.order.status.title !== 'complaint' &&
+              data.order.status.title !== 'payment' && (
                 <OrderDetailStatusBadgeAdmin status={data.order.status.title} />
               )}
           </div>

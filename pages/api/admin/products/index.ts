@@ -55,6 +55,7 @@ handler.post(async (req, res) => {
         description,
         buyingPrice,
         sellingPrice,
+        initialStock: stock,
         stock,
         imageUrl,
         imageId,

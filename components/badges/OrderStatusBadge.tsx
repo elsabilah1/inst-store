@@ -3,6 +3,13 @@ interface IOrderStatusBadge {
 }
 
 const OrderStatusBadge: React.FC<IOrderStatusBadge> = ({ status }) => {
+  if (status === 'payment')
+    return (
+      <button className="w-24 rounded-lg bg-warning py-2 text-xs font-semibold text-primary/75 shadow">
+        Payment
+      </button>
+    )
+
   if (status === 'process')
     return (
       <button className="w-24 rounded-lg bg-warning py-2 text-xs font-semibold text-primary/75 shadow">

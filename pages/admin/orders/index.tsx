@@ -6,7 +6,7 @@ import { Get } from '@/utils/axios'
 import {
   ArrowSmLeftIcon,
   ArrowSmRightIcon,
-  PencilAltIcon
+  PencilAltIcon,
 } from '@heroicons/react/solid'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -19,7 +19,6 @@ const AdminOrders: NextPageWithLayout = () => {
     `/admin/orders?page=${page}&limit=10`,
     (url: any) => Get(url).then((res: any) => res)
   )
-
 
   return (
     <section className="mt-6">
@@ -40,7 +39,7 @@ const AdminOrders: NextPageWithLayout = () => {
         <tbody>
           {!data && !error ? (
             <tr className="bg-white text-sm">
-              <td className=" col-span-full px-4 py-2" colSpan={6}>
+              <td className=" col-span-full px-4 py-2" colSpan={8}>
                 Loading...
               </td>
             </tr>
@@ -60,20 +59,24 @@ const AdminOrders: NextPageWithLayout = () => {
                 <td className="px-4 py-2">
                   {item.paymentMethod.replace('_', ' ')}
                 </td>
-                <td className="px-4 py-2">
-                  {item.courier_name_cod ?? '-'}
-                </td>
+                <td className="px-4 py-2">{item.courier_name_cod ?? '-'}</td>
                 <td className="px-4 py-2">
                   {
                     // eslint-disable-next-line @next/next/no-img-element
-                    item.image_proof ? <img src={item.image_proof}
-                      width={100}
-                      height={100}
-                      style={{
-                        width: 100,
-                        height: 100,
-                        objectFit: "cover"
-                      }} /> : "-"
+                    item.image_proof ? (
+                      <img
+                        src={item.image_proof}
+                        width={100}
+                        height={100}
+                        style={{
+                          width: 100,
+                          height: 100,
+                          objectFit: 'cover',
+                        }}
+                      />
+                    ) : (
+                      '-'
+                    )
                   }
                 </td>
                 <td className="px-4 py-2">
@@ -87,7 +90,13 @@ const AdminOrders: NextPageWithLayout = () => {
                   </Link>
                 </td>
               </tr>
-            ))
+            )) ?? (
+              <tr className="bg-white text-sm">
+                <td className="p-2" colSpan={8}>
+                  Empty List
+                </td>
+              </tr>
+            )
           )}
         </tbody>
       </table>

@@ -74,10 +74,7 @@ const ProductDeleteModal: React.FC<IProductDeleteModal> = ({
                     type="button"
                     className="inline-flex justify-center rounded-md border border-transparent bg-danger px-4 py-2 text-sm font-medium text-white hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     disabled={loading}
-                    onClick={() => {
-                      deleteProduct(item._id)
-                      setModal(false)
-                    }}
+                    onClick={() => deleteProduct(item._id)}
                   >
                     {loading ? (
                       <div className="animate-bounce text-[5px]">⚪⚪⚪</div>

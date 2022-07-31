@@ -1,5 +1,5 @@
 import connectDB from '@/lib/db'
-import Order from '@/lib/models/Order'
+import History from '@/lib/models/History'
 import Product from '@/lib/models/Product'
 import { NextApiRequest, NextApiResponse } from 'next'
 import nc from 'next-connect'
@@ -9,7 +9,7 @@ const handler = nc<NextApiRequest, NextApiResponse>()
 handler.get(async (req, res) => {
   try {
     let { page, limit, start, end } = req.query
-    let orders: any = await Order.find()
+    let orders: any = await History.find()
     orders = orders.filter(
       (item: any) =>
         item.createdAt.toLocaleDateString('en-CA').toString() >= start! &&
@@ -32,10 +32,19 @@ handler.get(async (req, res) => {
       0
     )
 
-    products = products.map((item: any) => ({
-      item,
-      profit: item.sellingPrice - item.buyingPrice,
-    }))
+    products = products.map((item: any) => {
+      const sold = p.reduce((total: number, i: any) => {
+        let quantity = 0
+        if (item._id == i._id) quantity = i.quantity
+        return total + quantity
+      }, 0)
+
+      return {
+        item,
+        sold,
+        profit: item.sellingPrice - item.buyingPrice,
+      }
+    })
 
     // Paginating
     page = page ? page.toString() : '1'

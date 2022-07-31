@@ -23,6 +23,10 @@ export const AdminMenu = [
     to: '/admin/suppliers',
     title: 'supplier list',
   },
+  {
+    to: '/admin/admins',
+    title: 'admin list',
+  },
 ]
 
 export const SupplierMenu = [

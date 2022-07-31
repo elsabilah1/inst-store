@@ -63,7 +63,10 @@ handler.post(async (req, res) => {
       address: address,
       paymentMethod: payment.payment_type ?? payment,
       paymentInfo: payment ?? {},
-      status: { title: 'process', content: '' },
+      status: {
+        title: payment.payment_type ? 'payment' : 'process',
+        content: '',
+      },
     })
 
     await User.findByIdAndUpdate(userId, {
@@ -94,14 +97,14 @@ handler.post(async (req, res) => {
     res.status(500).send('Something went wrong.')
   }
 })
+
 handler.put(async (req, res) => {
   try {
     const { type } = req.query
-    if (type === "updateimage") {
+    if (type === 'updateimage') {
       const { _id, url } = req.body
 
       await Order.findOneAndUpdate({ _id }, { image_proof: url })
-
     } else {
       const { _id, courier_name_cod } = req.body
 

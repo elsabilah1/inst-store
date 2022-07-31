@@ -5,7 +5,8 @@ const orderSchema = new Schema(
   {
     trackingNumber: {
       type: Number,
-      unique: true,
+      default: 0,
+      unique: false,
     },
     shippingService: {
       type: Object,
@@ -32,6 +33,14 @@ const orderSchema = new Schema(
     },
     paymentInfo: {
       type: Object,
+    },
+    image_proof: {
+      type: String,
+      required: false,
+    },
+    courier_name_cod: {
+      type: String,
+      required: false,
     },
     status: {
       type: Object,

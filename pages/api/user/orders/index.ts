@@ -94,5 +94,24 @@ handler.post(async (req, res) => {
     res.status(500).send('Something went wrong.')
   }
 })
+handler.put(async (req, res) => {
+  try {
+    const { type } = req.query
+    if (type === "updateimage") {
+      const { _id, url } = req.body
+
+      await Order.findOneAndUpdate({ _id }, { image_proof: url })
+
+    } else {
+      const { _id, courier_name_cod } = req.body
+
+      await Order.findOneAndUpdate({ _id }, { courier_name_cod })
+    }
+    res.status(201).send('Place order successfully.')
+  } catch (error) {
+    console.log(error)
+    res.status(500).send('Something went wrong.')
+  }
+})
 
 export default connectDB(handler)

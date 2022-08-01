@@ -42,11 +42,11 @@ const DetailOrder: NextPageWithLayout = ({
     formData.append('timestamp', timestamp)
     formData.append('signature', signature)
     formData.append('eager', 'c_pad,h_300,w_400|c_crop,h_200,w_260')
-    formData.append('folder', 'signed_upload_demo_form')
+    formData.append('folder', 'payment_proof')
 
     setLoading(true)
     const res: any = await Post(
-      'https://api.cloudinary.com/v1_1/dk6ifbred/auto/upload',
+      'https://api.cloudinary.com/v1_1/dnfo2vrzr/auto/upload',
       formData,
       'application/json'
     )

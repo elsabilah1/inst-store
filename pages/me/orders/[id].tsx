@@ -134,7 +134,7 @@ const DetailOrder: NextPageWithLayout = ({
               </p>
             </div>
             {order.paymentMethod !== 'cash on delivery' &&
-              (order.image_proof !== '' ? (
+              (order.image_proof !== undefined ? (
                 <div className="space-y-2">
                   <label
                     className="form-label font-medium"

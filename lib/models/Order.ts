@@ -5,7 +5,7 @@ const orderSchema = new Schema(
   {
     trackingNumber: {
       type: Number,
-      unique: true,
+      unique: false,
     },
     shippingService: {
       type: Object,

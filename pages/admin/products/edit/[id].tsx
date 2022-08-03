@@ -161,17 +161,14 @@ const AdminEditProduct: NextPageWithLayout = ({ product, categories }: any) => {
               />
 
               <div>
-                <label
-                  htmlFor="category"
-                  className="mb-2 font-medium capitalize"
-                >
-                  category
+                <label htmlFor="category" className="mb-2 block font-medium">
+                  Select an Available Category
                 </label>
                 <SelectField
                   data={categoryList}
                   selected={category}
                   setSelected={setCategory}
-                  placeholder="Pilih kategori"
+                  placeholder="select an available category"
                   disabled={loading}
                 />
               </div>

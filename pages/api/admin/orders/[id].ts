@@ -24,16 +24,18 @@ handler.get(async (req, res) => {
 handler.put(async (req, res) => {
   try {
     const { id } = req.query
-    const { title, content, trackingNumber, shippingService } = req.body
+    const { title, content, trackingNumber, shippingService, courierName } =
+      req.body
 
     await Order.findByIdAndUpdate(id, {
       status: { title, content: content || '' },
     })
 
-    if (trackingNumber && shippingService) {
+    if (trackingNumber) {
       await Order.findByIdAndUpdate(id, {
         trackingNumber,
         shippingService,
+        courierName,
       })
     }
 

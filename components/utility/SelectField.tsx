@@ -22,7 +22,7 @@ const SelectField: React.FC<ISelectField> = ({
       <Listbox value={selected} onChange={setSelected} disabled={disabled}>
         <div className="relative">
           <Listbox.Button className="w-full rounded-sm border border-primary/20 bg-white px-3 py-2 text-left text-sm shadow-sm placeholder:text-sm focus:border-secondary focus:ring-secondary disabled:bg-primary/20">
-            <span className="block truncate capitalize">
+            <span className="block truncate">
               {selected !== '' ? (
                 selected
               ) : (

@@ -26,13 +26,13 @@ const AdminOrders: NextPageWithLayout = () => {
         <thead className="bg-primary text-white">
           <tr className="font-semibold capitalize">
             <td className="p-3">no</td>
-            <td>order id</td>
-            <td>order date</td>
-            <td>total price</td>
-            <td>payment method</td>
-            <td>Courier name for cod</td>
-            <td>Transfer Va Proof</td>
-            <td>status</td>
+            <td className="p-3">order id</td>
+            <td className="p-3">order date</td>
+            <td className="p-3">total price</td>
+            <td className="p-3">payment method</td>
+            <td className="p-3">courier name</td>
+            <td className="p-3">Payment Proof</td>
+            <td className="p-3">status</td>
             <td></td>
           </tr>
         </thead>
@@ -59,7 +59,7 @@ const AdminOrders: NextPageWithLayout = () => {
                 <td className="px-4 py-2">
                   {item.paymentMethod.replace('_', ' ')}
                 </td>
-                <td className="px-4 py-2">{item.courier_name_cod ?? '-'}</td>
+                <td className="px-4 py-2">{item.courierName ?? '-'}</td>
                 <td className="px-4 py-2">
                   {
                     // eslint-disable-next-line @next/next/no-img-element

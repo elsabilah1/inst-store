@@ -5,7 +5,6 @@ const historySchema = new Schema(
   {
     trackingNumber: {
       type: Number,
-      unique: true,
     },
     shippingService: {
       type: Object,
@@ -42,7 +41,7 @@ const historySchema = new Schema(
       type: String,
       required: false,
     },
-    courier_name_cod: {
+    courierName: {
       type: String,
       required: false,
     },

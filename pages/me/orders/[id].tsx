@@ -29,7 +29,6 @@ const DetailOrder: NextPageWithLayout = ({
   api_key,
 }: any) => {
   const router = useRouter()
-  const [nameCourier, setnameCourier] = useState('')
   const [file, setFile] = useState<any>()
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -64,20 +63,6 @@ const DetailOrder: NextPageWithLayout = ({
     router.reload()
   }
 
-  const saveCourierName = async () => {
-    setLoading(true)
-    await Put(
-      `/user/orders?type=updatecourier`,
-      {
-        _id: order._id,
-        courier_name_cod: nameCourier,
-      },
-      'application/json'
-    )
-    setLoading(false)
-    router.reload()
-  }
-
   return (
     <section className="mx-auto my-6 max-w-screen-lg px-4">
       <h1 className="text-3xl font-bold text-primary">Your Order</h1>
@@ -92,16 +77,7 @@ const DetailOrder: NextPageWithLayout = ({
           </div>
         </div>
         <div className="md:col-span-2">
-          {order.paymentMethod === 'cash on delivery' &&
-          order.status.title === 'delivery' &&
-          !order.courier_name_cod ? (
-            <OrderDetailStatusBadge
-              status={order.status.title}
-              disabled={true}
-            />
-          ) : (
-            <OrderDetailStatusBadge status={order.status.title} />
-          )}
+          <OrderDetailStatusBadge status={order.status.title} />
           <div className="space-y-4 rounded border bg-white py-3 px-4 shadow">
             <div className="mb-2 space-y-1 text-xs">
               <p className="font-bold">
@@ -110,13 +86,21 @@ const DetailOrder: NextPageWithLayout = ({
               </p>
               {order.status.title !== 'payment' &&
                 order.status.title !== 'process' && (
-                  <p className="block w-full font-bold">
-                    tracking number:
-                    <span className="ml-2 font-normal">
-                      {order?.trackingNumber ?? '-'}
-                      {` (${order?.shippingService?.name ?? ''})`}
-                    </span>
-                  </p>
+                  <>
+                    <p className="block w-full font-bold">
+                      tracking number:
+                      <span className="ml-2 font-normal">
+                        {order?.trackingNumber ?? '-'}
+                        {` (${order?.shippingService?.name ?? ''})`}
+                      </span>
+                    </p>
+                    <p className="block w-full font-bold">
+                      courier name:
+                      <span className="ml-2 font-normal">
+                        {order?.courierName ?? '-'}
+                      </span>
+                    </p>
+                  </>
                 )}
             </div>
 
@@ -173,34 +157,6 @@ const DetailOrder: NextPageWithLayout = ({
                       upload
                     </Button>
                   </div>
-                </div>
-              ))}
-            {order.paymentMethod === 'cash on delivery' &&
-              order.status.title === 'delivery' &&
-              (order.courier_name_cod !== undefined ? (
-                <div className="flex items-center justify-between pt-10">
-                  <p className="font-medium">Courier Name: </p>
-                  <p className="text-sm font-medium">
-                    {order.courier_name_cod ?? '-'}
-                  </p>
-                </div>
-              ) : (
-                <div className="flex items-center justify-between gap-3">
-                  <input
-                    type="text"
-                    className="w-full border-white border-b-primary/20 text-sm shadow-sm placeholder:text-sm focus:border-secondary focus:ring-secondary disabled:bg-primary/20"
-                    placeholder="Courier name"
-                    value={nameCourier}
-                    onChange={(e) => setnameCourier(e.target.value)}
-                  />
-                  <Button
-                    onClick={saveCourierName}
-                    variant="secondary"
-                    size="small"
-                    loading={loading}
-                  >
-                    save
-                  </Button>
                 </div>
               ))}
             <div className="flex justify-between">

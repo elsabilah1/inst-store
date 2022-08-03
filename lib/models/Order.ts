@@ -5,7 +5,6 @@ const orderSchema = new Schema(
   {
     trackingNumber: {
       type: Number,
-      unique: false,
     },
     shippingService: {
       type: Object,
@@ -37,7 +36,7 @@ const orderSchema = new Schema(
       type: String,
       required: false,
     },
-    courier_name_cod: {
+    courierName: {
       type: String,
       required: false,
     },

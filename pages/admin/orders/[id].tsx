@@ -29,6 +29,7 @@ const AdminDetailOrder: NextPageWithLayout = ({ data, shippings }: any) => {
 
   const changeOrderStatus = async (values: any) => {
     const trackingNumber = values.trackingNumber
+    const courierName = values.courierName
     const shippingService = shippings.find(
       (item: any) => item.name === shipping
     )
@@ -41,6 +42,7 @@ const AdminDetailOrder: NextPageWithLayout = ({ data, shippings }: any) => {
       content: data.order.status.content,
       trackingNumber,
       shippingService,
+      courierName,
     })
     router.reload()
   }
@@ -73,16 +75,25 @@ const AdminDetailOrder: NextPageWithLayout = ({ data, shippings }: any) => {
     <section className="mt-6 grid grid-cols-5">
       <div className="col-span-5 mb-6 grid gap-3 md:grid-cols-5">
         <div className="rounded bg-white p-6 text-sm capitalize md:col-span-3">
-          <div className="mb-2 space-y-1 text-xs">
+          <div className="mb-2 space-y-1 border-2 p-1 text-xs">
             <p className="font-bold">
               oid:
               <span className="ml-2 font-normal">{data.order._id}</span>
             </p>
             <p className="block w-full font-bold">
               tracking number:
+              {(data.order.trackingNumber && (
+                <span className="ml-2 font-normal">
+                  {data.order.trackingNumber ?? '-'}
+                  {` (${data?.order?.shippingService?.name})` ?? ''}
+                </span>
+              )) ??
+                ' -'}
+            </p>
+            <p className="font-bold">
+              Courier Name:
               <span className="ml-2 font-normal">
-                {data.order.trackingNumber ?? '-'}
-                {` (${data?.order?.shippingService?.name})` ?? ''}
+                {data.order.courierName ?? '-'}
               </span>
             </p>
           </div>
@@ -143,10 +154,12 @@ const AdminDetailOrder: NextPageWithLayout = ({ data, shippings }: any) => {
               <Formik
                 initialValues={{
                   trackingNumber: '',
+                  courierName: '',
                 }}
                 validationSchema={toFormikValidationSchema(
                   z.object({
                     trackingNumber: z.string(),
+                    courierName: z.string(),
                   })
                 )}
                 onSubmit={(values) => changeOrderStatus(values)}
@@ -164,6 +177,13 @@ const AdminDetailOrder: NextPageWithLayout = ({ data, shippings }: any) => {
                       placeholder="tracking number"
                       error={errors.trackingNumber}
                       touched={touched.trackingNumber}
+                      inputVariant="underline"
+                    />
+                    <InputField
+                      name="courierName"
+                      placeholder="Courier Name"
+                      error={errors.courierName}
+                      touched={touched.courierName}
                       inputVariant="underline"
                     />
                     <OrderDetailStatusBadgeAdmin

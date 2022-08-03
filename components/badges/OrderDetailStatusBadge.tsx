@@ -88,7 +88,9 @@ const OrderDetailStatusBadge: React.FC<IOrderDetailStatusBadge> = ({
           <div className="text-xs font-bold text-primary/75">Status: </div>
           <div className="flex items-center gap-3 text-right">
             <h3 className="text-sm font-bold text-white">
-              We will contact you for complaint follow-up
+              {status === 'complaint'
+                ? 'We will contact you for complaint follow-up'
+                : 'Your order is being delivered'}
             </h3>
             <button
               onClick={() => setModal(true)}
